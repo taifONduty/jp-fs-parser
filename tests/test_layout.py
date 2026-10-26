@@ -104,6 +104,15 @@ def test_figures_in_a_non_period_column_become_note_references() -> None:
     assert [cell.amount.value for cell in sales.cells] == [1000, 1200]
 
 
+def test_a_column_holds_every_figure_it_was_clustered_from() -> None:
+    words = [Word("当期", 500, 64, 518, 73)]
+    for i, right in enumerate((524.0, 531.0, 538.0)):  # ragged, each within tolerance of the next
+        words += [_label(f"項目{i}", 60, 80 + 12 * i), _figure("100", right, 80 + 12 * i)]
+    (table,) = extract_tables(PageContent(tuple(words), (), width=600.0, text=""))
+    assert not table.unplaced
+    assert all(row.cells[0] is not None for row in table.rows)
+
+
 def test_rule_under_a_net_row_does_not_close_the_group_at_a_page_break() -> None:
     words = [
         Word("前連結会計年度", 340, 64, 405, 73),
