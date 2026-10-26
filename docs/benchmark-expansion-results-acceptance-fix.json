@@ -1,0 +1,853 @@
+{
+  "revision": "e24966bce7ae6bd45b0fd0498d5464c5c359d598",
+  "parser_sha256": "2f61b9ebe936c55d06a93d7b575ef33b8f4b115b2e8e34ad99b5b64f28f8250e",
+  "annotation_sha256": "37c61db914fd0a1365f0cbd832d70f68afb7f4fc1202b78a34de8e94d62154f5",
+  "selection": "Second purposive challenge batch: four new issuers, non-consolidated statements, complete two-page balance sheets and cash-flow sequence, Heisei/Reiwa dates, quarterly IFRS, and natural account-form pages with a partial text layer. Selected before parser output; original 11-page batch remains unchanged. Page numbers are 1-based PDF positions.",
+  "annotation": "Single-assistant visual transcription checked against every selected rendered page before the first parser run. PDF text used only as a transcription aid; Bank of Japan figures were read from pixels because those amounts are vector outlines. Paths, units and dates are explicit and independent of parser inference. Not independently human-adjudicated.",
+  "summary": {
+    "facts": {
+      "matched": 632,
+      "predicted": 634,
+      "gold": 741,
+      "precision": 0.9968,
+      "recall": 0.8529,
+      "f1": 0.9193
+    },
+    "flat_facts": {
+      "matched": 632,
+      "predicted": 634,
+      "gold": 741,
+      "precision": 0.9968,
+      "recall": 0.8529,
+      "f1": 0.9193
+    },
+    "rows": {
+      "matched": 364,
+      "predicted": 372,
+      "gold": 474,
+      "precision": 0.9785,
+      "recall": 0.7679,
+      "f1": 0.8605
+    },
+    "autoaccepted_facts": {
+      "matched": 112,
+      "predicted": 112,
+      "gold": 741,
+      "precision": 1.0,
+      "recall": 0.1511,
+      "f1": 0.2626
+    },
+    "pages": 14,
+    "page_exact": 6,
+    "headers_correct": 7,
+    "autoaccepted_pages": 2,
+    "wrong_autoaccepted_pages": 0
+  },
+  "pages": [
+    {
+      "id": "hatena_assets",
+      "source": "hatena_2025",
+      "page": 10,
+      "complexity": "simple",
+      "features": [
+        "non-consolidated",
+        "thousands of yen",
+        "gross-contra-net groups"
+      ],
+      "rows": {
+        "matched": 32,
+        "predicted": 32,
+        "gold": 32,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "facts": {
+        "matched": 52,
+        "predicted": 52,
+        "gold": 52,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "flat_facts": {
+        "matched": 52,
+        "predicted": 52,
+        "gold": 52,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "header_correct": true,
+      "page_exact": true,
+      "states": [
+        "verified"
+      ],
+      "autoaccepted_page": true,
+      "autoaccepted_facts": {
+        "matched": 52,
+        "predicted": 52,
+        "gold": 52,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "checks": {
+        "passed": 16,
+        "total": 16
+      },
+      "reasons": []
+    },
+    {
+      "id": "hatena_liabilities",
+      "source": "hatena_2025",
+      "page": 11,
+      "complexity": "hard",
+      "features": [
+        "non-consolidated continuation",
+        "deep retained-earnings nesting"
+      ],
+      "rows": {
+        "matched": 35,
+        "predicted": 35,
+        "gold": 35,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "facts": {
+        "matched": 52,
+        "predicted": 52,
+        "gold": 52,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "flat_facts": {
+        "matched": 52,
+        "predicted": 52,
+        "gold": 52,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "header_correct": false,
+      "page_exact": false,
+      "states": [
+        "needs_review"
+      ],
+      "autoaccepted_page": false,
+      "autoaccepted_facts": {
+        "matched": 0,
+        "predicted": 0,
+        "gold": 52,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "checks": {
+        "passed": 16,
+        "total": 16
+      },
+      "reasons": [
+        "4 cell(s) covered by no constraint",
+        "no statement title on the page (continuation?): statement and scope unknown",
+        "group 'その他利益剰余金' has no closing total on this page"
+      ]
+    },
+    {
+      "id": "hatena_income",
+      "source": "hatena_2025",
+      "page": 12,
+      "complexity": "medium",
+      "features": [
+        "non-consolidated",
+        "nil vs zero",
+        "expense subtotals"
+      ],
+      "rows": {
+        "matched": 30,
+        "predicted": 30,
+        "gold": 30,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "facts": {
+        "matched": 52,
+        "predicted": 52,
+        "gold": 52,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "flat_facts": {
+        "matched": 52,
+        "predicted": 52,
+        "gold": 52,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "header_correct": true,
+      "page_exact": true,
+      "states": [
+        "needs_review"
+      ],
+      "autoaccepted_page": false,
+      "autoaccepted_facts": {
+        "matched": 0,
+        "predicted": 0,
+        "gold": 52,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "checks": {
+        "passed": 8,
+        "total": 10
+      },
+      "reasons": [
+        "sum:法人税等合計 fails for 前事業年度 (residual -9545270)",
+        "sum:法人税等合計 fails for 当事業年度 (residual -11550353)",
+        "2 cell(s) covered by no constraint"
+      ]
+    },
+    {
+      "id": "hatena_cashflows",
+      "source": "hatena_2025",
+      "page": 15,
+      "complexity": "medium",
+      "features": [
+        "non-consolidated",
+        "long one-line labels",
+        "mixed signs",
+        "subtotal chain"
+      ],
+      "rows": {
+        "matched": 46,
+        "predicted": 46,
+        "gold": 46,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "facts": {
+        "matched": 86,
+        "predicted": 86,
+        "gold": 86,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "flat_facts": {
+        "matched": 86,
+        "predicted": 86,
+        "gold": 86,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "header_correct": true,
+      "page_exact": true,
+      "states": [
+        "needs_review"
+      ],
+      "autoaccepted_page": false,
+      "autoaccepted_facts": {
+        "matched": 0,
+        "predicted": 0,
+        "gold": 86,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "checks": {
+        "passed": 8,
+        "total": 8
+      },
+      "reasons": [
+        "8 cell(s) covered by no constraint"
+      ]
+    },
+    {
+      "id": "capcom_assets",
+      "source": "capcom_2016",
+      "page": 10,
+      "complexity": "simple",
+      "features": [
+        "Heisei dates",
+        "net-only assets",
+        "producer footer text"
+      ],
+      "rows": {
+        "matched": 36,
+        "predicted": 36,
+        "gold": 36,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "facts": {
+        "matched": 60,
+        "predicted": 60,
+        "gold": 60,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "flat_facts": {
+        "matched": 60,
+        "predicted": 60,
+        "gold": 60,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "header_correct": true,
+      "page_exact": true,
+      "states": [
+        "verified"
+      ],
+      "autoaccepted_page": true,
+      "autoaccepted_facts": {
+        "matched": 60,
+        "predicted": 60,
+        "gold": 60,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "checks": {
+        "passed": 12,
+        "total": 12
+      },
+      "reasons": []
+    },
+    {
+      "id": "capcom_liabilities",
+      "source": "capcom_2016",
+      "page": 11,
+      "complexity": "medium",
+      "features": [
+        "Heisei dates",
+        "continuation without title",
+        "negative equity subtotal"
+      ],
+      "rows": {
+        "matched": 35,
+        "predicted": 35,
+        "gold": 35,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "facts": {
+        "matched": 58,
+        "predicted": 58,
+        "gold": 58,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "flat_facts": {
+        "matched": 58,
+        "predicted": 58,
+        "gold": 58,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "header_correct": false,
+      "page_exact": false,
+      "states": [
+        "needs_review"
+      ],
+      "autoaccepted_page": false,
+      "autoaccepted_facts": {
+        "matched": 0,
+        "predicted": 0,
+        "gold": 58,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "checks": {
+        "passed": 14,
+        "total": 14
+      },
+      "reasons": [
+        "no statement title on the page (continuation?): statement and scope unknown"
+      ]
+    },
+    {
+      "id": "capcom_income",
+      "source": "capcom_2016",
+      "page": 12,
+      "complexity": "medium",
+      "features": [
+        "Heisei duration dates",
+        "gross-profit adjustment nested below gross profit",
+        "nil values"
+      ],
+      "rows": {
+        "matched": 31,
+        "predicted": 31,
+        "gold": 31,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "facts": {
+        "matched": 56,
+        "predicted": 56,
+        "gold": 56,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "flat_facts": {
+        "matched": 56,
+        "predicted": 56,
+        "gold": 56,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "header_correct": true,
+      "page_exact": true,
+      "states": [
+        "needs_review"
+      ],
+      "autoaccepted_page": false,
+      "autoaccepted_facts": {
+        "matched": 0,
+        "predicted": 0,
+        "gold": 56,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "checks": {
+        "passed": 8,
+        "total": 10
+      },
+      "reasons": [
+        "sum:法人税等合計 fails for 前連結会計年度 (residual -177387)",
+        "sum:法人税等合計 fails for 当連結会計年度 (residual -207871)",
+        "4 cell(s) covered by no constraint"
+      ]
+    },
+    {
+      "id": "capcom_comprehensive",
+      "source": "capcom_2016",
+      "page": 13,
+      "complexity": "medium",
+      "features": [
+        "Heisei dates",
+        "comprehensive income",
+        "breakdown subsection",
+        "all-nil row"
+      ],
+      "rows": {
+        "matched": 10,
+        "predicted": 10,
+        "gold": 10,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "facts": {
+        "matched": 16,
+        "predicted": 16,
+        "gold": 16,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "flat_facts": {
+        "matched": 16,
+        "predicted": 16,
+        "gold": 16,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "header_correct": true,
+      "page_exact": true,
+      "states": [
+        "needs_review"
+      ],
+      "autoaccepted_page": false,
+      "autoaccepted_facts": {
+        "matched": 0,
+        "predicted": 0,
+        "gold": 16,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "checks": {
+        "passed": 2,
+        "total": 2
+      },
+      "reasons": [
+        "8 cell(s) covered by no constraint",
+        "group '（内訳）' has no closing total on this page"
+      ]
+    },
+    {
+      "id": "capcom_cashflows_first",
+      "source": "capcom_2016",
+      "page": 16,
+      "complexity": "hard",
+      "features": [
+        "Heisei dates",
+        "wrapped label",
+        "cash flow continues next page",
+        "nil and negative adjustments"
+      ],
+      "rows": {
+        "matched": 34,
+        "predicted": 37,
+        "gold": 35,
+        "precision": 0.9189,
+        "recall": 0.9714,
+        "f1": 0.9444
+      },
+      "facts": {
+        "matched": 64,
+        "predicted": 66,
+        "gold": 66,
+        "precision": 0.9697,
+        "recall": 0.9697,
+        "f1": 0.9697
+      },
+      "flat_facts": {
+        "matched": 64,
+        "predicted": 66,
+        "gold": 66,
+        "precision": 0.9697,
+        "recall": 0.9697,
+        "f1": 0.9697
+      },
+      "header_correct": true,
+      "page_exact": false,
+      "states": [
+        "needs_review"
+      ],
+      "autoaccepted_page": false,
+      "autoaccepted_facts": {
+        "matched": 0,
+        "predicted": 0,
+        "gold": 66,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "checks": {
+        "passed": 6,
+        "total": 6
+      },
+      "reasons": [
+        "row without a label at y=337"
+      ]
+    },
+    {
+      "id": "capcom_cashflows_last",
+      "source": "capcom_2016",
+      "page": 17,
+      "complexity": "hard",
+      "features": [
+        "Heisei dates",
+        "cash-flow continuation without title",
+        "unsigned zero vs nil"
+      ],
+      "rows": {
+        "matched": 13,
+        "predicted": 13,
+        "gold": 13,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "facts": {
+        "matched": 24,
+        "predicted": 24,
+        "gold": 24,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "flat_facts": {
+        "matched": 24,
+        "predicted": 24,
+        "gold": 24,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "header_correct": false,
+      "page_exact": false,
+      "states": [
+        "needs_review"
+      ],
+      "autoaccepted_page": false,
+      "autoaccepted_facts": {
+        "matched": 0,
+        "predicted": 0,
+        "gold": 24,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "checks": {
+        "passed": 2,
+        "total": 2
+      },
+      "reasons": [
+        "8 cell(s) covered by no constraint",
+        "no statement title on the page (continuation?): statement and scope unknown"
+      ]
+    },
+    {
+      "id": "rakuten_balance",
+      "source": "rakuten_q1_2025",
+      "page": 12,
+      "complexity": "hard",
+      "features": [
+        "quarterly IFRS",
+        "condensed title",
+        "banking and insurance assets",
+        "all balance-sheet sections on one page"
+      ],
+      "rows": {
+        "matched": 46,
+        "predicted": 46,
+        "gold": 46,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "facts": {
+        "matched": 84,
+        "predicted": 84,
+        "gold": 84,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "flat_facts": {
+        "matched": 84,
+        "predicted": 84,
+        "gold": 84,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "header_correct": false,
+      "page_exact": false,
+      "states": [
+        "needs_review"
+      ],
+      "autoaccepted_page": false,
+      "autoaccepted_facts": {
+        "matched": 0,
+        "predicted": 0,
+        "gold": 84,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "checks": {
+        "passed": 8,
+        "total": 10
+      },
+      "reasons": [
+        "sum:負債及び資本合計 fails for 前連結会計年度 (residual -26514728)",
+        "sum:負債及び資本合計 fails for 当第1四半期 (residual -25077197)"
+      ]
+    },
+    {
+      "id": "rakuten_income",
+      "source": "rakuten_q1_2025",
+      "page": 13,
+      "complexity": "hard",
+      "features": [
+        "quarterly duration",
+        "condensed title",
+        "negative decimal EPS in yen",
+        "wrapped EPS heading"
+      ],
+      "rows": {
+        "matched": 16,
+        "predicted": 21,
+        "gold": 19,
+        "precision": 0.7619,
+        "recall": 0.8421,
+        "f1": 0.8
+      },
+      "facts": {
+        "matched": 28,
+        "predicted": 28,
+        "gold": 32,
+        "precision": 1.0,
+        "recall": 0.875,
+        "f1": 0.9333
+      },
+      "flat_facts": {
+        "matched": 28,
+        "predicted": 28,
+        "gold": 32,
+        "precision": 1.0,
+        "recall": 0.875,
+        "f1": 0.9333
+      },
+      "header_correct": false,
+      "page_exact": false,
+      "states": [
+        "needs_review"
+      ],
+      "autoaccepted_page": false,
+      "autoaccepted_facts": {
+        "matched": 0,
+        "predicted": 0,
+        "gold": 32,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "checks": {
+        "passed": 0,
+        "total": 2
+      },
+      "reasons": [
+        "figure '△19.78' is not an amount (decimal or ratio?)",
+        "figure '△34.08' is not an amount (decimal or ratio?)",
+        "figure '△19.78' is not an amount (decimal or ratio?)",
+        "figure '△34.09' is not an amount (decimal or ratio?)",
+        "sum:四半期損失(△) fails for 前第1四半期 (residual -1140285)",
+        "sum:四半期損失(△) fails for 当第1四半期 (residual -1202677)",
+        "6 cell(s) covered by no constraint",
+        "group '四半期損失（△）の帰属' has no closing total on this page",
+        "group '四半期損失（△）' has no closing total on this page",
+        "group '失（△）：' has no closing total on this page"
+      ]
+    },
+    {
+      "id": "boj_balance",
+      "source": "boj_2025",
+      "page": 5,
+      "complexity": "stress",
+      "features": [
+        "natural account-form balance sheet",
+        "amounts are vector outlines absent from selectable text",
+        "one period",
+        "exact yen amounts",
+        "Reiwa date"
+      ],
+      "rows": {
+        "matched": 0,
+        "predicted": 0,
+        "gold": 61,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "facts": {
+        "matched": 0,
+        "predicted": 0,
+        "gold": 58,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "flat_facts": {
+        "matched": 0,
+        "predicted": 0,
+        "gold": 58,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "header_correct": false,
+      "page_exact": false,
+      "states": [
+        "failed"
+      ],
+      "autoaccepted_page": false,
+      "autoaccepted_facts": {
+        "matched": 0,
+        "predicted": 0,
+        "gold": 58,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "checks": {
+        "passed": 0,
+        "total": 0
+      },
+      "reasons": [
+        "貸借対照表 on the page but no value columns found"
+      ]
+    },
+    {
+      "id": "boj_income",
+      "source": "boj_2025",
+      "page": 6,
+      "complexity": "stress",
+      "features": [
+        "two account-form panels",
+        "amounts are vector outlines absent from selectable text",
+        "exact yen amounts",
+        "Reiwa duration"
+      ],
+      "rows": {
+        "matched": 0,
+        "predicted": 0,
+        "gold": 45,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "facts": {
+        "matched": 0,
+        "predicted": 0,
+        "gold": 45,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "flat_facts": {
+        "matched": 0,
+        "predicted": 0,
+        "gold": 45,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "header_correct": false,
+      "page_exact": false,
+      "states": [
+        "failed"
+      ],
+      "autoaccepted_page": false,
+      "autoaccepted_facts": {
+        "matched": 0,
+        "predicted": 0,
+        "gold": 45,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "checks": {
+        "passed": 0,
+        "total": 0
+      },
+      "reasons": [
+        "損益計算書 on the page but no value columns found"
+      ]
+    }
+  ]
+}

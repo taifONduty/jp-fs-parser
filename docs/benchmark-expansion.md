@@ -85,7 +85,8 @@ Capcom label. The latter also produce two unexpected empty-label facts.
   balance sheet. Heisei dates and 千円 work on real documents, including deep nesting and signed
   subtotals. This does not resolve the segment and equity-matrix failures in the first batch.
 - **Continuation metadata is still lost.** Hatena 11 and Capcom 11/17 have correct fact sets but
-  no statement title. Capcom 11 repeats the first batch's incorrect `verified` acceptance.
+  no statement title. Capcom 11 repeats the first batch's incorrect `verified` acceptance; the
+  [acceptance fix](#acceptance-fix) now sends all three pages to review.
 - **Quarterly headers lose literal information.** Rakuten's printed 要約 prefix is omitted, and
   period labels such as 当第1四半期連結会計期間末 are cut short. Dates on its balance-sheet facts
   are nevertheless correct. These header differences explain why its 84/84 fact score is not
@@ -118,10 +119,53 @@ three asset-note tables with visible values. Its mixed text/vector layer yields 
 rendered source and output were inspected. This page was inspected after the full-document run,
 so it is recorded as a post-hoc state probe and is not silently added to the 14-page accuracy
 denominator. It shows why an empty output must not count as successfully accepted extraction.
+After the [acceptance fix](#acceptance-fix) it fails, and its unbound amounts are listed.
 
 The [ingestion results](benchmark-document-smoke.json) record document hashes, state counts,
 selection-consistency checks and the empty accepted output. Other unannotated outputs, including
 notes and summaries, have not been judged for accuracy or false-positive rates.
+
+## Acceptance fix
+
+Commit `e24966b` changes acceptance only. A table without its statement title needs review, and a
+table with no amount bound to a period fails. Figures under a column header that names no period
+are reported as lost facts, unless the column is 注記; they were previously filed as note
+references, which is how BOJ 17 lost all its values without a warning. Both batches and the
+full-document check were re-run on this commit. The baseline snapshots above are unchanged. The
+new results are in the [first-batch](benchmark-results-acceptance-fix.json),
+[second-batch](benchmark-expansion-results-acceptance-fix.json) and
+[ingestion](benchmark-document-smoke-acceptance-fix.json) snapshots.
+
+| Measure, both batches | Before | After |
+|---|---:|---:|
+| Strict fact F1 | 82.80% | 82.80% |
+| Exact pages | 9/25 | 9/25 |
+| Auto-accepted pages | 5 | **3** |
+| Auto-accepted pages with incorrect headers | 2 | **0** |
+| Auto-accepted facts, all correct | 258 | 158 |
+| Accepted empty outputs in the 114-page check | 1 | **0** |
+
+Extraction did not change: every page has the same rows, facts and headers as before. The
+remaining auto-accepted pages, Nintendo 7, Hatena 10 and Capcom 10, are all exact. States changed
+on four pages:
+
+| Page | Before | After | Reason |
+|---|---|---|---|
+| Nintendo 8: liabilities | verified | needs_review | No statement title on the page |
+| Capcom 11: liabilities/equity | verified | needs_review | No statement title on the page |
+| BOJ 17 (ingestion probe): asset notes | accepted_with_warnings | failed | No amount bound to a period; its figures are listed as lost |
+| Hatena 3 (ingestion probe): table of contents | needs_review | failed | Page numbers form a column but bind to no period |
+
+MUFG 7, Hatena 11 and Capcom 17 were already in review and now also carry the missing-title
+reason. On Nintendo 11, 16 equity-matrix amounts that had been filed as note references are now
+reported as lost facts. The Hatena table of contents is a false-positive table on a page with no
+statement; it was never accepted, and suppressing such tables belongs to segmentation work.
+Continuation pages can only be accepted once cross-page assembly carries the title forward.
+
+The full-document run still exits with code 0 and produces 62 records over 114 pages. All 14
+annotated pages match the page-selected run. States per document: Hatena 11 review, 1 verified,
+1 failed; Capcom 10 review, 1 verified, 5 failed; Rakuten 15 review, 1 verified, 2 failed; BOJ
+6 review, 9 failed.
 
 ## Reproduce
 

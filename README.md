@@ -10,9 +10,11 @@ state for every table, and the evaluation harness.
 
 Two [external benchmark batches](docs/benchmark-expansion.md) now cover **25 pages from eight
 issuers and 1,333 annotated values: 82.80% strict fact F1 and 9/25 exact pages**. The perfect
-development-sample score below does not generalise to these layouts. Both batches preserve the
-same parser; the [first batch](docs/benchmark.md) remains at 72.04% F1. The reports record missing
-metadata on accepted pages and an accepted empty table found during full-document ingestion.
+development-sample score below does not generalise to these layouts. The
+[first batch](docs/benchmark.md) scores 72.04% F1. The benchmark found two acceptance defects:
+continuation pages verified without their statement title, and an empty table accepted. Since
+[the fix](docs/benchmark-expansion.md#acceptance-fix), **every auto-accepted page is exact**:
+3 pages and 158 facts, against 5 pages, 2 of them with incorrect headers, before.
 
 ## What "correct" means
 
@@ -66,8 +68,8 @@ Decisions that matter:
 
 - **Columns are read as right-aligned.** Value columns come from clustering the right edges of
   amounts. A column owns the space back to the previous column's right edge, which is how a
-  centred header binds to right-aligned figures. A column whose header names no period (注記)
-  yields note references, not amounts.
+  centred header binds to right-aligned figures. A 注記 column yields note references; figures
+  under any other header that names no period are reported as lost facts.
 - **Only visible ink counts.** Rules are filtered by colour, because the sample page paints rule
   segments in the band colour and a colour-blind parser would read them as cell borders. Correction
   underlines (訂正箇所) are told apart from summation rules by width.
@@ -89,9 +91,10 @@ Decisions that matter:
   Choosing whichever mode passes would let real errors hide in the slack. Without evidence, the
   checks use the hull of both modes and the table is flagged.
 - **Abstain explicitly.** Every table ends as `verified`, `accepted_with_warnings`, `needs_review`
-  or `failed`. A failed constraint, a cell that no constraint covers, or a printed figure that
-  could not be bound to a cell sends the table to review. A page that names a statement but yields
-  no table, or has no usable text layer, fails with a reason. Nothing is dropped silently.
+  or `failed`. A failed constraint, a cell that no constraint covers, a printed figure that could
+  not be bound to a cell, or a missing statement title sends the table to review. A table with no
+  bound amount fails, as does a page that names a statement but yields no table, or has no usable
+  text layer. Nothing is dropped silently.
 
 ## Results on the sample page
 
@@ -141,9 +144,8 @@ evaluation with XBRL-aligned gold, stratified by layout family. Known gaps:
 - Arithmetic that is not a tree, such as income-statement step-downs, which needs taxonomy
   calculation links.
 
-Most such pages are sent to `needs_review`. Missing statement metadata on a continuation page can
-still receive `verified`; an output with zero periods and facts can receive `accepted_with_warnings`.
-Both acceptance defects are recorded in the benchmark.
+Such pages are sent to `needs_review` or end as `failed`. A continuation page, whose statement
+title is printed on an earlier page, is reviewed until cross-page assembly supplies the title.
 
 ## Layout
 

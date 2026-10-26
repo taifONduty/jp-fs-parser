@@ -1,0 +1,74 @@
+{
+  "cli_exit_code": 0,
+  "accuracy_scope": "Only the separately annotated 14 pages have accuracy scores. Other pages are ingestion/state probes, not accuracy measurements.",
+  "documents": [
+    {
+      "source": "hatena_2025",
+      "sha256": "cac29fa9aed1c108c06bbf721232df308a53e33a96b10afbda56df3b3b2d8c9f",
+      "pdf_pages": 22,
+      "output_records": 13,
+      "states": {
+        "needs_review": 11,
+        "verified": 1,
+        "failed": 1
+      },
+      "selected_pages_with_identical_outputs": [
+        10,
+        11,
+        12,
+        15
+      ]
+    },
+    {
+      "source": "capcom_2016",
+      "sha256": "51a5c110f3f95736dc3f678ba70fa4e09856e74fb6697176942fa90629cb601d",
+      "pdf_pages": 23,
+      "output_records": 16,
+      "states": {
+        "failed": 5,
+        "verified": 1,
+        "needs_review": 10
+      },
+      "selected_pages_with_identical_outputs": [
+        10,
+        11,
+        12,
+        13,
+        16,
+        17
+      ]
+    },
+    {
+      "source": "rakuten_q1_2025",
+      "sha256": "9e483e8ac327d3b7fce2440acffdf888bb7254c89d462a5d293465e9da9524e1",
+      "pdf_pages": 32,
+      "output_records": 18,
+      "states": {
+        "needs_review": 15,
+        "verified": 1,
+        "failed": 2
+      },
+      "selected_pages_with_identical_outputs": [
+        12,
+        13
+      ]
+    },
+    {
+      "source": "boj_2025",
+      "sha256": "17b95ee32a1e8a9a4ede568179c81a4b98117c3b114aab8b7c725df41f47a98b",
+      "pdf_pages": 37,
+      "output_records": 15,
+      "states": {
+        "failed": 9,
+        "needs_review": 6
+      },
+      "selected_pages_with_identical_outputs": [
+        5,
+        6
+      ]
+    }
+  ],
+  "accepted_empty_outputs": [],
+  "total_pdf_pages": 114,
+  "total_output_records": 62
+}

@@ -2,7 +2,9 @@
 
 The [second batch](benchmark-expansion.md) adds 14 pages from four new issuers and a full-document
 ingestion check. Combined results are 82.80% strict fact F1 and 9/25 exact pages on 1,333 values.
-The original 11-page results below remain the frozen first-batch baseline.
+The original 11-page results below remain the frozen first-batch baseline. A later
+[acceptance fix](benchmark-expansion.md#acceptance-fix) (`e24966b`) stopped Nintendo 8's incorrect
+acceptance without changing any extraction score.
 
 Measured on 27 October 2026 with the parser frozen at `cc6a4fe`. No extraction or verification
 code was changed during this evaluation. The original development sample is excluded.
@@ -77,7 +79,8 @@ benchmark. This measures the current page-selection API rather than a new assemb
 | Auto-accepted facts | 88 / 592 (14.9% coverage) |
 
 The 88 auto-accepted facts all match the strict fact key. However, **one of the two accepted pages
-has an incomplete header**, so it is not an exact page. On so few accepted pages, these figures do
+has an incomplete header**, so it is not an exact page. After the acceptance fix only Nintendo 7
+is accepted, with 46 facts, and it is exact. On so few accepted pages, these figures do
 not estimate a production error rate or establish a safe acceptance threshold.
 
 | Page | Difficulty | Correct / gold values | Strict F1 | Flat F1 | Exact page | Parser state |
@@ -103,7 +106,9 @@ intervals or a claim about all PDFs in each category.
 1. **Header completeness is not an acceptance gate.** Nintendo 8 returns `verified` with all 42
    values correct but no statement title or consolidated scope. MUFG 7 also loses its header,
    though accounting failures send that page to review. Cross-page metadata and a completeness
-   check are needed before treating `verified` as document-level correctness.
+   check are needed before treating `verified` as document-level correctness. The completeness
+   check now exists: since `e24966b`, a table without its statement title needs review. The
+   cross-page metadata is still missing.
 2. **Geometry alone misses semantic parents.** Toyota's segment page puts the automotive and
    finance headings to the right of their subsections, breaking an indentation-only tree.
    Fast Retailing's 資産 heading is omitted and 負債及び資本/負債 nesting is not recovered.
@@ -145,7 +150,8 @@ Cached sources are hash-checked on later runs. A changed source file fails inste
 changing the benchmark. `--out /another/directory` runs against a separate cache.
 
 The checked-in [baseline results](benchmark-results.json) contain page scores, every verifier
-reason, and fingerprints of the parser and annotations. The generated report additionally lists
+reason, and fingerprints of the parser and annotations. The
+[post-fix results](benchmark-results-acceptance-fix.json) use the same format. The generated report additionally lists
 every missing and unexpected fact. The download command can be resumed after a network failure;
 already cached PDFs are kept and checked. The benchmark tests are offline; CI does not depend on
 the issuers' websites.
