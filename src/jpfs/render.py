@@ -12,6 +12,7 @@ from importlib.metadata import version
 from jpfs.checks import Interval, interval
 from jpfs.model import Amount, Cell, Period, Role, Row
 from jpfs.pipeline import Result
+from jpfs.text import normalize
 
 EXTRACTOR = f"jpfs.layout@{version('jpfs')}"
 
@@ -40,23 +41,25 @@ def _vouchers(result: Result) -> defaultdict[tuple[int, int], list[str]]:
 
 
 def _fact(result: Result, row: Row, period: Period, cell: Cell, constraints: list[str]) -> dict:
+    """A fact in the schema of the design's Appendix A, less the fields of stages not built yet:
+    taxonomy concept, second-path agreement and XBRL match."""
     header = result.table.header
     rounding = result.verification.rounding
-    scale = header.scale
+    amount, scale = cell.amount, header.scale
     return {
         "fact_id": _fact_id(result, row, period),
         "statement": {
             "type": header.kind,
             "title": header.title,
-            "consolidated": header.consolidated,
+            "scope": _scope(header.consolidated),
             "correction": header.correction,
         },
         "row": {
-            "label": row.label,
+            "label_raw": row.label,
+            "label_norm": normalize(row.label),
             "path": list(row.path),
             "level": row.level,
             "role": row.role,
-            "notes": list(row.notes),
         },
         "period": {
             "label": period.label,
@@ -66,26 +69,30 @@ def _fact(result: Result, row: Row, period: Period, cell: Cell, constraints: lis
         },
         "value": {
             "printed": cell.text,
-            "state": "nil" if cell.amount.nil else "amount",
-            "reported": cell.amount.value,
-            "negative": cell.amount.negative,
-            "unit": header.unit,
+            "reported": amount.value,
+            "unit": "JPY" if scale else None,
             "scale": scale,
-            "jpy": cell.amount.value * scale if scale else None,
-            "interval_jpy": _bounds(interval(cell.amount, rounding).scaled(scale))
-            if scale
-            else None,
+            "jpy": amount.value * scale if scale else None,
+            "interval_jpy": _bounds(interval(amount, rounding).scaled(scale)) if scale else None,
+            "sign": None if amount.nil else "-" if amount.negative else "+",
+            "state": "nil" if amount.nil else "amount",
             "rounding": rounding,
         },
-        "flags": {"corrected": cell.corrected},
+        "flags": {"corrected": cell.corrected, "footnote_refs": list(row.notes)},
         "provenance": {
             "doc_sha256": result.source.sha256,
             "page": result.source.page,
             "bbox": [round(v, 1) for v in cell.bbox],
             "extractor": EXTRACTOR,
         },
-        "verification": {"state": result.state, "constraints": constraints},
+        "verification": {"state": result.state, "constraints_passed": constraints},
     }
+
+
+def _scope(consolidated: bool | None) -> str | None:
+    if consolidated is None:
+        return None
+    return "consolidated" if consolidated else "non_consolidated"
 
 
 def _fact_id(result: Result, row: Row, period: Period) -> str:
