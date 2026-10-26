@@ -206,12 +206,12 @@ def _table(
         for i in head
         if not _title(lines[i], label_edge) and not find_unit(_text(lines[i]))
     ]
-    periods, slots = _periods(header_lines, columns)
+    periods, slots, note_columns = _periods(header_lines, columns)
 
     rows: list[Row] = []
     unplaced: list[str] = []
     for line in lines[max(head, default=-1) + 1 : last + 1]:
-        row, lost = _row(line, columns, slots, len(periods), label_edge)
+        row, lost = _row(line, columns, slots, note_columns, len(periods), label_edge)
         unplaced += lost
         if row is not None:
             rows.append(row)
@@ -276,12 +276,14 @@ def _column_of(word: Word, columns: Sequence[_Column], label_edge: float) -> int
 
 def _periods(
     header_lines: Sequence[Line], columns: Sequence[_Column]
-) -> tuple[tuple[Period, ...], list[int | None]]:
-    """Periods read from the header words above each column, and each column's period slot.
+) -> tuple[tuple[Period, ...], list[int | None], frozenset[int]]:
+    """Periods read from the header words above each column, each column's period slot, and the
+    columns that hold note references.
 
     Figures are right-aligned while headers are centred over the whole cell, so a column owns
     the space between the previous column's right edge and its own. A column whose header names
-    no period (注記) gets no slot; one without a header gets an anonymous period, so that its
+    no period gets no slot: a 注記 column holds note references, and any other one holds figures
+    the parser cannot bind. A column without a header gets an anonymous period, so that its
     amounts are kept and the page is sent to review.
     """
     texts = [""] * len(columns)
@@ -299,13 +301,15 @@ def _periods(
         slots.append(len(periods) if period else None)
         if period:
             periods.append(period)
-    return tuple(periods), slots
+    note_columns = frozenset(i for i, text in enumerate(texts) if "注" in normalize(text))
+    return tuple(periods), slots, note_columns
 
 
 def _row(
     line: Line,
     columns: Sequence[_Column],
     slots: Sequence[int | None],
+    note_columns: frozenset[int],
     n_periods: int,
     label_edge: float,
 ) -> tuple[Row | None, list[str]]:
@@ -326,8 +330,10 @@ def _row(
             label_words.append(w)
         elif column is None:
             unplaced.append(f"amount '{w.text}' at x={w.x1:.0f} lies outside every value column")
+        elif slot is None and column in note_columns:
+            notes.append(w)
         elif slot is None:
-            notes.append(w)  # a figure in a non-period column, e.g. 注記番号
+            unplaced.append(f"amount '{w.text}' in a column whose header names no period")
         elif cells[slot] is not None:
             unplaced.append(f"two amounts in one cell: '{cells[slot].text}' and '{w.text}'")
         else:

@@ -58,6 +58,21 @@ def test_a_misread_digit_sends_the_page_to_review(sample: Result) -> None:
     assert any("sum:流動資産合計" in reason for reason in verification.reasons)
 
 
+def test_a_table_without_its_statement_title_is_not_accepted(sample: Result) -> None:
+    header = replace(sample.table.header, title=None, kind=None, consolidated=None)
+    verification = verify(
+        replace(sample.table, header=header), Rounding.TRUNCATE, RoundingBasis.INFERRED
+    )
+    assert verification.state is PageState.NEEDS_REVIEW
+    assert any("no statement title" in reason for reason in verification.reasons)
+
+
+def test_a_table_without_any_value_fails(sample: Result) -> None:
+    rows = tuple(replace(row, cells=()) for row in sample.table.rows)
+    empty = replace(sample.table, periods=(), rows=rows)
+    assert verify(empty, Rounding.TRUNCATE, RoundingBasis.INFERRED).state is PageState.FAILED
+
+
 def test_statement_pages_without_a_table_fail_explicitly() -> None:
     def page(word: str, text: str = "") -> PageContent:
         return PageContent((Word(word, 60, 40, 60 + 9 * len(word), 49),), (), 600.0, text)

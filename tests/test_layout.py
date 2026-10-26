@@ -104,6 +104,16 @@ def test_figures_in_a_non_period_column_become_note_references() -> None:
     assert [cell.amount.value for cell in sales.cells] == [1000, 1200]
 
 
+def test_figures_under_a_header_that_names_no_period_are_reported_lost() -> None:
+    words = [Word("年度中増減", 380, 64, 420, 73), Word("当期", 520, 64, 538, 73)]
+    for i in range(3):
+        words += _line(80 + 12 * i, f"項目{i}", "△5", "100")
+    (table,) = extract_tables(PageContent(tuple(words), (), width=600.0, text=""))
+    assert [period.label for period in table.periods] == ["当期"]
+    assert len(table.unplaced) == 3
+    assert all(not row.notes for row in table.rows)
+
+
 def test_a_column_holds_every_figure_it_was_clustered_from() -> None:
     words = [Word("当期", 500, 64, 518, 73)]
     for i, right in enumerate((524.0, 531.0, 538.0)):  # ragged, each within tolerance of the next

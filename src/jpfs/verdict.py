@@ -26,8 +26,11 @@ def verify(
 ) -> Verification:
     """Check a table's constraints and decide its state.
 
+    failed: no amount was bound to a period, so there is nothing to accept or review.
     needs_review: a constraint fails, a cell is vouched for by no check, printed content was not
-    bound to a cell, the header is incomplete, or the text layer is untrusted.
+    bound to a cell, the header is incomplete (no statement title, unit or dated period), or the
+    text layer is untrusted. Facts without their statement are not correct facts, so a
+    continuation page is reviewed until cross-page assembly supplies its title.
     accepted_with_warnings: everything holds but something soft was noticed.
     verified: everything holds and nothing was noticed.
     """
@@ -36,6 +39,8 @@ def verify(
     review = [*untrusted, *table.unplaced, *_failures(table, checks)]
     if uncovered:
         review.append(f"{len(uncovered)} cell(s) covered by no constraint")
+    if table.header.title is None:
+        review.append("no statement title on the page (continuation?): statement and scope unknown")
     if table.header.unit is None:
         review.append("unit not found on the page")
     if any(period.end is None for period in table.periods):
@@ -45,7 +50,10 @@ def verify(
     if rounding is Rounding.UNKNOWN:
         soft.append("rounding mode undetermined: checked against both truncation and rounding")
 
-    if review:
+    if not any(cell for row in table.rows for cell in row.cells):
+        state = PageState.FAILED
+        review.insert(0, "no amount was bound to a period column")
+    elif review:
         state = PageState.NEEDS_REVIEW
     elif soft:
         state = PageState.ACCEPTED_WITH_WARNINGS
