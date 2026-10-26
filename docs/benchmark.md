@@ -1,5 +1,8 @@
 # Public-filing benchmark
 
+This batch and the second were later used to develop fixes. The [fresh holdout](benchmark-holdout.md)
+measures the parser on issuers and layouts it was not developed on.
+
 The [second batch](benchmark-expansion.md) adds 14 pages from four new issuers and a full-document
 ingestion check. Combined results are 82.80% strict fact F1 and 9/25 exact pages on 1,333 values.
 The original 11-page results below remain the frozen first-batch baseline. A later

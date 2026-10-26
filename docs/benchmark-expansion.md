@@ -1,5 +1,8 @@
 # Second benchmark: new issuers, older dates and partial text layers
 
+Both batches were later used to develop fixes. The [fresh holdout](benchmark-holdout.md) measures
+the parser on issuers and layouts it was not developed on.
+
 Measured on 27 October 2026. The extraction and verification source is still identical to
 `cc6a4fe`; only the benchmark runner gained a manifest argument. The original batch and its
 annotations remain unchanged.

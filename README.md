@@ -8,14 +8,20 @@ The design, the catalogue of what breaks on real filings, and the evaluation pla
 end: geometry extraction, accounting checks derived from each table's own hierarchy, an explicit
 state for every table, and the evaluation harness.
 
-Two [external benchmark batches](docs/benchmark-expansion.md) now cover **25 pages from eight
-issuers and 1,333 annotated values: 82.86% strict fact F1 and 16/25 exact pages**. The perfect
-development-sample score below does not generalise to these layouts. The
-[first batch](docs/benchmark.md) scores 72.04% F1. The benchmark found two acceptance defects:
-continuation pages verified without their statement title, and an empty table accepted. After
-[the fix](docs/benchmark-expansion.md#acceptance-fix) and
-[cross-page assembly](docs/benchmark-expansion.md#cross-page-assembly), **every auto-accepted
-page is exact**: 5 pages and 258 facts. Before, 2 of the 5 accepted pages had incorrect headers.
+A [fresh holdout](docs/benchmark-holdout.md) of 12 pages from four new issuers, frozen before its
+first parser run, covers EDINET and Antenna House annual securities reports and a TAKARA PRINTING
+earnings release. It scores **86.41% strict fact F1, 8/12 exact pages and every header correct**,
+but **1 of its 4 auto-accepted pages is wrong**: commas left by footnote markers inside value
+cells corrupt three labels, and no arithmetic check reads labels. That is 6 wrong facts among
+224 accepted.
+
+Two earlier [benchmark batches](docs/benchmark-expansion.md) of 25 pages from eight issuers were
+used to develop the fixes since `cc6a4fe`, so their scores (82.86% strict fact F1, 16/25 exact
+pages) are optimistic. They found two acceptance defects, continuation pages verified without
+their statement title and an empty table accepted, which
+[the acceptance fix](docs/benchmark-expansion.md#acceptance-fix) and
+[cross-page assembly](docs/benchmark-expansion.md#cross-page-assembly) removed. The perfect
+development-sample score below does not generalise.
 
 ## What "correct" means
 
@@ -128,18 +134,24 @@ counts how often at least one check fails:
 | Adjacent rows swapped | 45.5% | 45.5% |
 
 On this sample, the checks detect every tested single digit error at 10千円 or above. Passing them
-does not establish extraction accuracy: units-digit errors, swaps within a sum and missing metadata
-can survive. Those blind spots are why the design adds a second extraction path and XBRL comparison.
-Knowing the rounding mode improves detection of sampled units-digit errors by 23.8 percentage points.
+does not establish extraction accuracy: units-digit errors, swaps within a sum, missing metadata and
+wrong labels can survive; the holdout's wrong acceptance is a label error. Those blind spots are why
+the design adds a second extraction path and XBRL comparison. Knowing the rounding mode improves
+detection of sampled units-digit errors by 23.8 percentage points.
 
 ## Limitations
 
-The parser was developed on one page. The [25-page benchmark](docs/benchmark-expansion.md) now
-measures where it generalises and where it fails. Section 7 of the design describes a larger
-evaluation with XBRL-aligned gold, stratified by layout family. Known gaps:
+The parser was developed on one page and then on the [25-page benchmark](docs/benchmark-expansion.md).
+The [12-page holdout](docs/benchmark-holdout.md) measures it on unseen layouts, but 12 pages cannot
+establish an error rate: the observed wrong acceptance of 1 in 4 accepted pages has a 95% interval
+of 0.6% to 80.6%. Section 7 of the design describes the evaluation that can, with XBRL-aligned
+gold stratified by layout family. Known gaps:
 
+- Footnote markers inside value cells (※１,※５): their commas reach the label, and nothing checks
+  label text. This caused the holdout's wrong acceptance.
+- Section headings printed at their parent's indentation (負債及び資本 above 負債), and totals
+  printed at their section heading's indentation.
 - Labels wrapped over two lines.
-- Totals placed at the section heading's own indentation.
 - Account-form pages.
 - Multi-page statements are checked page by page: a continuation page inherits its statement's
   title, but totals whose members sit on another page are not verified.
