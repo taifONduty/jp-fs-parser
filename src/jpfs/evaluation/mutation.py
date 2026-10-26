@@ -4,6 +4,7 @@ table and count how often at least one constraint fails."""
 from collections import Counter
 from collections.abc import Iterator, Mapping
 from dataclasses import replace
+from decimal import Decimal
 
 from jpfs.checks import derive_constraints, evaluate
 from jpfs.model import Amount, Cell, Rounding, Table
@@ -47,18 +48,21 @@ def _mutants(table: Table) -> Iterator[Mutant]:
 
 
 def _amount_errors(amount: Amount) -> Iterator[tuple[tuple[str, ...], Amount]]:
-    digits = str(amount.magnitude)
-    for i, original in enumerate(digits):
-        place = "units digit" if i == len(digits) - 1 else "tens digit or above"
+    """Single-character errors on the printed digits; 'units digit' is the last printed one."""
+    text = str(amount.magnitude)
+    places = [i for i, ch in enumerate(text) if ch.isdigit()]
+    for i in places:
+        original = text[i]
+        place = "units digit" if i == places[-1] else "tens digit or above"
         for digit in "0123456789":
-            if digit == original or (i == 0 and digit == "0" and len(digits) > 1):
+            if digit == original or (i == places[0] and digit == "0" and len(places) > 1):
                 continue
             categories = ("any digit", place)
             if digit in OCR_CONFUSIONS[original]:
                 categories += ("OCR-confusable digit",)
-            yield categories, replace(amount, magnitude=int(digits[:i] + digit + digits[i + 1 :]))
-        if len(digits) > 1:
-            yield ("dropped digit",), replace(amount, magnitude=int(digits[:i] + digits[i + 1 :]))
+            yield categories, replace(amount, magnitude=Decimal(text[:i] + digit + text[i + 1 :]))
+        if len(places) > 1:
+            yield ("dropped digit",), replace(amount, magnitude=Decimal(text[:i] + text[i + 1 :]))
     if amount.negative and amount.magnitude:
         yield ("lost △",), replace(amount, negative=False)
 

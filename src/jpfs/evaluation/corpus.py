@@ -85,7 +85,8 @@ def observed(results: list[Result]) -> tuple[Counter, Counter, Counter]:
                     Decimal(amount.magnitude),
                     amount.negative,
                 )
-                facts[(row.path, column[1], column[2], None, header.unit, value)] += 1
+                unit = row.unit or header.unit
+                facts[(row.path, column[1], column[2], None, unit, value)] += 1
     return rows, facts, headers
 
 

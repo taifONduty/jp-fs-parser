@@ -1,4 +1,5 @@
 from datetime import date
+from decimal import Decimal
 
 import pytest
 
@@ -52,7 +53,7 @@ def _two_statement_page() -> PageContent:
                 ("売上高", "1,000", "1,200", "1"),
                 ("売上原価", "600", "700", "2"),
                 ("売上総利益", "400", "500", "3"),
-                ("1株当たり当期純利益", "12.34", "15.67", None),
+                ("売上総利益率", "40.0%", "41.7%", None),
             ],
         ),
         _label("（２）連結包括利益計算書", 60, 140),
@@ -91,10 +92,31 @@ def test_page_splits_into_statements_at_titles() -> None:
 
 def test_figures_that_are_not_amounts_are_reported_not_glued_to_labels() -> None:
     income, _ = extract_tables(_two_statement_page())
-    per_share = income.rows[-1]
-    assert per_share.label == "1株当たり当期純利益"
-    assert per_share.cells == (None, None)
+    ratio = income.rows[-1]
+    assert ratio.label == "売上総利益率"
+    assert ratio.cells == (None, None)
     assert len(income.unplaced) == 2
+
+
+def test_per_share_rows_carry_their_printed_unit_and_exact_decimals() -> None:
+    words = [
+        Word("前期", 340, 64, 405, 73),
+        Word("当期", 460, 64, 525, 73),
+        *_line(80, "売上高", "1,000", "1,200"),
+        *_line(92, "当期純利益", "100", "120"),
+        *_line(104, "基本的１株当たり当期利益（円）", "1,212.88", "1,411.44"),
+        Word("(単位：円)", 480, 116, 540, 125),
+        *_line(128, "希薄化後", "△19.78", "△34.09"),
+    ]
+    (table,) = extract_tables(PageContent(tuple(words), (), width=600.0, text=""))
+    assert [(row.label, row.unit) for row in table.rows] == [
+        ("売上高", None),
+        ("当期純利益", None),
+        ("基本的１株当たり当期利益（円）", "円"),
+        ("希薄化後", "円"),
+    ]
+    assert table.rows[2].cells[0].amount == Amount(Decimal("1212.88"))
+    assert table.rows[3].cells[1].amount == Amount(Decimal("34.09"), negative=True)
 
 
 def test_figures_in_a_non_period_column_become_note_references() -> None:

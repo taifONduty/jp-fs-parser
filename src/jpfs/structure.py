@@ -5,7 +5,7 @@ from collections.abc import Sequence
 from dataclasses import replace
 
 from jpfs.model import Role, Row
-from jpfs.text import normalize
+from jpfs.text import normalize, unit_marker
 
 _TOTAL_RE = re.compile(r"計$")  # 合計, 小計, 資産計
 _NET = "純額"
@@ -13,16 +13,28 @@ _CLOSING = (Role.TOTAL, Role.NET)
 
 
 def build_structure(rows: Sequence[Row]) -> tuple[tuple[Row, ...], tuple[str, ...]]:
-    """Link rows into a tree from their levels and assign roles; warn about unclosed groups."""
+    """Link rows into a tree from their levels, assign roles and per-row units, and warn about
+    unclosed groups. A unit printed in a label, such as （円）, holds for the row and its children;
+    otherwise a row keeps the unit of any unit line printed above it."""
     parents = _parents(_tree_levels(rows))
     children = [tuple(j for j, p in enumerate(parents) if p == i) for i in range(len(rows))]
     roles = _roles(rows, parents, children)
     paths: list[tuple[str, ...]] = []
+    units: list[str | None] = []
     for row, parent in zip(rows, parents, strict=True):
         paths.append((paths[parent] if parent is not None else ()) + (normalize(row.label),))
+        inherited = units[parent] if parent is not None else None
+        units.append(unit_marker(row.label) or inherited or row.unit)
 
     linked = tuple(
-        replace(row, parent=parents[i], children=children[i], role=roles[i], path=paths[i])
+        replace(
+            row,
+            parent=parents[i],
+            children=children[i],
+            role=roles[i],
+            path=paths[i],
+            unit=units[i],
+        )
         for i, row in enumerate(rows)
     )
     warnings = tuple(

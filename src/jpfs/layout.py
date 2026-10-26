@@ -23,6 +23,7 @@ from jpfs.text import (
     normalize,
     parse_amount,
     parse_period,
+    unit_line,
 )
 
 INK = 0.5  # strokes darker than this luminance are visible rules
@@ -148,7 +149,7 @@ def _lines(words: Iterable[Word]) -> list[Line]:
     return [_merge_fragments(sorted(group, key=lambda w: w.x0)) for group in groups]
 
 
-_FRAGMENT_RE = re.compile(r"[△▲\-−(),\d]+")
+_FRAGMENT_RE = re.compile(r"[△▲\-−(),.\d]+")
 _FIGURE_RE = re.compile(r"[△▲\-−(]?\d[\d,.]*\)?%?")
 
 
@@ -210,11 +211,15 @@ def _table(
 
     rows: list[Row] = []
     unplaced: list[str] = []
+    unit = None  # set by a unit line inside the body, e.g. (単位：円) above per-share rows
     for line in lines[max(head, default=-1) + 1 : last + 1]:
+        if stated := unit_line(_text(line)):
+            unit = stated
+            continue
         row, lost = _row(line, columns, slots, note_columns, len(periods), label_edge)
         unplaced += lost
         if row is not None:
-            rows.append(row)
+            rows.append(replace(row, unit=unit))
     linked, warnings = build_structure(_with_cues(_with_levels(rows), content.rules, columns))
     header = _header(lines[: held[0]], label_edge, above, content.text)
     return Table(header, periods, linked, tuple(unplaced), warnings)

@@ -93,6 +93,17 @@ def test_unclosed_group_is_flagged_and_blocks_its_parent() -> None:
     assert _constraints(table) == {"sum:固定資産合計": ["土地"]}
 
 
+def test_rows_printed_in_different_units_are_never_summed() -> None:
+    table = _table(
+        (0, "利益", None),
+        (1, "当期純利益", "100"),
+        (1, "１株当たり当期純利益（円）", "12.34"),
+        (1, "利益計", "112"),
+    )
+    assert table.rows[2].unit == "円"
+    assert _constraints(table) == {}
+
+
 def test_net_line_without_its_gross_is_an_ordinary_member() -> None:
     table = _table(
         (0, "有形固定資産", None),

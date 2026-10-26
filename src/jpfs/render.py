@@ -7,10 +7,11 @@ import hashlib
 from collections import defaultdict
 from dataclasses import asdict
 from datetime import date
+from decimal import Decimal
 from importlib.metadata import version
 
 from jpfs.checks import Interval, interval
-from jpfs.model import Amount, Cell, Period, Role, Row
+from jpfs.model import UNIT_SCALES, Amount, Cell, Period, Role, Row
 from jpfs.pipeline import Result
 from jpfs.text import normalize
 
@@ -45,7 +46,8 @@ def _fact(result: Result, row: Row, period: Period, cell: Cell, constraints: lis
     taxonomy concept, second-path agreement and XBRL match."""
     header = result.table.header
     rounding = result.verification.rounding
-    amount, scale = cell.amount, header.scale
+    amount, unit = cell.amount, row.unit or header.unit
+    scale = UNIT_SCALES[unit] if unit else None
     return {
         "fact_id": _fact_id(result, row, period),
         "statement": {
@@ -70,10 +72,10 @@ def _fact(result: Result, row: Row, period: Period, cell: Cell, constraints: lis
         },
         "value": {
             "printed": cell.text,
-            "reported": amount.value,
+            "reported": _number(amount.value),
             "unit": "JPY" if scale else None,
             "scale": scale,
-            "jpy": amount.value * scale if scale else None,
+            "jpy": _number(amount.value * scale) if scale else None,
             "interval_jpy": _bounds(interval(amount, rounding).scaled(scale)) if scale else None,
             "sign": None if amount.nil else "-" if amount.negative else "+",
             "state": "nil" if amount.nil else "amount",
@@ -113,8 +115,9 @@ def _bounds(bounds: Interval) -> dict:
     }
 
 
-def _number(x: float) -> int | float:
-    return int(x) if float(x).is_integer() else x
+def _number(x: Decimal) -> int | float:
+    """JSON number: exact integers stay integers; decimals such as EPS become floats."""
+    return int(x) if x == int(x) else float(x)
 
 
 def _iso(d: date | None) -> str | None:

@@ -8,6 +8,7 @@ rounding mode rather than from a chosen epsilon.
 
 from collections.abc import Iterator, Sequence
 from dataclasses import dataclass
+from decimal import Decimal
 from itertools import chain
 from math import comb
 
@@ -18,8 +19,8 @@ TRUNCATION_ALPHA = 0.01  # significance of the sign test that infers truncation
 
 @dataclass(frozen=True, slots=True)
 class Interval:
-    lo: float
-    hi: float
+    lo: Decimal
+    hi: Decimal
     lo_closed: bool = True
     hi_closed: bool = True
 
@@ -31,7 +32,7 @@ class Interval:
             self.hi_closed and other.hi_closed,
         )
 
-    def __contains__(self, x: float) -> bool:
+    def __contains__(self, x: Decimal) -> bool:
         above = self.lo < x or (self.lo == x and self.lo_closed)
         below = x < self.hi or (x == self.hi and self.hi_closed)
         return above and below
@@ -49,7 +50,7 @@ class Interval:
         return Interval(self.lo * factor, self.hi * factor, self.lo_closed, self.hi_closed)
 
 
-ZERO = Interval(0, 0)
+ZERO = Interval(Decimal(0), Decimal(0))
 
 
 def interval(amount: Amount, rounding: Rounding) -> Interval:
@@ -58,11 +59,11 @@ def interval(amount: Amount, rounding: Rounding) -> Interval:
         return ZERO
     if rounding is Rounding.UNKNOWN:
         return interval(amount, Rounding.TRUNCATE).hull(interval(amount, Rounding.ROUND))
-    m = amount.magnitude
+    m, step = amount.magnitude, amount.step
     if rounding is Rounding.TRUNCATE:
-        lo, hi, lo_closed, hi_closed = m, m + 1, True, False
+        lo, hi, lo_closed, hi_closed = m, m + step, True, False
     else:
-        lo, hi, lo_closed, hi_closed = max(m - 0.5, 0), m + 0.5, True, True
+        lo, hi, lo_closed, hi_closed = max(m - step / 2, 0), m + step / 2, True, True
     if not amount.negative:
         return Interval(lo, hi, lo_closed, hi_closed)
     return Interval(-hi, -lo, hi_closed, lo_closed and m > 0)  # △0 is strictly negative
@@ -80,13 +81,14 @@ class Check:
     constraint: Constraint
     period: int
     passed: bool
-    residual: int  # printed total minus the printed sum of its terms
+    residual: Decimal  # printed total minus the printed sum of its terms
 
 
 def derive_constraints(rows: Sequence[Row]) -> tuple[Constraint, ...]:
     """One constraint per closing row: a total sums the members before it, back to and including
     the previous total of the same group (so 小計 chains work); a net adds its contras to the gross.
-    A member is a leaf row, or a sub-group through its own closing row."""
+    A member is a leaf row, or a sub-group through its own closing row. Rows printed in different
+    units are never summed together."""
     roots = tuple(i for i, row in enumerate(rows) if row.parent is None)
     constraints = []
     for i, row in enumerate(rows):
@@ -100,7 +102,7 @@ def derive_constraints(rows: Sequence[Row]) -> tuple[Constraint, ...]:
             continue
         gross = (row.parent,) if row.role is Role.NET else ()
         terms = gross + tuple(chain.from_iterable(contributions))
-        if terms:
+        if terms and len({rows[r].unit for r in (i, *terms)}) == 1:  # never sum across units
             kind = "net" if row.role is Role.NET else "sum"
             constraints.append(Constraint(i, terms, f"{kind}:{row.path[-1]}"))
     return tuple(constraints)
@@ -128,7 +130,7 @@ def evaluate(
 
 def _sums(
     table: Table, constraint: Constraint, rounding: Rounding
-) -> Iterator[tuple[int, Amount, Interval, int]]:
+) -> Iterator[tuple[int, Amount, Interval, Decimal]]:
     """Per period with a printed total: the total, the interval sum and printed sum of its terms."""
     for period in range(len(table.periods)):
         total = table.rows[constraint.total].cells[period]
@@ -137,7 +139,7 @@ def _sums(
         terms = (table.rows[t].cells[period] for t in constraint.terms)
         amounts = [cell.amount for cell in terms if cell is not None]
         span = sum((interval(a, rounding) for a in amounts), start=ZERO)
-        yield period, total.amount, span, sum(a.value for a in amounts)
+        yield period, total.amount, span, sum((a.value for a in amounts), start=Decimal(0))
 
 
 def infer_rounding(tables: Sequence[Table]) -> Rounding:

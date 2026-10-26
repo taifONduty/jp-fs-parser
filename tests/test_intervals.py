@@ -1,3 +1,5 @@
+from decimal import Decimal
+
 import pytest
 
 from jpfs.checks import Interval, interval
@@ -14,6 +16,11 @@ from jpfs.model import Amount, Rounding
         (Amount(0, negative=True), Rounding.ROUND, Interval(-0.5, 0, True, False)),
         (Amount(5), Rounding.UNKNOWN, Interval(4.5, 6, True, False)),
         (Amount(0, nil=True), Rounding.TRUNCATE, Interval(0, 0)),
+        (
+            Amount(Decimal("19.78"), negative=True),
+            Rounding.TRUNCATE,
+            Interval(Decimal("-19.79"), Decimal("-19.78"), False, True),
+        ),
     ],
 )
 def test_interval_of_printed_amount(amount: Amount, rounding: Rounding, expected: Interval) -> None:

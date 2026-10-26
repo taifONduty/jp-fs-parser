@@ -1,4 +1,5 @@
 from datetime import date
+from decimal import Decimal
 
 import pytest
 
@@ -18,6 +19,7 @@ from jpfs.text import (
     ("printed", "amount"),
     [
         ("2,002,429", Amount(2002429)),
+        ("1,212.88", Amount(Decimal("1212.88"))),
         ("△2,979", Amount(2979, negative=True)),
         ("△0", Amount(0, negative=True)),
         ("▲5", Amount(5, negative=True)),

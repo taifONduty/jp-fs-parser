@@ -4,7 +4,7 @@ from collections.abc import Sequence
 from dataclasses import dataclass
 
 from jpfs.checks import Check, derive_constraints, evaluate, uncovered_cells
-from jpfs.model import PageState, Rounding, RoundingBasis, Table
+from jpfs.model import UNIT_SCALES, PageState, Rounding, RoundingBasis, Table
 
 
 @dataclass(frozen=True, slots=True)
@@ -36,7 +36,7 @@ def verify(
     """
     checks = evaluate(table, derive_constraints(table.rows), rounding)
     uncovered = uncovered_cells(table, checks)
-    review = [*untrusted, *table.unplaced, *_failures(table, checks)]
+    review = [*untrusted, *table.unplaced, *_failures(table, checks), *_unitless_decimals(table)]
     if uncovered:
         review.append(f"{len(uncovered)} cell(s) covered by no constraint")
     if table.header.title is None:
@@ -60,6 +60,18 @@ def verify(
     else:
         state = PageState.VERIFIED
     return Verification(rounding, rounding_basis, checks, uncovered, state, (*review, *soft))
+
+
+def _unitless_decimals(table: Table) -> list[str]:
+    """A decimal under 千円 or 百万円 is almost certainly a per-share figure whose 円 was not
+    printed; it is flagged rather than given a unit by guesswork."""
+    return [
+        f"decimal amount '{cell.text}' under {unit}: its own unit is not printed"
+        for row in table.rows
+        if (unit := row.unit or table.header.unit) and UNIT_SCALES[unit] > 1
+        for cell in row.cells
+        if cell is not None and cell.amount.step < 1
+    ]
 
 
 def _failures(table: Table, checks: Sequence[Check]) -> list[str]:

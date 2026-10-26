@@ -1,5 +1,6 @@
 import json
 from dataclasses import replace
+from decimal import Decimal
 from pathlib import Path
 
 import pytest
@@ -65,6 +66,18 @@ def test_a_table_without_its_statement_title_is_not_accepted(sample: Result) -> 
     )
     assert verification.state is PageState.NEEDS_REVIEW
     assert any("no statement title" in reason for reason in verification.reasons)
+
+
+def test_a_decimal_without_its_own_unit_is_reviewed(sample: Result) -> None:
+    cash = sample.table.rows[2]
+    decimal = replace(cash.cells[1], amount=Amount(Decimal("12.34")), text="12.34")
+    rows = list(sample.table.rows)
+    rows[2] = replace(cash, cells=(cash.cells[0], decimal))
+    verification = verify(
+        replace(sample.table, rows=tuple(rows)), Rounding.TRUNCATE, RoundingBasis.INFERRED
+    )
+    assert verification.state is PageState.NEEDS_REVIEW
+    assert any("its own unit is not printed" in reason for reason in verification.reasons)
 
 
 def test_a_table_without_any_value_fails(sample: Result) -> None:

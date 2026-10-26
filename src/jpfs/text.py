@@ -3,6 +3,7 @@
 import re
 import unicodedata
 from datetime import date
+from decimal import Decimal
 
 from jpfs.model import UNIT_SCALES, Amount, Correction, Period, Rounding, StatementKind
 
@@ -13,7 +14,7 @@ def normalize(text: str) -> str:
 
 
 NIL_MARKS = frozenset("-‐–—―−ー")  # '－' and 'ｰ' fold into this set under NFKC
-_DIGITS = r"\d{1,3}(?:,\d{3})+|\d+"
+_DIGITS = r"(?:\d{1,3}(?:,\d{3})+|\d+)(?:\.\d+)?"
 _SIGNED_RE = re.compile(rf"(?P<sign>[△▲\-−])?(?P<digits>{_DIGITS})")
 _BRACKETED_RE = re.compile(rf"\((?P<digits>{_DIGITS})\)")
 
@@ -24,9 +25,9 @@ def parse_amount(text: str) -> Amount | None:
     if t in NIL_MARKS:
         return Amount(0, nil=True)
     if m := _SIGNED_RE.fullmatch(t):
-        return Amount(int(m["digits"].replace(",", "")), negative=m["sign"] is not None)
+        return Amount(Decimal(m["digits"].replace(",", "")), negative=m["sign"] is not None)
     if m := _BRACKETED_RE.fullmatch(t):
-        return Amount(int(m["digits"].replace(",", "")), negative=True)
+        return Amount(Decimal(m["digits"].replace(",", "")), negative=True)
     return None
 
 
@@ -71,7 +72,22 @@ def parse_period(header: str) -> Period | None:
     return Period(label, end=dates[0] if dates else None)
 
 
-_UNIT_RE = re.compile("単位:?(" + "|".join(sorted(UNIT_SCALES, key=len, reverse=True)) + ")")
+_UNITS = "|".join(sorted(UNIT_SCALES, key=len, reverse=True))
+_UNIT_RE = re.compile(f"単位:?({_UNITS})")
+_UNIT_LINE_RE = re.compile(rf"\(?単位:?({_UNITS})\)?")
+_UNIT_MARKER_RE = re.compile(rf"\(({_UNITS})\)")
+
+
+def unit_line(text: str) -> str | None:
+    """The unit of a line that states nothing but a unit, such as (単位：円) above an EPS block."""
+    m = _UNIT_LINE_RE.fullmatch(normalize(text))
+    return m[1] if m else None
+
+
+def unit_marker(label: str) -> str | None:
+    """A unit printed in a row label, such as 基本的1株当たり当期利益（円）."""
+    m = _UNIT_MARKER_RE.search(normalize(label))
+    return m[1] if m else None
 
 
 def find_unit(text: str) -> str | None:
