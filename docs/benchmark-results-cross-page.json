@@ -1,0 +1,728 @@
+{
+  "revision": "5da3e663837f5acdd850d233efd141a1d99e5d53",
+  "parser_sha256": "c1e56fa96db437e04d2c323382daa97d7a390876e6b0451f91ba77e61b2a992e",
+  "annotation_sha256": "3b76db01e71b389d9ad6e63b57fe6400e938b97d944ce924675e77890e9b6a9a",
+  "selection": "Purposive layout coverage, fixed before first parser run; not random or representative. Original development sample excluded. Page numbers are 1-based PDF positions, not printed footer numbers.",
+  "annotation": "Single-assistant transcription checked against all selected rendered pages, using PDF text as a transcription aid. No parser output used to create gold. Explicit semantic paths, per-row units and equity dimensions are independent of build_structure. Not independently human-adjudicated.",
+  "summary": {
+    "facts": {
+      "matched": 420,
+      "predicted": 574,
+      "gold": 592,
+      "precision": 0.7317,
+      "recall": 0.7095,
+      "f1": 0.7204
+    },
+    "flat_facts": {
+      "matched": 536,
+      "predicted": 574,
+      "gold": 592,
+      "precision": 0.9338,
+      "recall": 0.9054,
+      "f1": 0.9194
+    },
+    "rows": {
+      "matched": 261,
+      "predicted": 353,
+      "gold": 334,
+      "precision": 0.7394,
+      "recall": 0.7814,
+      "f1": 0.7598
+    },
+    "autoaccepted_facts": {
+      "matched": 88,
+      "predicted": 88,
+      "gold": 592,
+      "precision": 1.0,
+      "recall": 0.1486,
+      "f1": 0.2588
+    },
+    "pages": 11,
+    "page_exact": 5,
+    "headers_correct": 10,
+    "autoaccepted_pages": 2,
+    "wrong_autoaccepted_pages": 0
+  },
+  "pages": [
+    {
+      "id": "nintendo_assets",
+      "source": "nintendo_2025",
+      "page": 7,
+      "complexity": "simple",
+      "features": [
+        "standard J-GAAP assets",
+        "nested sections",
+        "net-only assets",
+        "negative allowance"
+      ],
+      "rows": {
+        "matched": 29,
+        "predicted": 29,
+        "gold": 29,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "facts": {
+        "matched": 46,
+        "predicted": 46,
+        "gold": 46,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "flat_facts": {
+        "matched": 46,
+        "predicted": 46,
+        "gold": 46,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "header_correct": true,
+      "page_exact": true,
+      "states": [
+        "verified"
+      ],
+      "autoaccepted_page": true,
+      "autoaccepted_facts": {
+        "matched": 46,
+        "predicted": 46,
+        "gold": 46,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "checks": {
+        "passed": 12,
+        "total": 12
+      },
+      "reasons": []
+    },
+    {
+      "id": "nintendo_liabilities",
+      "source": "nintendo_2025",
+      "page": 8,
+      "complexity": "medium",
+      "features": [
+        "continuation without title",
+        "liabilities and equity",
+        "grand total"
+      ],
+      "rows": {
+        "matched": 27,
+        "predicted": 27,
+        "gold": 27,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "facts": {
+        "matched": 42,
+        "predicted": 42,
+        "gold": 42,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "flat_facts": {
+        "matched": 42,
+        "predicted": 42,
+        "gold": 42,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "header_correct": true,
+      "page_exact": true,
+      "states": [
+        "verified"
+      ],
+      "autoaccepted_page": true,
+      "autoaccepted_facts": {
+        "matched": 42,
+        "predicted": 42,
+        "gold": 42,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "checks": {
+        "passed": 14,
+        "total": 14
+      },
+      "reasons": []
+    },
+    {
+      "id": "nintendo_income",
+      "source": "nintendo_2025",
+      "page": 9,
+      "complexity": "medium",
+      "features": [
+        "duration dates",
+        "income and expense groups",
+        "nil vs amount"
+      ],
+      "rows": {
+        "matched": 30,
+        "predicted": 30,
+        "gold": 30,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "facts": {
+        "matched": 52,
+        "predicted": 52,
+        "gold": 52,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "flat_facts": {
+        "matched": 52,
+        "predicted": 52,
+        "gold": 52,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "header_correct": true,
+      "page_exact": true,
+      "states": [
+        "needs_review"
+      ],
+      "autoaccepted_page": false,
+      "autoaccepted_facts": {
+        "matched": 0,
+        "predicted": 0,
+        "gold": 52,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "checks": {
+        "passed": 8,
+        "total": 10
+      },
+      "reasons": [
+        "sum:法人税等合計 fails for 前連結会計年度 (residual -5812818)",
+        "sum:法人税等合計 fails for 当連結会計年度 (residual -3891821)",
+        "6 cell(s) covered by no constraint"
+      ]
+    },
+    {
+      "id": "nintendo_cashflows",
+      "source": "nintendo_2025",
+      "page": 13,
+      "complexity": "hard",
+      "features": [
+        "mixed signs",
+        "wrapped label",
+        "subtotal chain",
+        "same heading and total label"
+      ],
+      "rows": {
+        "matched": 34,
+        "predicted": 37,
+        "gold": 35,
+        "precision": 0.9189,
+        "recall": 0.9714,
+        "f1": 0.9444
+      },
+      "facts": {
+        "matched": 62,
+        "predicted": 64,
+        "gold": 64,
+        "precision": 0.9688,
+        "recall": 0.9688,
+        "f1": 0.9688
+      },
+      "flat_facts": {
+        "matched": 62,
+        "predicted": 64,
+        "gold": 64,
+        "precision": 0.9688,
+        "recall": 0.9688,
+        "f1": 0.9688
+      },
+      "header_correct": true,
+      "page_exact": false,
+      "states": [
+        "needs_review"
+      ],
+      "autoaccepted_page": false,
+      "autoaccepted_facts": {
+        "matched": 0,
+        "predicted": 0,
+        "gold": 64,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "checks": {
+        "passed": 8,
+        "total": 8
+      },
+      "reasons": [
+        "row without a label at y=391",
+        "8 cell(s) covered by no constraint"
+      ]
+    },
+    {
+      "id": "nintendo_equity",
+      "source": "nintendo_2025",
+      "page": 11,
+      "complexity": "stress",
+      "features": [
+        "two stacked equity panels",
+        "columns are equity components, not periods",
+        "merged headers",
+        "wrapped labels",
+        "sparse cells"
+      ],
+      "rows": {
+        "matched": 14,
+        "predicted": 32,
+        "gold": 18,
+        "precision": 0.4375,
+        "recall": 0.7778,
+        "f1": 0.56
+      },
+      "facts": {
+        "matched": 0,
+        "predicted": 33,
+        "gold": 48,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "flat_facts": {
+        "matched": 0,
+        "predicted": 33,
+        "gold": 48,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "header_correct": false,
+      "page_exact": false,
+      "states": [
+        "needs_review"
+      ],
+      "autoaccepted_page": false,
+      "autoaccepted_facts": {
+        "matched": 0,
+        "predicted": 0,
+        "gold": 48,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "checks": {
+        "passed": 0,
+        "total": 0
+      },
+      "reasons": [
+        "amount '10,065' in a column whose header names no period",
+        "amount '2,392,704' in a column whose header names no period",
+        "amount '△236,339' in a column whose header names no period",
+        "amount '490,602' in a column whose header names no period",
+        "row without a label at y=181",
+        "amount '－' in a column whose header names no period",
+        "amount '254,262' in a column whose header names no period",
+        "amount '10,065' in a column whose header names no period",
+        "amount '2,646,967' in a column whose header names no period",
+        "amount '28,028' in a column whose header names no period",
+        "amount '119,435' in a column whose header names no period",
+        "row without a label at y=376",
+        "amount '2,386' in a column whose header names no period",
+        "amount '83,206' in a column whose header names no period",
+        "row without a label at y=426",
+        "amount '2,386' in a column whose header names no period",
+        "amount '83,206' in a column whose header names no period",
+        "amount '30,415' in a column whose header names no period",
+        "amount '202,642' in a column whose header names no period",
+        "two amounts in one cell: '―' and '9'",
+        "amount '―' at x=318 lies outside every value column",
+        "row without a label at y=806",
+        "33 cell(s) covered by no constraint",
+        "value column without a dated period header",
+        "group '当期変動額' has no closing total on this page",
+        "group '当期末残高' has no closing total on this page",
+        "group 'その他の包括利益累計額' has no closing total on this page",
+        "group 'その他有価証券その他の包括利益' has no closing total on this page",
+        "group '当期変動額' has no closing total on this page"
+      ]
+    },
+    {
+      "id": "toyota_assets",
+      "source": "toyota_2025",
+      "page": 11,
+      "complexity": "medium",
+      "features": [
+        "IFRS",
+        "gross subtotal and contra",
+        "wrapped label"
+      ],
+      "rows": {
+        "matched": 28,
+        "predicted": 32,
+        "gold": 29,
+        "precision": 0.875,
+        "recall": 0.9655,
+        "f1": 0.918
+      },
+      "facts": {
+        "matched": 48,
+        "predicted": 51,
+        "gold": 50,
+        "precision": 0.9412,
+        "recall": 0.96,
+        "f1": 0.9505
+      },
+      "flat_facts": {
+        "matched": 48,
+        "predicted": 51,
+        "gold": 50,
+        "precision": 0.9412,
+        "recall": 0.96,
+        "f1": 0.9505
+      },
+      "header_correct": true,
+      "page_exact": false,
+      "states": [
+        "needs_review"
+      ],
+      "autoaccepted_page": false,
+      "autoaccepted_facts": {
+        "matched": 0,
+        "predicted": 0,
+        "gold": 50,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "checks": {
+        "passed": 10,
+        "total": 10
+      },
+      "reasons": [
+        "row without a label at y=431",
+        "amount '-' at x=291 lies outside every value column",
+        "amount '7' at x=300 lies outside every value column",
+        "row without a label at y=815",
+        "1 cell(s) covered by no constraint",
+        "group '資産' has no closing total on this page"
+      ]
+    },
+    {
+      "id": "toyota_segments",
+      "source": "toyota_2025",
+      "page": 19,
+      "complexity": "hard",
+      "features": [
+        "IFRS segment hierarchy",
+        "repeated labels",
+        "eliminations",
+        "indentation does not express all semantic parents"
+      ],
+      "rows": {
+        "matched": 5,
+        "predicted": 32,
+        "gold": 32,
+        "precision": 0.1562,
+        "recall": 0.1562,
+        "f1": 0.1562
+      },
+      "facts": {
+        "matched": 0,
+        "predicted": 46,
+        "gold": 46,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "flat_facts": {
+        "matched": 46,
+        "predicted": 46,
+        "gold": 46,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "header_correct": true,
+      "page_exact": false,
+      "states": [
+        "needs_review"
+      ],
+      "autoaccepted_page": false,
+      "autoaccepted_facts": {
+        "matched": 0,
+        "predicted": 0,
+        "gold": 46,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "checks": {
+        "passed": 10,
+        "total": 16
+      },
+      "reasons": [
+        "sum:資産合計 fails for 前連結会計年度 (residual -47741448)",
+        "sum:資産合計 fails for 当連結会計年度 (residual -48292758)",
+        "sum:資産消去計 fails for 前連結会計年度 (residual -45295518)",
+        "sum:資産消去計 fails for 当連結会計年度 (residual -48232980)",
+        "sum:資産合計 fails for 前連結会計年度 (residual 91575631)",
+        "sum:資産合計 fails for 当連結会計年度 (residual 95063544)"
+      ]
+    },
+    {
+      "id": "mufg_assets",
+      "source": "mufg_2025",
+      "page": 6,
+      "complexity": "medium",
+      "features": [
+        "banking",
+        "values on parent rows",
+        "breakdowns below their totals"
+      ],
+      "rows": {
+        "matched": 28,
+        "predicted": 28,
+        "gold": 28,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "facts": {
+        "matched": 54,
+        "predicted": 54,
+        "gold": 54,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "flat_facts": {
+        "matched": 54,
+        "predicted": 54,
+        "gold": 54,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "header_correct": true,
+      "page_exact": true,
+      "states": [
+        "needs_review"
+      ],
+      "autoaccepted_page": false,
+      "autoaccepted_facts": {
+        "matched": 0,
+        "predicted": 0,
+        "gold": 54,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "checks": {
+        "passed": 0,
+        "total": 0
+      },
+      "reasons": [
+        "54 cell(s) covered by no constraint",
+        "group '有形固定資産' has no closing total on this page",
+        "group '無形固定資産' has no closing total on this page"
+      ]
+    },
+    {
+      "id": "mufg_liabilities",
+      "source": "mufg_2025",
+      "page": 7,
+      "complexity": "hard",
+      "features": [
+        "continuation without title",
+        "dense banking equity",
+        "leading subtotals",
+        "numeric zero vs nil"
+      ],
+      "rows": {
+        "matched": 44,
+        "predicted": 44,
+        "gold": 44,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "facts": {
+        "matched": 84,
+        "predicted": 84,
+        "gold": 84,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "flat_facts": {
+        "matched": 84,
+        "predicted": 84,
+        "gold": 84,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "header_correct": true,
+      "page_exact": true,
+      "states": [
+        "needs_review"
+      ],
+      "autoaccepted_page": false,
+      "autoaccepted_facts": {
+        "matched": 0,
+        "predicted": 0,
+        "gold": 84,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "checks": {
+        "passed": 6,
+        "total": 10
+      },
+      "reasons": [
+        "sum:その他の包括利益累計額合計 fails for 前連結会計年度 (residual -15402922)",
+        "sum:その他の包括利益累計額合計 fails for 当連結会計年度 (residual -16260498)",
+        "sum:純資産の部合計 fails for 前連結会計年度 (residual 15402923)",
+        "sum:純資産の部合計 fails for 当連結会計年度 (residual 16260500)"
+      ]
+    },
+    {
+      "id": "fastretailing_balance",
+      "source": "fastretailing_2025",
+      "page": 9,
+      "complexity": "hard",
+      "features": [
+        "IFRS",
+        "note-number column",
+        "partial liabilities section",
+        "implicit section parents"
+      ],
+      "rows": {
+        "matched": 2,
+        "predicted": 42,
+        "gold": 42,
+        "precision": 0.0476,
+        "recall": 0.0476,
+        "f1": 0.0476
+      },
+      "facts": {
+        "matched": 0,
+        "predicted": 70,
+        "gold": 70,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "flat_facts": {
+        "matched": 70,
+        "predicted": 70,
+        "gold": 70,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "header_correct": true,
+      "page_exact": false,
+      "states": [
+        "needs_review"
+      ],
+      "autoaccepted_page": false,
+      "autoaccepted_facts": {
+        "matched": 0,
+        "predicted": 0,
+        "gold": 70,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "checks": {
+        "passed": 10,
+        "total": 12
+      },
+      "reasons": [
+        "amount '-' at x=291 lies outside every value column",
+        "amount '7' at x=300 lies outside every value column",
+        "amount '-' at x=309 lies outside every value column",
+        "sum:負債合計 fails for 前連結会計年度 (residual -3587565)",
+        "sum:負債合計 fails for 当連結会計年度 (residual -3859353)"
+      ]
+    },
+    {
+      "id": "fastretailing_income",
+      "source": "fastretailing_2025",
+      "page": 11,
+      "complexity": "hard",
+      "features": [
+        "IFRS",
+        "note references including comma-separated lists",
+        "expenses printed negative",
+        "decimal EPS in yen vs totals in millions"
+      ],
+      "rows": {
+        "matched": 20,
+        "predicted": 20,
+        "gold": 20,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "facts": {
+        "matched": 32,
+        "predicted": 32,
+        "gold": 36,
+        "precision": 1.0,
+        "recall": 0.8889,
+        "f1": 0.9412
+      },
+      "flat_facts": {
+        "matched": 32,
+        "predicted": 32,
+        "gold": 36,
+        "precision": 1.0,
+        "recall": 0.8889,
+        "f1": 0.9412
+      },
+      "header_correct": true,
+      "page_exact": false,
+      "states": [
+        "needs_review"
+      ],
+      "autoaccepted_page": false,
+      "autoaccepted_facts": {
+        "matched": 0,
+        "predicted": 0,
+        "gold": 36,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "checks": {
+        "passed": 2,
+        "total": 2
+      },
+      "reasons": [
+        "figure '５,７' is not an amount (decimal or ratio?)",
+        "figure '５,７' is not an amount (decimal or ratio?)",
+        "figure '1,212.88' is not an amount (decimal or ratio?)",
+        "figure '1,411.44' is not an amount (decimal or ratio?)",
+        "figure '1,210.81' is not an amount (decimal or ratio?)",
+        "figure '1,409.32' is not an amount (decimal or ratio?)",
+        "amount '-' at x=291 lies outside every value column",
+        "amount '9' at x=300 lies outside every value column",
+        "amount '-' at x=309 lies outside every value column",
+        "26 cell(s) covered by no constraint",
+        "group '１株当たり当期利益' has no closing total on this page"
+      ]
+    }
+  ]
+}

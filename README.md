@@ -9,12 +9,13 @@ end: geometry extraction, accounting checks derived from each table's own hierar
 state for every table, and the evaluation harness.
 
 Two [external benchmark batches](docs/benchmark-expansion.md) now cover **25 pages from eight
-issuers and 1,333 annotated values: 82.80% strict fact F1 and 9/25 exact pages**. The perfect
+issuers and 1,333 annotated values: 82.80% strict fact F1 and 14/25 exact pages**. The perfect
 development-sample score below does not generalise to these layouts. The
 [first batch](docs/benchmark.md) scores 72.04% F1. The benchmark found two acceptance defects:
-continuation pages verified without their statement title, and an empty table accepted. Since
-[the fix](docs/benchmark-expansion.md#acceptance-fix), **every auto-accepted page is exact**:
-3 pages and 158 facts, against 5 pages, 2 of them with incorrect headers, before.
+continuation pages verified without their statement title, and an empty table accepted. After
+[the fix](docs/benchmark-expansion.md#acceptance-fix) and
+[cross-page assembly](docs/benchmark-expansion.md#cross-page-assembly), **every auto-accepted
+page is exact**: 5 pages and 258 facts. Before, 2 of the 5 accepted pages had incorrect headers.
 
 ## What "correct" means
 
@@ -59,7 +60,7 @@ uv run pytest
 | S2 Segmentation: split pages at statement titles | `layout.py` | done. Account-form (勘定式) split not yet |
 | S3a Geometry over the text layer | `layout.py` | done |
 | S3b Vision over pixels | | designed |
-| S4 Cross-page assembly | | designed |
+| S4 Cross-page assembly: continuation pages inherit their statement's title | `assembly.py` | done. Totals spanning pages not yet checked |
 | S5 Normalise: periods (和暦 and Gregorian, instant and duration), units, signs, roles | `text.py`, `structure.py` | done. Taxonomy mapping not yet |
 | S6 Verify: tree constraints, interval arithmetic, rounding inference, page state | `checks.py`, `verdict.py` | done. XBRL comparison not yet |
 | S7 Facts and rendered table | `render.py` | done |
@@ -139,13 +140,15 @@ evaluation with XBRL-aligned gold, stratified by layout family. Known gaps:
 
 - Labels wrapped over two lines.
 - Totals placed at the section heading's own indentation.
-- Account-form pages and multi-page statements.
+- Account-form pages.
+- Multi-page statements are checked page by page: a continuation page inherits its statement's
+  title, but totals whose members sit on another page are not verified.
 - Per-share decimals. These are reported as unplaced rather than parsed.
 - Arithmetic that is not a tree, such as income-statement step-downs, which needs taxonomy
   calculation links.
 
-Such pages are sent to `needs_review` or end as `failed`. A continuation page, whose statement
-title is printed on an earlier page, is reviewed until cross-page assembly supplies the title.
+Such pages are sent to `needs_review` or end as `failed`. A continuation page inherits its title
+only when its periods and unit match the statement it continues; otherwise it is reviewed.
 
 ## Layout
 
@@ -156,6 +159,7 @@ src/jpfs/
   layout.py       geometry path: page -> statement tables
   structure.py    indentation -> tree -> roles
   checks.py       constraints, interval arithmetic, rounding inference
+  assembly.py     cross-page assembly: continuation pages keep their statement
   verdict.py      page states
   pipeline.py     document flow
   render.py       facts, markdown, record

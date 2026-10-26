@@ -86,7 +86,8 @@ Capcom label. The latter also produce two unexpected empty-label facts.
   subtotals. This does not resolve the segment and equity-matrix failures in the first batch.
 - **Continuation metadata is still lost.** Hatena 11 and Capcom 11/17 have correct fact sets but
   no statement title. Capcom 11 repeats the first batch's incorrect `verified` acceptance; the
-  [acceptance fix](#acceptance-fix) now sends all three pages to review.
+  [acceptance fix](#acceptance-fix) sends all three pages to review, and
+  [cross-page assembly](#cross-page-assembly) then restores their titles.
 - **Quarterly headers lose literal information.** Rakuten's printed 要約 prefix is omitted, and
   period labels such as 当第1四半期連結会計期間末 are cut short. Dates on its balance-sheet facts
   are nevertheless correct. These header differences explain why its 84/84 fact score is not
@@ -160,12 +161,60 @@ MUFG 7, Hatena 11 and Capcom 17 were already in review and now also carry the mi
 reason. On Nintendo 11, 16 equity-matrix amounts that had been filed as note references are now
 reported as lost facts. The Hatena table of contents is a false-positive table on a page with no
 statement; it was never accepted, and suppressing such tables belongs to segmentation work.
-Continuation pages can only be accepted once cross-page assembly carries the title forward.
+Continuation pages can only be accepted once cross-page assembly carries the title forward;
+[that came next](#cross-page-assembly).
 
 The full-document run still exits with code 0 and produces 62 records over 114 pages. All 14
 annotated pages match the page-selected run. States per document: Hatena 11 review, 1 verified,
 1 failed; Capcom 10 review, 1 verified, 5 failed; Rakuten 15 review, 1 verified, 2 failed; BOJ
 6 review, 9 failed.
+
+## Cross-page assembly
+
+Commit `5da3e66` implements the design's cross-page assembly for statement metadata. Pages are
+split at statement titles, so only a page's first table can be untitled. That table continues
+the statement that ends the previous page when the evidence agrees: the same dated periods and
+the same unit. It then inherits the title, statement type and scope, and `continued_from`
+records the page they came from. Untitled pages in between are followed back, up to four pages,
+while their columns agree. Earlier pages are read whether or not they were selected, so the
+page-selected and full-document runs still agree. The results are in the
+[first-batch](benchmark-results-cross-page.json), [second-batch](benchmark-expansion-results-cross-page.json)
+and [ingestion](benchmark-document-smoke-cross-page.json) snapshots; earlier snapshots are kept.
+
+| Measure, both batches | Baseline | Acceptance fix | Cross-page assembly |
+|---|---:|---:|---:|
+| Strict fact F1 | 82.80% | 82.80% | 82.80% |
+| Exact pages | 9/25 | 9/25 | **14/25** |
+| Correct headers | 15/25 | 15/25 | **20/25** |
+| Auto-accepted pages | 5 | 3 | **5** |
+| Auto-accepted pages with incorrect headers | 2 | 0 | **0** |
+| Auto-accepted facts, all correct | 258 | 158 | 258 |
+
+Strict facts do not include the statement title, so fact F1 is unchanged; the gain shows in
+headers and exact pages. All five continuation pages now have exact headers:
+
+| Page | Title inherited from | State |
+|---|---|---|
+| Nintendo 8: liabilities | PDF page 7 | verified (was needs_review) |
+| MUFG 7: liabilities | PDF page 6 | needs_review: two subtotal constraints fail |
+| Hatena 11: liabilities/equity | PDF page 10 | needs_review: 4 cells covered by no constraint |
+| Capcom 11: liabilities/equity | PDF page 10 | verified (was needs_review) |
+| Capcom 17: cash flow, continuation | PDF page 16 | needs_review: 8 cells covered by no constraint |
+
+The five auto-accepted pages, Nintendo 7 and 8, Hatena 10 and Capcom 10 and 11, are all exact.
+Nintendo 8 and Capcom 11 were wrongly accepted in the baseline because their headers were
+incomplete; they are now accepted with complete ones.
+
+Over all 114 pages of the full-document run, titles were carried over on four pages: the three
+annotated continuations of this batch and Rakuten 17, an unannotated cash-flow continuation whose
+財務活動 section follows page 16's 投資活動 section under a repeated header. That page was inspected;
+it stays in review for an unlabelled row and 8 uncovered cells. The run still exits with code 0,
+with 62 records, all 14 annotated pages identical to the page-selected run, and no accepted empty
+output.
+
+Totals whose members sit on another page are still checked page by page. Rakuten's headers remain
+inexact because its 要約 title prefix and long quarterly period labels are shortened; this is a
+separate header-reading issue.
 
 ## Reproduce
 
