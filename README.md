@@ -9,7 +9,7 @@ end: geometry extraction, accounting checks derived from each table's own hierar
 state for every table, and the evaluation harness.
 
 Two [external benchmark batches](docs/benchmark-expansion.md) now cover **25 pages from eight
-issuers and 1,333 annotated values: 82.80% strict fact F1 and 15/25 exact pages**. The perfect
+issuers and 1,333 annotated values: 82.86% strict fact F1 and 16/25 exact pages**. The perfect
 development-sample score below does not generalise to these layouts. The
 [first batch](docs/benchmark.md) scores 72.04% F1. The benchmark found two acceptance defects:
 continuation pages verified without their statement title, and an empty table accepted. After
@@ -61,7 +61,7 @@ uv run pytest
 | S3a Geometry over the text layer | `layout.py` | done |
 | S3b Vision over pixels | | designed |
 | S4 Cross-page assembly: continuation pages inherit their statement's title | `assembly.py` | done. Totals spanning pages not yet checked |
-| S5 Normalise: periods (和暦 and Gregorian, instant and duration), units, signs, roles | `text.py`, `structure.py` | done. Taxonomy mapping not yet |
+| S5 Normalise: periods (和暦 and Gregorian, instant and duration), table and per-row units, exact decimals, signs, roles | `text.py`, `structure.py` | done. Taxonomy mapping not yet |
 | S6 Verify: tree constraints, interval arithmetic, rounding inference, page state | `checks.py`, `verdict.py` | done. XBRL comparison not yet |
 | S7 Facts and rendered table | `render.py` | done |
 
@@ -143,7 +143,8 @@ evaluation with XBRL-aligned gold, stratified by layout family. Known gaps:
 - Account-form pages.
 - Multi-page statements are checked page by page: a continuation page inherits its statement's
   title, but totals whose members sit on another page are not verified.
-- Per-share decimals. These are reported as unplaced rather than parsed.
+- Ratio tables outside the statements (％, 倍). Their decimals form value columns without periods,
+  so they come out as tables that fail.
 - Arithmetic that is not a tree, such as income-statement step-downs, which needs taxonomy
   calculation links.
 

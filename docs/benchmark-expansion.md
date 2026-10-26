@@ -249,6 +249,52 @@ run every Rakuten statement now reads with its 要約 prefix, including the cash
 on page 17. State counts, record counts and selected-page consistency are unchanged, and no empty
 output is accepted.
 
+## Per-share amounts
+
+Commit `3858431` reads per-share figures such as EPS, printed in 円 with decimals inside a 百万円
+statement. Amounts are now exact decimals that keep their printed precision, so 1,212.88 is
+checked against an interval one hundredth wide. A row's unit comes from a unit printed in its own
+or an ancestor's label, such as 基本的1株当たり当期利益（円）, or from a unit line inside the table,
+such as Rakuten's (単位：円) above its EPS block. That line was previously read as a row; it became
+a level-47 child of 四半期損失（△） and broke that part of the tree. Constraints never sum rows
+printed in different units. A decimal under 千円 or 百万円 without a unit of its own goes to review
+rather than receiving one by guesswork. The benchmark runner now keys each observed fact by its
+row's unit instead of the table's; the gold and scoring rules are unchanged. The results are in
+the [first-batch](benchmark-results-per-share.json),
+[second-batch](benchmark-expansion-results-per-share.json) and
+[ingestion](benchmark-document-smoke-per-share.json) snapshots.
+
+| Measure, both batches | Baseline | Acceptance fix | Cross-page | Header reading | Per-share |
+|---|---:|---:|---:|---:|---:|
+| Strict fact F1 | 82.80% | 82.80% | 82.80% | 82.80% | **82.86%** |
+| Flat fact F1 | 91.93% | 91.93% | 91.93% | 91.93% | **92.27%** |
+| Exact pages | 9/25 | 9/25 | 14/25 | 15/25 | **16/25** |
+| Correct headers | 15/25 | 15/25 | 20/25 | 22/25 | 22/25 |
+| Auto-accepted pages | 5 | 3 | 5 | 5 | 5 |
+| Auto-accepted pages with incorrect headers | 2 | 0 | 0 | 0 | 0 |
+
+Two pages change:
+
+- **Fast Retailing 11** now reads all four EPS values in 円 and scores 36/36, an exact page. It
+  stays in review because step-down arithmetic leaves 30 cells uncovered.
+- **Rakuten 13** reads its four EPS values with the right decimals and unit, so its flat facts rise
+  from 28 to 32 of 32. Its strict facts stay at 28: the EPS block's section label wraps over two
+  lines (…１株当たり四半期損 / 失（△）：), and the values hang under the second line rather than the
+  full label. They now count as four wrong-path predictions, so this page's strict F1 falls from
+  93.33% to 87.50%. Removing the unit-line row also repaired the tree: the two unclosed-group
+  warnings are gone and uncovered cells fall from 6 to 4.
+
+The second batch's strict F1 therefore moves from 91.93% to 91.66% while the first batch's rises
+from 72.04% to 72.48%. Wrapped-label assembly, already a known gap, would recover Rakuten's four
+values.
+
+In the full-document run, Hatena PDF page 8 now produces a record. Its 自己資本比率（％） ratio
+table has decimals that form a value column, but no header names a period, so the table fails
+with its figures listed. Like the table of contents on page 3, it is a false positive on a page
+without a statement, and it is not accepted. No decimal in the 114 pages was flagged as lacking
+its unit. The run still exits with code 0, now with 63 records. All 14 annotated pages match the
+page-selected run, and no empty output is accepted.
+
 ## Reproduce
 
 ```bash

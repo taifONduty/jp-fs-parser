@@ -5,7 +5,9 @@ ingestion check. Combined results are 82.80% strict fact F1 and 9/25 exact pages
 The original 11-page results below remain the frozen first-batch baseline. A later
 [acceptance fix](benchmark-expansion.md#acceptance-fix) (`e24966b`) stopped Nintendo 8's incorrect
 acceptance without changing any extraction score. [Cross-page assembly](benchmark-expansion.md#cross-page-assembly)
-(`5da3e66`) then restored the titles of Nintendo 8 and MUFG 7: five of the 11 pages are now exact.
+(`5da3e66`) then restored the titles of Nintendo 8 and MUFG 7, and
+[per-share amounts](benchmark-expansion.md#per-share-amounts) (`3858431`) completed Fast Retailing 11:
+six of the 11 pages are now exact.
 
 Measured on 27 October 2026 with the parser frozen at `cc6a4fe`. No extraction or verification
 code was changed during this evaluation. The original development sample is excluded.
@@ -40,7 +42,8 @@ There are **592 printed values, 334 rows and 12 annotated table panels** across 
 Each TSV stores an explicit semantic row path, a unit and the printed values in manifest column
 order. The equity page has two five-column panels: those columns identify equity components, not
 five different periods. The four EPS values remain decimals in yen; they are included in the
-denominator even though the parser currently supports integer amounts only.
+denominator even though the parser supported integer amounts only when this baseline was measured;
+decimal amounts are supported since `3858431`.
 
 Annotations were made by one assistant, checked against every rendered page, with the original PDF
 text used as a transcription aid. They were completed and their hashes recorded before looking at
@@ -126,7 +129,9 @@ intervals or a claim about all PDFs in each category.
    facts are emitted. This case needs a richer column schema and segmentation.
 5. **Decimal EPS and comma-separated note lists are unsupported.** Fast Retailing's four EPS
    values are absent. The note list `５,７` is flagged as an unreadable figure. These values and
-   notes must be distinguished, and units must be allowed to change within a table.
+   notes must be distinguished, and units must be allowed to change within a table. Since
+   `3858431`, amounts are exact decimals and a row can carry its own unit: the four EPS values are
+   read in 円 and the page is exact. The note list is still flagged.
 6. **The verifier rejects some correctly extracted tables.** Nintendo's income page is exact,
    yet the inferred tax-total constraint sums unrelated rows. MUFG's asset breakdowns put totals
    before their details, so no check covers its 54 correct facts. The liabilities page also
@@ -153,9 +158,11 @@ changing the benchmark. `--out /another/directory` runs against a separate cache
 
 The checked-in [baseline results](benchmark-results.json) contain page scores, every verifier
 reason, and fingerprints of the parser and annotations. The
-[post-fix results](benchmark-results-acceptance-fix.json) and the
-[results with cross-page assembly](benchmark-results-cross-page.json) use the same format. The generated report additionally lists
-every missing and unexpected fact. The download command can be resumed after a network failure;
+[post-fix results](benchmark-results-acceptance-fix.json) and the results
+[with cross-page assembly](benchmark-results-cross-page.json), the
+[header-reading fix](benchmark-results-header-reading.json) and
+[per-share amounts](benchmark-results-per-share.json) use the same format. The generated report
+additionally lists every missing and unexpected fact. The download command can be resumed after a network failure;
 already cached PDFs are kept and checked. The benchmark tests are offline; CI does not depend on
 the issuers' websites.
 
