@@ -53,6 +53,7 @@ def _fact(result: Result, row: Row, period: Period, cell: Cell, constraints: lis
             "title": header.title,
             "scope": _scope(header.consolidated),
             "correction": header.correction,
+            "continued_from": header.continued_from,
         },
         "row": {
             "label_raw": row.label,
@@ -128,7 +129,8 @@ def to_markdown(result: Result) -> str:
     lines = [
         f"## {table.header.title or 'Untitled statement'} ({result.state})",
         "",
-        f"Page {result.source.page} · unit {table.header.unit or '?'} · "
+        f"Page {result.source.page}{_continuation(table.header.continued_from)} · "
+        f"unit {table.header.unit or '?'} · "
         f"rounding {verification.rounding} ({verification.rounding_basis}) · "
         f"{passed}/{len(verification.checks)} checks pass",
         "",
@@ -145,6 +147,10 @@ def to_markdown(result: Result) -> str:
     if result.reasons:
         lines += ["", *(f"- {reason}" for reason in result.reasons)]
     return "\n".join(lines) + "\n"
+
+
+def _continuation(page: int | None) -> str:
+    return f" (continued from page {page})" if page else ""
 
 
 def _period_heading(period: Period) -> str:

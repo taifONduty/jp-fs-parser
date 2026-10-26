@@ -105,6 +105,7 @@ class Header:
     consolidated: bool | None
     correction: Correction | None
     unit: str | None
+    continued_from: int | None = None  # page whose title this continuation page inherits
 
     @property
     def scale(self) -> int | None:

@@ -1,12 +1,15 @@
-"""Document pipeline: ingest (S0), triage (S1), geometry extraction (S3a) and verification (S6)."""
+"""Document pipeline: ingest (S0), triage (S1), geometry extraction (S3a), cross-page assembly (S4)
+and verification (S6)."""
 
 import hashlib
 from collections.abc import Collection, Sequence
 from dataclasses import dataclass
+from functools import cache
 from pathlib import Path
 
 import pdfplumber
 
+from jpfs.assembly import carry_over
 from jpfs.checks import infer_rounding
 from jpfs.layout import PageContent, extract_tables, read_page, statement_titles
 from jpfs.model import PageState, Rounding, RoundingBasis, Table
@@ -45,22 +48,30 @@ def parse_pdf(path: str | Path, pages: Collection[int] | None = None) -> list[Re
     """Every statement table on the selected 1-based pages (default: all), verified."""
     path = Path(path)
     digest = hashlib.sha256(path.read_bytes()).hexdigest()
+    failures: list[Result] = []
+    found: list[tuple[Source, Table, list[str], list[str]]] = []
     with pdfplumber.open(path) as pdf:
         numbers = sorted(pages) if pages else range(1, len(pdf.pages) + 1)
         if invalid := [n for n in numbers if not 1 <= n <= len(pdf.pages)]:
             raise ValueError(f"pages {invalid} outside 1..{len(pdf.pages)}")
-        contents = {n: read_page(pdf.pages[n - 1]) for n in numbers}
         document_text = "".join(char["text"] for page in pdf.pages for char in page.chars)
 
-    failures: list[Result] = []
-    found: list[tuple[Source, Table, list[str], list[str]]] = []
-    for number, content in contents.items():
-        source = Source(str(path), digest, number)
-        untrusted, warnings = audit_text_layer(content.text)
-        tables = extract_tables(content)
-        if failure := page_failure(content, tables, untrusted):
-            failures.append(Result(source, failure=failure))
-        found += [(source, table, untrusted, warnings) for table in tables]
+        @cache
+        def content_of(number: int) -> PageContent:
+            return read_page(pdf.pages[number - 1])
+
+        @cache
+        def tables_on(number: int) -> tuple[Table, ...]:
+            return tuple(extract_tables(content_of(number)))
+
+        for number in numbers:
+            source = Source(str(path), digest, number)
+            content = content_of(number)
+            untrusted, warnings = audit_text_layer(content.text)
+            tables = carry_over(tables_on(number), number, tables_on)
+            if failure := page_failure(content, tables, untrusted):
+                failures.append(Result(source, failure=failure))
+            found += [(source, table, untrusted, warnings) for table in tables]
 
     rounding, basis = _document_rounding(document_text, [table for _, table, _, _ in found])
     verified = [
