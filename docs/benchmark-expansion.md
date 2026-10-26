@@ -91,7 +91,8 @@ Capcom label. The latter also produce two unexpected empty-label facts.
 - **Quarterly headers lose literal information.** Rakuten's printed 要約 prefix is omitted, and
   period labels such as 当第1四半期連結会計期間末 are cut short. Dates on its balance-sheet facts
   are nevertheless correct. These header differences explain why its 84/84 fact score is not
-  an exact-page result; they are distinct from an incorrect amount or date.
+  an exact-page result; they are distinct from an incorrect amount or date. Both are
+  [fixed](#header-reading), and the balance sheet is now an exact page.
 - **A text-bearing page can still require vision.** BOJ's labels are selectable text while its
   monetary digits are vector outlines. Both selected BOJ pages correctly end as `failed` with
   no value columns found. This tests a natural PDF failure mode, rather than a synthetic scan.
@@ -212,9 +213,41 @@ it stays in review for an unlabelled row and 8 uncovered cells. The run still ex
 with 62 records, all 14 annotated pages identical to the page-selected run, and no accepted empty
 output.
 
-Totals whose members sit on another page are still checked page by page. Rakuten's headers remain
-inexact because its 要約 title prefix and long quarterly period labels are shortened; this is a
-separate header-reading issue.
+Totals whose members sit on another page are still checked page by page. Rakuten's headers remained
+inexact because its 要約 title prefix and long quarterly period labels were shortened, a separate
+header-reading issue [fixed next](#header-reading).
+
+## Header reading
+
+Commit `acf45bd` fixes two header-reading bugs that the Rakuten pages exposed. Statement titles
+may start with 要約, which the title pattern dropped. The period phrase was matched lazily and
+stopped at the first 期, so 当第1四半期連結会計期間末 became 当第1四半期. It now takes the longest
+phrase before the column's date, still leaving out stray header words such as 注記. Every title
+and period label in both batches' gold headers now reads back exactly. The results are in the
+[first-batch](benchmark-results-header-reading.json),
+[second-batch](benchmark-expansion-results-header-reading.json) and
+[ingestion](benchmark-document-smoke-header-reading.json) snapshots.
+
+| Measure, both batches | Baseline | Acceptance fix | Cross-page assembly | Header reading |
+|---|---:|---:|---:|---:|
+| Strict fact F1 | 82.80% | 82.80% | 82.80% | 82.80% |
+| Exact pages | 9/25 | 9/25 | 14/25 | **15/25** |
+| Correct headers | 15/25 | 15/25 | 20/25 | **22/25** |
+| Auto-accepted pages | 5 | 3 | 5 | 5 |
+| Auto-accepted pages with incorrect headers | 2 | 0 | 0 | 0 |
+| Auto-accepted facts, all correct | 258 | 158 | 258 | 258 |
+
+Only the two Rakuten pages change. The balance sheet, Rakuten 12, now has an exact header and
+becomes an exact page with 84/84 facts. The income statement, Rakuten 13, has an exact header,
+but its four decimal EPS values are still unsupported, so it stays inexact. Both remain in review
+for their arithmetic checks, whose reasons now name the full period labels. No other page's
+scores, states or reasons change. The first batch is unaffected.
+
+The three remaining incorrect headers are the Nintendo equity matrix, whose component columns are
+read as periods, and the two BOJ pages, whose figures are vector outlines. In the full-document
+run every Rakuten statement now reads with its 要約 prefix, including the cash-flow continuation
+on page 17. State counts, record counts and selected-page consistency are unchanged, and no empty
+output is accepted.
 
 ## Reproduce
 

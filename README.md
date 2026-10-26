@@ -9,7 +9,7 @@ end: geometry extraction, accounting checks derived from each table's own hierar
 state for every table, and the evaluation harness.
 
 Two [external benchmark batches](docs/benchmark-expansion.md) now cover **25 pages from eight
-issuers and 1,333 annotated values: 82.80% strict fact F1 and 14/25 exact pages**. The perfect
+issuers and 1,333 annotated values: 82.80% strict fact F1 and 15/25 exact pages**. The perfect
 development-sample score below does not generalise to these layouts. The
 [first batch](docs/benchmark.md) scores 72.04% F1. The benchmark found two acceptance defects:
 continuation pages verified without their statement title, and an empty table accepted. After
