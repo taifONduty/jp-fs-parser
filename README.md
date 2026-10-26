@@ -38,7 +38,7 @@ uv run pytest
 
 | File | Content |
 |---|---|
-| `p<page>-<n>.facts.jsonl` | One fact per printed cell: path, period, value and its interval in yen, bbox provenance, the constraints that vouch for it ([design, Appendix A](docs/design.pdf)) |
+| `p<page>-<n>.facts.jsonl` | One fact per printed cell: path, period, value and its interval in yen, bbox provenance, the constraints that vouch for it. The schema is the [design's Appendix A](docs/design.pdf), minus the fields of stages not built yet (taxonomy concept, second-path agreement, XBRL match) |
 | `p<page>-<n>.md` | The rendered table, derived from the same rows |
 | `p<page>-<n>.json` | The full record (rows, checks, uncovered cells, reasons), for review |
 
@@ -69,10 +69,12 @@ Decisions that matter:
   including the previous total of its group, so 小計 chains work. A net (純額) adds its contra rows
   to the gross. There are no per-company rules.
 - **Intervals, not tolerances.** A printed amount stands for the true values it could have come
-  from: `[v, v+1)` under truncation, `(-v-1, -v]` for △v, `(-1, 0)` for △0, `{0}` for －. A
-  constraint holds when the interval of the total overlaps the interval sum of its terms
-  (XBRL Calculations 1.1 style). On the sample page, exact equality would raise 13 false alarms out
-  of 20.
+  from, and a constraint holds when the interval of the total overlaps the interval sum of its
+  terms. These are the intervals of XBRL Calculations 1.1: closed `[v-½, v+½]` under rounding
+  (§5.2.3), and half-open under truncation, including the bound nearer zero (§5.2.4): `[v, v+1)`
+  and `(-v-1, -v]` for △v. The △ convention makes the zero case sharper than the spec's: △0 is
+  `(-1, 0)`, an unsigned 0 is `[0, 1)`, and － is `{0}`. On the sample page, exact equality would
+  raise 13 false alarms out of 20.
 - **The rounding mode is inferred from evidence.** A note in the filing (百万円未満切捨て) wins.
   Otherwise a sign test runs over every table in the document. Take the residuals (printed total
   minus printed sum) for which exactly one of r and −r fits the truncation interval. Rounding errors
