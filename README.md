@@ -8,6 +8,12 @@ The design, the catalogue of what breaks on real filings, and the evaluation pla
 end: geometry extraction, accounting checks derived from each table's own hierarchy, an explicit
 state for every table, and the evaluation harness.
 
+An [external-page benchmark](docs/benchmark.md) now tests 11 pages from Nintendo, Toyota, MUFG and
+Fast Retailing: **72.04% strict fact F1 and 3/11 exact pages** on 592 annotated values. The perfect
+development-sample score below does not generalise to these layouts. The benchmark preserves the
+current parser and records its failures, including one incorrectly accepted page with missing
+statement metadata.
+
 ## What "correct" means
 
 A table is correct when its facts are. A fact is a printed amount bound to its row path, its period,
@@ -101,7 +107,7 @@ Decisions that matter:
 | pdfplumber, ruling lines | 43/43 body rows, no period dates, no unit, no hierarchy |
 | pdfplumber, text alignment | 39/43 body rows; splits labels (現 \| 金及び預金) and drops characters (定資 \| 産) |
 
-### What does "verified" guarantee?
+### What do the accounting checks detect?
 
 `jpfs evaluate` injects one realistic error at a time into the gold table (4,199 mutants) and
 counts how often at least one check fails:
@@ -117,16 +123,16 @@ counts how often at least one check fails:
 | Period columns swapped | 100% | 100% |
 | Adjacent rows swapped | 45.5% | 45.5% |
 
-Passing every check guarantees correct magnitudes. It does not guarantee every units digit, and it
-cannot see two values swapped between rows that feed the same total. Those blind spots are why the
-design adds a second extraction path and XBRL comparison. Knowing the rounding mode is worth 24
-points on units-digit errors.
+On this sample, the checks detect every tested single digit error at 10千円 or above. Passing them
+does not establish extraction accuracy: units-digit errors, swaps within a sum and missing metadata
+can survive. Those blind spots are why the design adds a second extraction path and XBRL comparison.
+Knowing the rounding mode improves detection of sampled units-digit errors by 23.8 percentage points.
 
 ## Limitations
 
-All of this was developed on one page. The numbers show that the approach works and how strong
-its checks are, not that it generalises; section 7 of the design is the plan for that
-(XBRL-aligned gold, stratified by layout family). Known gaps:
+The parser was developed on one page. The [11-page benchmark](docs/benchmark.md) now measures how
+poorly parts of it generalise. Section 7 of the design describes a larger evaluation with
+XBRL-aligned gold, stratified by layout family. Known gaps:
 
 - Labels wrapped over two lines.
 - Totals placed at the section heading's own indentation.
@@ -135,7 +141,8 @@ its checks are, not that it generalises; section 7 of the design is the plan for
 - Arithmetic that is not a tree, such as income-statement step-downs, which needs taxonomy
   calculation links.
 
-On such pages the table is still extracted, but it lands in `needs_review` instead of `verified`.
+Most such pages are sent to `needs_review`. However, missing statement metadata on a continuation
+page can still receive `verified`; the benchmark records that acceptance error.
 
 ## Layout
 

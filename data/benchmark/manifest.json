@@ -1,0 +1,472 @@
+{
+  "annotation": "Single-assistant transcription checked against all selected rendered pages, using PDF text as a transcription aid. No parser output used to create gold. Explicit semantic paths, per-row units and equity dimensions are independent of build_structure. Not independently human-adjudicated.",
+  "selection": "Purposive layout coverage, fixed before first parser run; not random or representative. Original development sample excluded. Page numbers are 1-based PDF positions, not printed footer numbers.",
+  "baseline_parser_revision": "cc6a4fe",
+  "sources": [
+    {
+      "id": "nintendo_2025",
+      "issuer": "Nintendo",
+      "url": "https://www.nintendo.co.jp/ir/pdf/2025/250508.pdf",
+      "sha256": "4029ad22ff16107d0f05627bbfbeab913da68a8d7d05a8eb28bf92066fd353d4"
+    },
+    {
+      "id": "toyota_2025",
+      "issuer": "Toyota",
+      "url": "https://global.toyota/pages/global_toyota/ir/financial-results/2025_4q_summary_jp.pdf",
+      "sha256": "b5be865e1a7f556707ac2be22bc90f9773de99c78b04a4dd05ea04093e164bbe"
+    },
+    {
+      "id": "mufg_2025",
+      "issuer": "Mitsubishi UFJ Financial Group",
+      "url": "https://www.mufg.jp/dam/ir/fs/2024/pdf/summary2503_ja.pdf",
+      "sha256": "80f1aaa98413c139f997b8d26869fa5303f236caa80af27a1b149a390742b49b"
+    },
+    {
+      "id": "fastretailing_2025",
+      "issuer": "Fast Retailing",
+      "url": "https://www.fastretailing.com/jp/ir/library/pdf/tanshin202508_4q.pdf",
+      "sha256": "03fd9b1f02a85a9ebe240f690152ce19ed06c43a46f76d9cd734c0a26a77b6e5"
+    }
+  ],
+  "cases": [
+    {
+      "id": "nintendo_assets",
+      "source": "nintendo_2025",
+      "page": 7,
+      "complexity": "simple",
+      "features": [
+        "standard J-GAAP assets",
+        "nested sections",
+        "net-only assets",
+        "negative allowance"
+      ],
+      "tables": [
+        {
+          "gold": "nintendo_assets.tsv",
+          "title": "連結貸借対照表",
+          "consolidated": true,
+          "correction": null,
+          "unit": "百万円",
+          "columns": [
+            {
+              "label": "前連結会計年度",
+              "start": null,
+              "end": "2024-03-31",
+              "dimension": null
+            },
+            {
+              "label": "当連結会計年度",
+              "start": null,
+              "end": "2025-03-31",
+              "dimension": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "nintendo_liabilities",
+      "source": "nintendo_2025",
+      "page": 8,
+      "complexity": "medium",
+      "features": [
+        "continuation without title",
+        "liabilities and equity",
+        "grand total"
+      ],
+      "tables": [
+        {
+          "gold": "nintendo_liabilities.tsv",
+          "title": "連結貸借対照表",
+          "consolidated": true,
+          "correction": null,
+          "unit": "百万円",
+          "columns": [
+            {
+              "label": "前連結会計年度",
+              "start": null,
+              "end": "2024-03-31",
+              "dimension": null
+            },
+            {
+              "label": "当連結会計年度",
+              "start": null,
+              "end": "2025-03-31",
+              "dimension": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "nintendo_income",
+      "source": "nintendo_2025",
+      "page": 9,
+      "complexity": "medium",
+      "features": [
+        "duration dates",
+        "income and expense groups",
+        "nil vs amount"
+      ],
+      "tables": [
+        {
+          "gold": "nintendo_income.tsv",
+          "title": "連結損益計算書",
+          "consolidated": true,
+          "correction": null,
+          "unit": "百万円",
+          "columns": [
+            {
+              "label": "前連結会計年度",
+              "start": "2023-04-01",
+              "end": "2024-03-31",
+              "dimension": null
+            },
+            {
+              "label": "当連結会計年度",
+              "start": "2024-04-01",
+              "end": "2025-03-31",
+              "dimension": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "nintendo_cashflows",
+      "source": "nintendo_2025",
+      "page": 13,
+      "complexity": "hard",
+      "features": [
+        "mixed signs",
+        "wrapped label",
+        "subtotal chain",
+        "same heading and total label"
+      ],
+      "tables": [
+        {
+          "gold": "nintendo_cashflows.tsv",
+          "title": "連結キャッシュ・フロー計算書",
+          "consolidated": true,
+          "correction": null,
+          "unit": "百万円",
+          "columns": [
+            {
+              "label": "前連結会計年度",
+              "start": "2023-04-01",
+              "end": "2024-03-31",
+              "dimension": null
+            },
+            {
+              "label": "当連結会計年度",
+              "start": "2024-04-01",
+              "end": "2025-03-31",
+              "dimension": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "toyota_assets",
+      "source": "toyota_2025",
+      "page": 11,
+      "complexity": "medium",
+      "features": [
+        "IFRS",
+        "gross subtotal and contra",
+        "wrapped label"
+      ],
+      "tables": [
+        {
+          "gold": "toyota_assets.tsv",
+          "title": "連結財政状態計算書",
+          "consolidated": true,
+          "correction": null,
+          "unit": "百万円",
+          "columns": [
+            {
+              "label": "前連結会計年度",
+              "start": null,
+              "end": "2024-03-31",
+              "dimension": null
+            },
+            {
+              "label": "当連結会計年度",
+              "start": null,
+              "end": "2025-03-31",
+              "dimension": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "toyota_segments",
+      "source": "toyota_2025",
+      "page": 19,
+      "complexity": "hard",
+      "features": [
+        "IFRS segment hierarchy",
+        "repeated labels",
+        "eliminations",
+        "indentation does not express all semantic parents"
+      ],
+      "tables": [
+        {
+          "gold": "toyota_segments.tsv",
+          "title": "連結財政状態計算書",
+          "consolidated": true,
+          "correction": null,
+          "unit": "百万円",
+          "columns": [
+            {
+              "label": "前連結会計年度",
+              "start": null,
+              "end": "2024-03-31",
+              "dimension": null
+            },
+            {
+              "label": "当連結会計年度",
+              "start": null,
+              "end": "2025-03-31",
+              "dimension": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mufg_assets",
+      "source": "mufg_2025",
+      "page": 6,
+      "complexity": "medium",
+      "features": [
+        "banking",
+        "values on parent rows",
+        "breakdowns below their totals"
+      ],
+      "tables": [
+        {
+          "gold": "mufg_assets.tsv",
+          "title": "連結貸借対照表",
+          "consolidated": true,
+          "correction": null,
+          "unit": "百万円",
+          "columns": [
+            {
+              "label": "前連結会計年度",
+              "start": null,
+              "end": "2024-03-31",
+              "dimension": null
+            },
+            {
+              "label": "当連結会計年度",
+              "start": null,
+              "end": "2025-03-31",
+              "dimension": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mufg_liabilities",
+      "source": "mufg_2025",
+      "page": 7,
+      "complexity": "hard",
+      "features": [
+        "continuation without title",
+        "dense banking equity",
+        "leading subtotals",
+        "numeric zero vs nil"
+      ],
+      "tables": [
+        {
+          "gold": "mufg_liabilities.tsv",
+          "title": "連結貸借対照表",
+          "consolidated": true,
+          "correction": null,
+          "unit": "百万円",
+          "columns": [
+            {
+              "label": "前連結会計年度",
+              "start": null,
+              "end": "2024-03-31",
+              "dimension": null
+            },
+            {
+              "label": "当連結会計年度",
+              "start": null,
+              "end": "2025-03-31",
+              "dimension": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fastretailing_balance",
+      "source": "fastretailing_2025",
+      "page": 9,
+      "complexity": "hard",
+      "features": [
+        "IFRS",
+        "note-number column",
+        "partial liabilities section",
+        "implicit section parents"
+      ],
+      "tables": [
+        {
+          "gold": "fastretailing_balance.tsv",
+          "title": "連結財政状態計算書",
+          "consolidated": true,
+          "correction": null,
+          "unit": "百万円",
+          "columns": [
+            {
+              "label": "前連結会計年度",
+              "start": null,
+              "end": "2024-08-31",
+              "dimension": null
+            },
+            {
+              "label": "当連結会計年度",
+              "start": null,
+              "end": "2025-08-31",
+              "dimension": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fastretailing_income",
+      "source": "fastretailing_2025",
+      "page": 11,
+      "complexity": "hard",
+      "features": [
+        "IFRS",
+        "note references including comma-separated lists",
+        "expenses printed negative",
+        "decimal EPS in yen vs totals in millions"
+      ],
+      "tables": [
+        {
+          "gold": "fastretailing_income.tsv",
+          "title": "連結損益計算書",
+          "consolidated": true,
+          "correction": null,
+          "unit": "百万円",
+          "columns": [
+            {
+              "label": "前連結会計年度",
+              "start": "2023-09-01",
+              "end": "2024-08-31",
+              "dimension": null
+            },
+            {
+              "label": "当連結会計年度",
+              "start": "2024-09-01",
+              "end": "2025-08-31",
+              "dimension": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "nintendo_equity",
+      "source": "nintendo_2025",
+      "page": 11,
+      "complexity": "stress",
+      "features": [
+        "two stacked equity panels",
+        "columns are equity components, not periods",
+        "merged headers",
+        "wrapped labels",
+        "sparse cells"
+      ],
+      "tables": [
+        {
+          "gold": "nintendo_equity_capital.tsv",
+          "title": "連結株主資本等変動計算書",
+          "consolidated": true,
+          "correction": null,
+          "unit": "百万円",
+          "columns": [
+            {
+              "label": "前連結会計年度",
+              "start": "2023-04-01",
+              "end": "2024-03-31",
+              "dimension": "株主資本/資本金"
+            },
+            {
+              "label": "前連結会計年度",
+              "start": "2023-04-01",
+              "end": "2024-03-31",
+              "dimension": "株主資本/資本剰余金"
+            },
+            {
+              "label": "前連結会計年度",
+              "start": "2023-04-01",
+              "end": "2024-03-31",
+              "dimension": "株主資本/利益剰余金"
+            },
+            {
+              "label": "前連結会計年度",
+              "start": "2023-04-01",
+              "end": "2024-03-31",
+              "dimension": "株主資本/自己株式"
+            },
+            {
+              "label": "前連結会計年度",
+              "start": "2023-04-01",
+              "end": "2024-03-31",
+              "dimension": "株主資本/株主資本合計"
+            }
+          ]
+        },
+        {
+          "gold": "nintendo_equity_other.tsv",
+          "title": "連結株主資本等変動計算書",
+          "consolidated": true,
+          "correction": null,
+          "unit": "百万円",
+          "columns": [
+            {
+              "label": "前連結会計年度",
+              "start": "2023-04-01",
+              "end": "2024-03-31",
+              "dimension": "その他の包括利益累計額/その他有価証券評価差額金"
+            },
+            {
+              "label": "前連結会計年度",
+              "start": "2023-04-01",
+              "end": "2024-03-31",
+              "dimension": "その他の包括利益累計額/為替換算調整勘定"
+            },
+            {
+              "label": "前連結会計年度",
+              "start": "2023-04-01",
+              "end": "2024-03-31",
+              "dimension": "その他の包括利益累計額/その他の包括利益累計額合計"
+            },
+            {
+              "label": "前連結会計年度",
+              "start": "2023-04-01",
+              "end": "2024-03-31",
+              "dimension": "非支配株主持分"
+            },
+            {
+              "label": "前連結会計年度",
+              "start": "2023-04-01",
+              "end": "2024-03-31",
+              "dimension": "純資産合計"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
