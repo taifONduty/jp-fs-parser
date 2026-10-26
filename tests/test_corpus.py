@@ -85,7 +85,11 @@ def test_scoring_checks_units_duration_paths_and_column_dimensions(tmp_path: Pat
 
 @pytest.mark.parametrize(
     ("directory", "expected_facts"),
-    [(CORPUS, 592), (CORPUS.parent / "benchmark-expansion", 741)],
+    [
+        (CORPUS, 592),
+        (CORPUS.parent / "benchmark-expansion", 741),
+        (CORPUS.parent / "benchmark-holdout", 618),
+    ],
 )
 def test_frozen_annotations_load_and_missing_pages_score_zero(
     directory: Path, expected_facts: int

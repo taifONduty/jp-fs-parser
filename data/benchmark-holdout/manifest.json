@@ -1,0 +1,450 @@
+{
+ "annotation": "Single-assistant visual transcription checked against every selected rendered page before the first parser run on these files. A text-layer listing independent of jpfs was used only as a transcription aid. Paths, units and dates are explicit; semantic paths follow the earlier batches (totals under their section even when printed at the heading's indentation; wrapped labels joined). The gold's own totals were checked against their members within display rounding. Not independently human-adjudicated.",
+ "selection": "Fresh holdout: four issuers new to the corpus, chosen for layout families the parser was not developed on: two EDINET-rendered annual securities reports (Japanese GAAP finance industry; IFRS), one Antenna House annual securities report (IFRS) and one TAKARA PRINTING earnings release (Japanese GAAP construction). For each, the consolidated balance sheet over both its pages and the income or comprehensive income statement. Pages were chosen from text-layer titles and rendered pages before any parser run on these files. Page numbers are 1-based PDF positions.",
+ "baseline_parser_revision": "3858431",
+ "sources": [
+  {
+   "id": "jsf_2026",
+   "issuer": "Japan Securities Finance (日本証券金融)",
+   "url": "https://data.swcms.net/file/jsf/dam/jcr:bece3864-c3b9-4b5e-b322-5e35419e9a63/S100YIQY.pdf",
+   "sha256": "96abd3286410c6b65c57883cae1cb2f186df49cb046440b262a3c7a3a3f40a52",
+   "provenance": "Annual securities report for FY ended March 2026, EDINET-rendered PDF (document S100YIQY) linked from the issuer's IR library."
+  },
+  {
+   "id": "nri_2026",
+   "issuer": "Nomura Research Institute (野村総合研究所)",
+   "url": "https://data.swcms.net/file/nri-ir/dam/jcr:f076fdc6-dd40-450e-82a0-870ae62ccbbd/S100YBM8.pdf",
+   "sha256": "731ccd4485d7d06944b3530c33c01e1d4155554f55f8561f2d3a530d9db6bd2a",
+   "provenance": "Annual securities report for FY ended March 2026, EDINET-rendered PDF (document S100YBM8) linked from the issuer's IR library."
+  },
+  {
+   "id": "are_2026",
+   "issuer": "ARE Holdings (AREホールディングス)",
+   "url": "https://www.are-holdings.com/Portals/0/images/ir/library/securities/20260615_securities_BDUU0.pdf",
+   "sha256": "48b71d5b0682d2c4c89854a0b84e03e1ca8ff09e769295065adcab86bf5b0afe",
+   "provenance": "Annual securities report for FY ended March 2026, typeset with Antenna House, hosted on the issuer's IR site."
+  },
+  {
+   "id": "shinnihon_2026",
+   "issuer": "Shin Nihon Construction (新日本建設)",
+   "url": "https://www.shinnihon-c.co.jp/common/img/ir/library/2026/20260512_01.pdf",
+   "sha256": "2c92bc37a2e1c1d25a9d49c633e509c593d819bfecb38a3fe345ebfd88639dc3",
+   "provenance": "Earnings release (決算短信) for FY ended March 2026, produced by TAKARA PRINTING, hosted on the issuer's IR site."
+  }
+ ],
+ "cases": [
+  {
+   "id": "jsf_assets",
+   "source": "jsf_2026",
+   "page": 61,
+   "complexity": "medium",
+   "features": [
+    "EDINET annual-report layout",
+    "securities-finance accounts",
+    "footnote markers inside value cells",
+    "gross-contra-net groups",
+    "nil values"
+   ],
+   "tables": [
+    {
+     "gold": "jsf_assets.tsv",
+     "title": "連結貸借対照表",
+     "consolidated": true,
+     "correction": null,
+     "unit": "百万円",
+     "columns": [
+      {
+       "label": "前連結会計年度",
+       "start": null,
+       "end": "2025-03-31",
+       "dimension": null
+      },
+      {
+       "label": "当連結会計年度",
+       "start": null,
+       "end": "2026-03-31",
+       "dimension": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "jsf_liabilities",
+   "source": "jsf_2026",
+   "page": 62,
+   "complexity": "medium",
+   "features": [
+    "continuation page without a title",
+    "footnote markers inside value cells",
+    "land revaluation items"
+   ],
+   "tables": [
+    {
+     "gold": "jsf_liabilities.tsv",
+     "title": "連結貸借対照表",
+     "consolidated": true,
+     "correction": null,
+     "unit": "百万円",
+     "columns": [
+      {
+       "label": "前連結会計年度",
+       "start": null,
+       "end": "2025-03-31",
+       "dimension": null
+      },
+      {
+       "label": "当連結会計年度",
+       "start": null,
+       "end": "2026-03-31",
+       "dimension": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "jsf_income",
+   "source": "jsf_2026",
+   "page": 63,
+   "complexity": "hard",
+   "features": [
+    "heading naming two statements above the statement title",
+    "finance-industry operating revenue and expense sections",
+    "nil values",
+    "footnote marker beside an amount"
+   ],
+   "tables": [
+    {
+     "gold": "jsf_income.tsv",
+     "title": "連結損益計算書",
+     "consolidated": true,
+     "correction": null,
+     "unit": "百万円",
+     "columns": [
+      {
+       "label": "前連結会計年度",
+       "start": "2024-04-01",
+       "end": "2025-03-31",
+       "dimension": null
+      },
+      {
+       "label": "当連結会計年度",
+       "start": "2025-04-01",
+       "end": "2026-03-31",
+       "dimension": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "nri_assets",
+   "source": "nri_2026",
+   "page": 81,
+   "complexity": "medium",
+   "features": [
+    "EDINET annual-report layout",
+    "IFRS",
+    "注記 column with comma-separated note numbers",
+    "totals at the section heading's indentation"
+   ],
+   "tables": [
+    {
+     "gold": "nri_assets.tsv",
+     "title": "連結財政状態計算書",
+     "consolidated": true,
+     "correction": null,
+     "unit": "百万円",
+     "columns": [
+      {
+       "label": "前連結会計年度末",
+       "start": null,
+       "end": "2025-03-31",
+       "dimension": null
+      },
+      {
+       "label": "当連結会計年度末",
+       "start": null,
+       "end": "2026-03-31",
+       "dimension": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "nri_liabilities",
+   "source": "nri_2026",
+   "page": 82,
+   "complexity": "hard",
+   "features": [
+    "continuation page without a title",
+    "section headings at the same indentation",
+    "totals at the section heading's indentation"
+   ],
+   "tables": [
+    {
+     "gold": "nri_liabilities.tsv",
+     "title": "連結財政状態計算書",
+     "consolidated": true,
+     "correction": null,
+     "unit": "百万円",
+     "columns": [
+      {
+       "label": "前連結会計年度末",
+       "start": null,
+       "end": "2025-03-31",
+       "dimension": null
+      },
+      {
+       "label": "当連結会計年度末",
+       "start": null,
+       "end": "2026-03-31",
+       "dimension": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "nri_comprehensive",
+   "source": "nri_2026",
+   "page": 83,
+   "complexity": "hard",
+   "features": [
+    "single-statement comprehensive income",
+    "note numbers wrapped over lines",
+    "labels wrapped with the value on the middle line",
+    "OCI items at the subsection heading's indentation"
+   ],
+   "tables": [
+    {
+     "gold": "nri_comprehensive.tsv",
+     "title": "連結包括利益計算書",
+     "consolidated": true,
+     "correction": null,
+     "unit": "百万円",
+     "columns": [
+      {
+       "label": "前連結会計年度",
+       "start": "2024-04-01",
+       "end": "2025-03-31",
+       "dimension": null
+      },
+      {
+       "label": "当連結会計年度",
+       "start": "2025-04-01",
+       "end": "2026-03-31",
+       "dimension": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "are_assets",
+   "source": "are_2026",
+   "page": 57,
+   "complexity": "medium",
+   "features": [
+    "Antenna House annual-report layout",
+    "IFRS",
+    "full-width note numbers",
+    "invisible typesetting stamp in the text layer",
+    "nil values"
+   ],
+   "tables": [
+    {
+     "gold": "are_assets.tsv",
+     "title": "連結財政状態計算書",
+     "consolidated": true,
+     "correction": null,
+     "unit": "百万円",
+     "columns": [
+      {
+       "label": "前連結会計年度",
+       "start": null,
+       "end": "2025-03-31",
+       "dimension": null
+      },
+      {
+       "label": "当連結会計年度",
+       "start": null,
+       "end": "2026-03-31",
+       "dimension": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "are_liabilities",
+   "source": "are_2026",
+   "page": 58,
+   "complexity": "medium",
+   "features": [
+    "continuation page without a title",
+    "invisible typesetting stamp in the text layer"
+   ],
+   "tables": [
+    {
+     "gold": "are_liabilities.tsv",
+     "title": "連結財政状態計算書",
+     "consolidated": true,
+     "correction": null,
+     "unit": "百万円",
+     "columns": [
+      {
+       "label": "前連結会計年度",
+       "start": null,
+       "end": "2025-03-31",
+       "dimension": null
+      },
+      {
+       "label": "当連結会計年度",
+       "start": null,
+       "end": "2026-03-31",
+       "dimension": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "are_income",
+   "source": "are_2026",
+   "page": 59,
+   "complexity": "hard",
+   "features": [
+    "expenses printed as negatives",
+    "profit attribution block repeating 当期利益",
+    "per-share amounts in 円 with decimals"
+   ],
+   "tables": [
+    {
+     "gold": "are_income.tsv",
+     "title": "連結損益計算書",
+     "consolidated": true,
+     "correction": null,
+     "unit": "百万円",
+     "columns": [
+      {
+       "label": "前連結会計年度",
+       "start": "2024-04-01",
+       "end": "2025-03-31",
+       "dimension": null
+      },
+      {
+       "label": "当連結会計年度",
+       "start": "2025-04-01",
+       "end": "2026-03-31",
+       "dimension": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "shinnihon_assets",
+   "source": "shinnihon_2026",
+   "page": 6,
+   "complexity": "simple",
+   "features": [
+    "決算短信 by TAKARA PRINTING",
+    "construction-industry accounts",
+    "fixed assets shown net"
+   ],
+   "tables": [
+    {
+     "gold": "shinnihon_assets.tsv",
+     "title": "連結貸借対照表",
+     "consolidated": true,
+     "correction": null,
+     "unit": "百万円",
+     "columns": [
+      {
+       "label": "前連結会計年度",
+       "start": null,
+       "end": "2025-03-31",
+       "dimension": null
+      },
+      {
+       "label": "当連結会計年度",
+       "start": null,
+       "end": "2026-03-31",
+       "dimension": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "shinnihon_liabilities",
+   "source": "shinnihon_2026",
+   "page": 7,
+   "complexity": "medium",
+   "features": [
+    "continuation page without a title",
+    "accumulated other comprehensive income"
+   ],
+   "tables": [
+    {
+     "gold": "shinnihon_liabilities.tsv",
+     "title": "連結貸借対照表",
+     "consolidated": true,
+     "correction": null,
+     "unit": "百万円",
+     "columns": [
+      {
+       "label": "前連結会計年度",
+       "start": null,
+       "end": "2025-03-31",
+       "dimension": null
+      },
+      {
+       "label": "当連結会計年度",
+       "start": null,
+       "end": "2026-03-31",
+       "dimension": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "shinnihon_income",
+   "source": "shinnihon_2026",
+   "page": 8,
+   "complexity": "medium",
+   "features": [
+    "revenue, cost and gross profit split by business with subtotals",
+    "zero values",
+    "duration dates"
+   ],
+   "tables": [
+    {
+     "gold": "shinnihon_income.tsv",
+     "title": "連結損益計算書",
+     "consolidated": true,
+     "correction": null,
+     "unit": "百万円",
+     "columns": [
+      {
+       "label": "前連結会計年度",
+       "start": "2024-04-01",
+       "end": "2025-03-31",
+       "dimension": null
+      },
+      {
+       "label": "当連結会計年度",
+       "start": "2025-04-01",
+       "end": "2026-03-31",
+       "dimension": null
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}
