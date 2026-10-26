@@ -4,13 +4,13 @@ from collections.abc import Sequence
 from dataclasses import dataclass
 
 from jpfs.checks import Check, derive_constraints, evaluate, uncovered_cells
-from jpfs.model import PageState, Rounding, Table
+from jpfs.model import PageState, Rounding, RoundingBasis, Table
 
 
 @dataclass(frozen=True, slots=True)
 class Verification:
     rounding: Rounding
-    rounding_basis: str  # declared | inferred | undetermined
+    rounding_basis: RoundingBasis
     checks: tuple[Check, ...]
     uncovered: tuple[tuple[int, int], ...]
     state: PageState
@@ -20,7 +20,7 @@ class Verification:
 def verify(
     table: Table,
     rounding: Rounding,
-    rounding_basis: str,
+    rounding_basis: RoundingBasis,
     untrusted: Sequence[str] = (),
     warnings: Sequence[str] = (),
 ) -> Verification:

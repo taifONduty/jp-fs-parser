@@ -8,6 +8,7 @@ from datetime import date
 from enum import StrEnum
 
 BBox = tuple[float, float, float, float]  # x0, top, x1, bottom in PDF points
+UNIT_SCALES = {"円": 1, "千円": 1_000, "百万円": 1_000_000}
 
 
 class Role(StrEnum):
@@ -31,6 +32,17 @@ class Rounding(StrEnum):
     TRUNCATE = "truncate"  # 切り捨て
     ROUND = "round"  # 四捨五入
     UNKNOWN = "unknown"  # either; checks use the hull of both intervals
+
+
+class RoundingBasis(StrEnum):
+    DECLARED = "declared"  # stated in the filing, e.g. 百万円未満切捨て
+    INFERRED = "inferred"  # sign test on residuals
+    UNDETERMINED = "undetermined"
+
+
+class Correction(StrEnum):
+    BEFORE = "before"  # 訂正前
+    AFTER = "after"  # 訂正後
 
 
 class PageState(StrEnum):
@@ -91,9 +103,12 @@ class Header:
     title: str | None
     kind: StatementKind | None
     consolidated: bool | None
-    correction: str | None  # "before" / "after" for 訂正前 / 訂正後 filings
+    correction: Correction | None
     unit: str | None
-    scale: int | None
+
+    @property
+    def scale(self) -> int | None:
+        return UNIT_SCALES[self.unit] if self.unit else None
 
 
 @dataclass(frozen=True, slots=True)

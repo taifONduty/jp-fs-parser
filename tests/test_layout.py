@@ -2,10 +2,11 @@ from datetime import date
 
 import pytest
 
-from jpfs.layout import INK, PageContent, Word, extract_tables, luminance
-from jpfs.model import Amount, Period, StatementKind
+from jpfs.layout import INK, PageContent, Rule, Word, extract_tables, luminance
+from jpfs.model import Amount, Period, Role, StatementKind
 
 NOTES, PRIOR, CURRENT = 300.0, 420.0, 540.0  # right edges of the value columns
+INDENT = 13.0
 
 
 def _label(text: str, x0: float, top: float) -> Word:
@@ -16,20 +17,29 @@ def _figure(text: str, right: float, top: float) -> Word:
     return Word(text, right - 5 * len(text), top, right, top + 9)
 
 
+def _line(top: float, label: str, prior: str, current: str, level: int = 0) -> list[Word]:
+    return [
+        _label(label, 60 + INDENT * level, top),
+        _figure(prior, PRIOR, top),
+        _figure(current, CURRENT, top),
+    ]
+
+
 def _body(top: float, rows: list[tuple[str, str, str, str | None]]) -> list[Word]:
     words = []
     for i, (label, prior, current, note) in enumerate(rows):
-        y = top + 12 * i
-        words += [_label(label, 60, y), _figure(prior, PRIOR, y), _figure(current, CURRENT, y)]
+        words += _line(top + 12 * i, label, prior, current)
         if note:
-            words.append(_figure(note, NOTES, y))
+            words.append(_figure(note, NOTES, top + 12 * i))
     return words
 
 
 def _two_statement_page() -> PageContent:
-    """An income statement with a 注記 column and 和暦 durations, then a second statement."""
+    """An income statement with a 注記 column and 和暦 durations, then a second statement whose
+    注記 header has no column under it."""
     words = [
-        _label("（１）連結損益計算書", 60, 40),
+        _label("（１）", 60, 40),
+        _label("連結損益計算書", 90, 40),
         Word("（単位：百万円）", 470, 52, 540, 61),
         Word("注記", 285, 64, 300, 73),
         Word("前連結会計年度", 340, 64, 405, 73),
@@ -46,6 +56,7 @@ def _two_statement_page() -> PageContent:
             ],
         ),
         _label("（２）連結包括利益計算書", 60, 140),
+        Word("注記", 285, 152, 300, 161),
         Word("前連結会計年度", 340, 152, 405, 161),
         Word("当連結会計年度", 460, 152, 525, 161),
         *_body(
@@ -91,6 +102,24 @@ def test_figures_in_a_non_period_column_become_note_references() -> None:
     sales = income.rows[0]
     assert sales.notes == ("1",)
     assert [cell.amount.value for cell in sales.cells] == [1000, 1200]
+
+
+def test_rule_under_a_net_row_does_not_close_the_group_at_a_page_break() -> None:
+    words = [
+        Word("前連結会計年度", 340, 64, 405, 73),
+        Word("当連結会計年度", 460, 64, 525, 73),
+        _label("有形固定資産", 60, 88),
+        *_line(100, "建物", "100", "90", level=1),
+        *_line(112, "減価償却累計額", "△40", "△35", level=2),
+        *_line(124, "建物（純額）", "60", "55", level=2),
+        *_line(136, "建設仮勘定", "5", "6", level=1),  # the page breaks here
+    ]
+    rules = (Rule(300, 122.5, 545), Rule(300, 134.5, 545))  # above and below 建物（純額）
+    (table,) = extract_tables(PageContent(tuple(words), rules, width=600.0, text=""))
+    roles = {row.label: row.role for row in table.rows}
+    assert roles["建物（純額）"] is Role.NET
+    assert roles["建設仮勘定"] is Role.ITEM
+    assert table.warnings == ("group '有形固定資産' has no closing total on this page",)
 
 
 @pytest.mark.parametrize(

@@ -7,9 +7,9 @@ from pathlib import Path
 
 import pdfplumber
 
-from jpfs.checks import derive_constraints, evaluate, infer_rounding
-from jpfs.layout import extract_tables, read_page
-from jpfs.model import PageState, Rounding, Table
+from jpfs.checks import infer_rounding
+from jpfs.layout import PageContent, extract_tables, read_page, statement_titles
+from jpfs.model import PageState, Rounding, RoundingBasis, Table
 from jpfs.text import audit_text_layer, declared_rounding
 from jpfs.verdict import Verification, verify
 
@@ -23,7 +23,7 @@ class Source:
 
 @dataclass(frozen=True, slots=True)
 class Result:
-    """One statement table, or one page that could not be read."""
+    """One statement table, or one statement page that could not be read."""
 
     source: Source
     table: Table | None = None
@@ -55,29 +55,40 @@ def parse_pdf(path: str | Path, pages: Collection[int] | None = None) -> list[Re
     failures: list[Result] = []
     found: list[tuple[Source, Table, list[str], list[str]]] = []
     for number, content in contents.items():
-        page_source = Source(str(path), digest, number)
-        if not content.words:
-            failures.append(Result(page_source, failure="no text layer: needs the vision path"))
-            continue
+        source = Source(str(path), digest, number)
         untrusted, warnings = audit_text_layer(content.text)
-        found += [(page_source, t, untrusted, warnings) for t in extract_tables(content)]
+        tables = extract_tables(content)
+        if failure := page_failure(content, tables, untrusted):
+            failures.append(Result(source, failure=failure))
+        found += [(source, table, untrusted, warnings) for table in tables]
 
     rounding, basis = _document_rounding(document_text, [table for _, table, _, _ in found])
     verified = [
-        Result(page_source, table, verify(table, rounding, basis, untrusted, warnings))
-        for page_source, table, untrusted, warnings in found
+        Result(source, table, verify(table, rounding, basis, untrusted, warnings))
+        for source, table, untrusted, warnings in found
     ]
     return sorted([*failures, *verified], key=lambda result: result.source.page)
 
 
-def _document_rounding(text: str, tables: Sequence[Table]) -> tuple[Rounding, str]:
+def page_failure(
+    content: PageContent, tables: Sequence[Table], untrusted: Sequence[str]
+) -> str | None:
+    """Why a page that should hold a statement yielded no table; None for other pages."""
+    if tables:
+        return None
+    if not content.words:
+        return "no text layer: needs the vision path"
+    if titles := statement_titles(content):
+        return f"{', '.join(titles)} on the page but no value columns found"
+    if untrusted:
+        return f"no table found and the text layer is untrusted: {'; '.join(untrusted)}"
+    return None
+
+
+def _document_rounding(text: str, tables: Sequence[Table]) -> tuple[Rounding, RoundingBasis]:
     """The filing's own note (千円未満切捨て) wins; otherwise a sign test over all its tables."""
     if (declared := declared_rounding(text)) is not None:
-        return declared, "declared"
-    checks = [
-        check
-        for table in tables
-        for check in evaluate(table, derive_constraints(table.rows), Rounding.TRUNCATE)
-    ]
-    inferred = infer_rounding(checks)
-    return inferred, "inferred" if inferred is Rounding.TRUNCATE else "undetermined"
+        return declared, RoundingBasis.DECLARED
+    if infer_rounding(tables) is Rounding.TRUNCATE:
+        return Rounding.TRUNCATE, RoundingBasis.INFERRED
+    return Rounding.UNKNOWN, RoundingBasis.UNDETERMINED

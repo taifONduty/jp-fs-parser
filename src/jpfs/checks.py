@@ -6,8 +6,9 @@ interval sum of its terms. The tolerance therefore follows from the number of te
 rounding mode rather than from a chosen epsilon.
 """
 
-from collections.abc import Sequence
+from collections.abc import Iterator, Sequence
 from dataclasses import dataclass
+from itertools import chain
 from math import comb
 
 from jpfs.model import Amount, Role, Rounding, Row, Table
@@ -30,27 +31,22 @@ class Interval:
             self.hi_closed and other.hi_closed,
         )
 
+    def __contains__(self, x: float) -> bool:
+        above = self.lo < x or (self.lo == x and self.lo_closed)
+        below = x < self.hi or (x == self.hi and self.hi_closed)
+        return above and below
+
     def overlaps(self, other: "Interval") -> bool:
-        # On a tie the open bound is the binding one.
-        lo, lo_closed = max((self.lo, self.lo_closed), (other.lo, other.lo_closed), key=_open_last)
-        hi, hi_closed = min((self.hi, self.hi_closed), (other.hi, other.hi_closed), key=_open_first)
-        return lo < hi or (lo == hi and lo_closed and hi_closed)
+        lo, hi = max(self.lo, other.lo), min(self.hi, other.hi)
+        return lo < hi or (lo == hi and lo in self and lo in other)
 
     def hull(self, other: "Interval") -> "Interval":
-        lo, lo_closed = min((self.lo, self.lo_closed), (other.lo, other.lo_closed), key=_open_last)
-        hi, hi_closed = max((self.hi, self.hi_closed), (other.hi, other.hi_closed), key=_open_first)
-        return Interval(lo, hi, lo_closed, hi_closed)
+        first = min(self, other, key=lambda i: (i.lo, not i.lo_closed))
+        last = max(self, other, key=lambda i: (i.hi, i.hi_closed))
+        return Interval(first.lo, last.hi, first.lo_closed, last.hi_closed)
 
     def scaled(self, factor: int) -> "Interval":
         return Interval(self.lo * factor, self.hi * factor, self.lo_closed, self.hi_closed)
-
-
-def _open_last(bound: tuple[float, bool]) -> tuple[float, bool]:
-    return bound[0], not bound[1]
-
-
-def _open_first(bound: tuple[float, bool]) -> tuple[float, bool]:
-    return bound
 
 
 ZERO = Interval(0, 0)
@@ -87,9 +83,6 @@ class Check:
     residual: int  # printed total minus the printed sum of its terms
 
 
-_UNRESOLVED = -1
-
-
 def derive_constraints(rows: Sequence[Row]) -> tuple[Constraint, ...]:
     """One constraint per closing row: a total sums the members before it, back to and including
     the previous total of the same group (so 小計 chains work); a net adds its contras to the gross.
@@ -103,61 +96,70 @@ def derive_constraints(rows: Sequence[Row]) -> tuple[Constraint, ...]:
         before = siblings[: siblings.index(i)]
         start = max((k for k, j in enumerate(before) if rows[j].role is Role.TOTAL), default=0)
         contributions = [_contribution(rows, j) for j in before[start:]]
-        if _UNRESOLVED in contributions:
+        if None in contributions:
             continue
         gross = (row.parent,) if row.role is Role.NET else ()
-        terms = gross + tuple(j for j in contributions if j is not None)
+        terms = gross + tuple(chain.from_iterable(contributions))
         if terms:
             kind = "net" if row.role is Role.NET else "sum"
             constraints.append(Constraint(i, terms, f"{kind}:{row.path[-1]}"))
     return tuple(constraints)
 
 
-def _contribution(rows: Sequence[Row], i: int) -> int | None:
+def _contribution(rows: Sequence[Row], i: int) -> tuple[int, ...] | None:
+    """Rows a member adds to its group's total; None when a sub-group has no closing row."""
     row = rows[i]
     if row.children:
         closing = row.children[-1]
-        return closing if rows[closing].role in (Role.TOTAL, Role.NET) else _UNRESOLVED
-    return i if any(row.cells) else None
+        return (closing,) if rows[closing].role in (Role.TOTAL, Role.NET) else None
+    return (i,) if any(row.cells) else ()
 
 
 def evaluate(
     table: Table, constraints: Sequence[Constraint], rounding: Rounding
 ) -> tuple[Check, ...]:
     """Check every constraint in every period whose total is printed; blank terms count as zero."""
-    checks = []
-    for constraint in constraints:
-        for period in range(len(table.periods)):
-            total = table.rows[constraint.total].cells[period]
-            if total is None:
-                continue
-            terms = [table.rows[t].cells[period] for t in constraint.terms]
-            amounts = [cell.amount for cell in terms if cell is not None]
-            span = sum((interval(a, rounding) for a in amounts), start=ZERO)
-            checks.append(
-                Check(
-                    constraint,
-                    period,
-                    passed=span.overlaps(interval(total.amount, rounding)),
-                    residual=total.amount.value - sum(a.value for a in amounts),
-                )
-            )
-    return tuple(checks)
+    return tuple(
+        Check(constraint, period, span.overlaps(interval(total, rounding)), total.value - printed)
+        for constraint in constraints
+        for period, total, span, printed in _sums(table, constraint, rounding)
+    )
 
 
-def infer_rounding(checks_under_truncation: Sequence[Check]) -> Rounding:
-    """Sign test on the residuals of checks evaluated under truncation.
+def _sums(
+    table: Table, constraint: Constraint, rounding: Rounding
+) -> Iterator[tuple[int, Amount, Interval, int]]:
+    """Per period with a printed total: the total, the interval sum and printed sum of its terms."""
+    for period in range(len(table.periods)):
+        total = table.rows[constraint.total].cells[period]
+        if total is None:
+            continue
+        terms = (table.rows[t].cells[period] for t in constraint.terms)
+        amounts = [cell.amount for cell in terms if cell is not None]
+        span = sum((interval(a, rounding) for a in amounts), start=ZERO)
+        yield period, total.amount, span, sum(a.value for a in amounts)
 
-    Under truncation a correct residual never falls outside the truncation interval. Under
-    rounding a non-zero residual falls on either side with equal probability, so finding few
-    outside is evidence for truncation. Without that evidence the mode stays unknown, which is
-    safer than picking whichever mode passes: that would let a real error hide in the slack.
+
+def infer_rounding(tables: Sequence[Table]) -> Rounding:
+    """Sign test on the residuals (printed total minus printed sum) of a document's constraints.
+
+    Under rounding a residual is symmetric about zero, so when exactly one of r and -r fits the
+    truncation interval, the fitting one is the observed one half of the time. Under truncation
+    it always is. Finding almost no misfits among those informative residuals is therefore
+    evidence for truncation. Without that evidence the mode stays unknown, which is safer than
+    picking whichever mode passes: that would let a real error hide in the slack.
     """
-    informative = [c for c in checks_under_truncation if c.residual != 0]
-    outside = sum(not c.passed for c in informative)
-    n = len(informative)
-    p_value = sum(comb(n, k) for k in range(outside + 1)) / 2**n
-    return Rounding.TRUNCATE if n and p_value < TRUNCATION_ALPHA else Rounding.UNKNOWN
+    informative = misfits = 0
+    for table in tables:
+        for constraint in derive_constraints(table.rows):
+            for _, total, span, printed in _sums(table, constraint, Rounding.TRUNCATE):
+                fits = span.overlaps(interval(total, Rounding.TRUNCATE))
+                mirror = Amount(abs(2 * printed - total.value), negative=2 * printed < total.value)
+                if fits != span.overlaps(interval(mirror, Rounding.TRUNCATE)):
+                    informative += 1
+                    misfits += not fits
+    p_value = sum(comb(informative, k) for k in range(misfits + 1)) / 2**informative
+    return Rounding.TRUNCATE if p_value < TRUNCATION_ALPHA else Rounding.UNKNOWN
 
 
 def uncovered_cells(table: Table, checks: Sequence[Check]) -> tuple[tuple[int, int], ...]:

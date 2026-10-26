@@ -14,7 +14,7 @@ _CLOSING = (Role.TOTAL, Role.NET)
 
 def build_structure(rows: Sequence[Row]) -> tuple[tuple[Row, ...], tuple[str, ...]]:
     """Link rows into a tree from their levels and assign roles; warn about unclosed groups."""
-    parents = _parents([row.level for row in rows])
+    parents = _parents(_tree_levels(rows))
     children = [tuple(j for j, p in enumerate(parents) if p == i) for i in range(len(rows))]
     roles = _roles(rows, parents, children)
     paths: list[tuple[str, ...]] = []
@@ -31,6 +31,20 @@ def build_structure(rows: Sequence[Row]) -> tuple[tuple[Row, ...], tuple[str, ..
         if row.children and linked[row.children[-1]].role not in _CLOSING
     )
     return linked, warnings
+
+
+def _tree_levels(rows: Sequence[Row]) -> list[int]:
+    """Printed levels, except that a total printed right after a total at the same level closes
+    the enclosing level: 負債純資産合計 after 純資産合計 sums the whole sheet, not 純資産の部."""
+    levels = [row.level for row in rows]
+    for i in range(1, len(rows)):
+        if rows[i].level == rows[i - 1].level > 0 and _is_total(rows[i]) and _is_total(rows[i - 1]):
+            levels[i] -= 1
+    return levels
+
+
+def _is_total(row: Row) -> bool:
+    return any(row.cells) and bool(_TOTAL_RE.search(normalize(row.label)))
 
 
 def _parents(levels: Sequence[int]) -> list[int | None]:

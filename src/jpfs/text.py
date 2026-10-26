@@ -4,7 +4,7 @@ import re
 import unicodedata
 from datetime import date
 
-from jpfs.model import Amount, Period, Rounding, StatementKind
+from jpfs.model import UNIT_SCALES, Amount, Correction, Period, Rounding, StatementKind
 
 
 def normalize(text: str) -> str:
@@ -49,26 +49,27 @@ def parse_dates(text: str) -> list[date]:
     return dates
 
 
-_PERIOD_RE = re.compile(r"[前当].*?(年度|期間|期末|期)")
+_PERIOD_RE = re.compile(r"[前当].*?(?:年度末?|期間末?|期末|期)")
 
 
 def parse_period(header: str) -> Period | None:
     """Period from a column header such as 当連結会計年度(2026年3月31日) or (自…至…).
 
-    None when the header names no period, e.g. a 注記 column.
+    None when the header names no period, e.g. a 注記 column. The label is the period phrase
+    itself, so stray header words such as 注記 do not become part of it.
     """
     t = normalize(header)
-    if not (_PERIOD_RE.search(t) or _DATE_RE.search(t)):
+    phrase = _PERIOD_RE.search(t)
+    if not (phrase or _DATE_RE.search(t)):
         return None
     dates = parse_dates(t)
-    label = re.sub(r"[()自至~〜]", "", _DATE_RE.sub("", t))
+    label = phrase[0] if phrase else re.sub(r"[()自至~〜]", "", _DATE_RE.sub("", t))
     if len(dates) > 1:
         return Period(label, end=dates[-1], start=dates[0])
     return Period(label, end=dates[0] if dates else None)
 
 
-UNIT_SCALES = {"円": 1, "千円": 1_000, "百万円": 1_000_000}
-_UNIT_RE = re.compile(r"単位:?(百万円|千円|円)")
+_UNIT_RE = re.compile("単位:?(" + "|".join(sorted(UNIT_SCALES, key=len, reverse=True)) + ")")
 
 
 def find_unit(text: str) -> str | None:
@@ -100,9 +101,13 @@ def find_title(line: str) -> tuple[str, StatementKind] | None:
     return m[0], _STATEMENTS[m["name"]]
 
 
-def find_correction(text: str) -> str | None:
+def find_correction(text: str) -> Correction | None:
+    """The 訂正前 / 訂正後 marker closest to the end of the text, i.e. nearest above a table."""
     t = normalize(text)
-    return "after" if "訂正後" in t else "before" if "訂正前" in t else None
+    after, before = t.rfind("訂正後"), t.rfind("訂正前")
+    if after == before:
+        return None
+    return Correction.AFTER if after > before else Correction.BEFORE
 
 
 def declared_rounding(text: str) -> Rounding | None:

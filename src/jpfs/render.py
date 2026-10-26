@@ -89,9 +89,10 @@ def _fact(result: Result, row: Row, period: Period, cell: Cell, constraints: lis
 
 
 def _fact_id(result: Result, row: Row, period: Period) -> str:
-    source = result.source
+    source, header = result.source, result.table.header
+    statement = f"{header.title}:{header.correction}"
     period_key = f"{period.label}:{_iso(period.start)}:{_iso(period.end)}"
-    key = "|".join([source.sha256, str(source.page), "/".join(row.path), period_key])
+    key = "|".join([source.sha256, str(source.page), statement, "/".join(row.path), period_key])
     return hashlib.sha256(key.encode()).hexdigest()[:16]
 
 

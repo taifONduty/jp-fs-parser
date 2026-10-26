@@ -17,7 +17,6 @@ from jpfs.model import Amount, BBox, Cell, Header, Period, Row, StatementKind, T
 from jpfs.structure import build_structure
 from jpfs.text import (
     NOTE_RE,
-    UNIT_SCALES,
     find_correction,
     find_title,
     find_unit,
@@ -74,13 +73,14 @@ class PageContent:
 @dataclass(frozen=True, slots=True)
 class _Column:
     x0: float
+    x1_min: float  # the right edges of the column's figures span x1_min..x1
     x1: float
 
     def holds(self, word: Word, amount: Amount) -> bool:
         """Amounts are right-aligned; nil marks may sit anywhere in the column."""
         if amount.nil:
             return self.x0 - COLUMN_TOLERANCE <= word.cx <= self.x1 + COLUMN_TOLERANCE
-        return abs(word.x1 - self.x1) <= COLUMN_TOLERANCE
+        return self.x1_min - COLUMN_TOLERANCE <= word.x1 <= self.x1 + COLUMN_TOLERANCE
 
 
 Line = tuple[Word, ...]
@@ -128,9 +128,19 @@ def _is_visible(obj: dict) -> bool:
 
 def extract_tables(content: PageContent) -> list[Table]:
     label_edge = content.width * LABEL_AREA
-    segments = _segments(_lines(content.words))
-    tables = (_table(segment, content, label_edge) for segment in segments)
-    return [table for table in tables if table is not None]
+    tables: list[Table] = []
+    above = ""  # text of the page above the current statement, for its 訂正 marker
+    for segment in _segments(_lines(content.words), label_edge):
+        table = _table(segment, content, label_edge, above)
+        if table is not None:
+            tables.append(table)
+        above += "".join(_text(line) for line in segment)
+    return tables
+
+
+def statement_titles(content: PageContent) -> list[str]:
+    label_edge = content.width * LABEL_AREA
+    return [title[0] for line in _lines(content.words) if (title := _title(line, label_edge))]
 
 
 def _lines(words: Iterable[Word]) -> list[Line]:
@@ -161,23 +171,26 @@ def _merge_fragments(line: Sequence[Word]) -> Line:
     return tuple(merged)
 
 
-def _segments(lines: Sequence[Line]) -> list[list[Line]]:
+def _segments(lines: Sequence[Line], label_edge: float) -> list[list[Line]]:
     """Split before each statement title; a leading untitled segment continues a statement."""
     segments: list[list[Line]] = [[]]
     for line in lines:
-        if segments[-1] and _title(line):
+        if segments[-1] and _title(line, label_edge):
             segments.append([])
         segments[-1].append(line)
     return segments
 
 
-def _title(line: Line) -> tuple[str, StatementKind] | None:
-    if any(parse_amount(w.text) for w in line):
+def _title(line: Line, label_edge: float) -> tuple[str, StatementKind] | None:
+    """A heading naming a statement; enumerators such as （１） are not amounts here."""
+    if any(_amount(w, label_edge) for w in line):
         return None
     return find_title(_text(line))
 
 
-def _table(lines: Sequence[Line], content: PageContent, label_edge: float) -> Table | None:
+def _table(
+    lines: Sequence[Line], content: PageContent, label_edge: float, above: str
+) -> Table | None:
     columns = _columns(lines, label_edge)
     held = [
         i
@@ -191,7 +204,7 @@ def _table(lines: Sequence[Line], content: PageContent, label_edge: float) -> Ta
     header_lines = [
         tuple(w for w in lines[i] if w.x0 > label_edge)
         for i in head
-        if not _title(lines[i]) and not find_unit(_text(lines[i]))
+        if not _title(lines[i], label_edge) and not find_unit(_text(lines[i]))
     ]
     periods, slots = _periods(header_lines, columns)
 
@@ -203,7 +216,7 @@ def _table(lines: Sequence[Line], content: PageContent, label_edge: float) -> Ta
         if row is not None:
             rows.append(row)
     linked, warnings = build_structure(_with_cues(_with_levels(rows), content.rules, columns))
-    header = _header(lines[0], lines[: held[0]], content.text)
+    header = _header(lines[: held[0]], label_edge, above, content.text)
     return Table(header, periods, linked, tuple(unplaced), warnings)
 
 
@@ -219,19 +232,22 @@ def _figure_lines(lines: Sequence[Line], columns: Sequence[_Column]) -> list[int
 
 def _is_head(line: Line, label_edge: float) -> bool:
     values = [w for w in line if w.x0 > label_edge]
-    return bool(_title(line)) or len(values) == len(line) or parse_period(_text(values)) is not None
+    return (
+        _title(line, label_edge) is not None
+        or len(values) == len(line)
+        or parse_period(_text(values)) is not None
+    )
 
 
-def _header(first: Line, preamble: Sequence[Line], page_text: str) -> Header:
-    title = _title(first)
-    unit = find_unit("".join(_text(line) for line in preamble)) or find_unit(page_text)
+def _header(preamble: Sequence[Line], label_edge: float, above: str, page_text: str) -> Header:
+    title = _title(preamble[0], label_edge) if preamble else None
+    text = "".join(_text(line) for line in preamble)
     return Header(
         title=title[0] if title else None,
         kind=title[1] if title else None,
         consolidated="連結" in title[0] if title else None,
-        correction=find_correction(page_text),
-        unit=unit,
-        scale=UNIT_SCALES[unit] if unit else None,
+        correction=find_correction(above + text),
+        unit=find_unit(text) or find_unit(page_text),
     )
 
 
@@ -241,7 +257,7 @@ def _columns(lines: Sequence[Line], label_edge: float) -> list[_Column]:
     ]
     groups = _clusters(figures, key=lambda w: w.x1, tolerance=COLUMN_TOLERANCE)
     return [
-        _Column(min(w.x0 for w in group), max(w.x1 for w in group))
+        _Column(min(w.x0 for w in group), group[0].x1, group[-1].x1)
         for group in groups
         if len(group) >= MIN_COLUMN_SIZE
     ]
@@ -341,19 +357,24 @@ def _with_levels(rows: Sequence[Row]) -> list[Row]:
 
 
 def _with_cues(rows: Sequence[Row], rules: Sequence[Rule], columns: Sequence[_Column]) -> list[Row]:
-    """Mark rows with a summation rule above them and cells with a correction underline."""
-    cued = []
+    """Mark rows with a summation rule above them and cells with a correction underline.
+
+    A ruled total or net is usually ruled below as well; that closing rule belongs to it, so the
+    row after a ruled row is not itself ruled by the same gap.
+    """
+    cued: list[Row] = []
     for i, row in enumerate(rows):
         top, bottom = row.bbox[1], row.bbox[3]
         gap_top = rows[i - 1].bbox[3] if i else top - (bottom - top)
-        rule_above = any(
+        ruled = any(
             gap_top - 1 <= r.top <= top + 1 and any(_spans(r, c) for c in columns) for r in rules
         )
         cells = tuple(
             None if cell is None else replace(cell, corrected=_underlined(cell, rules))
             for cell in row.cells
         )
-        cued.append(replace(row, rule_above=rule_above, cells=cells))
+        closing_rule_of_previous = bool(cued) and cued[-1].rule_above
+        cued.append(replace(row, rule_above=ruled and not closing_rule_of_previous, cells=cells))
     return cued
 
 

@@ -74,13 +74,16 @@ Decisions that matter:
   (XBRL Calculations 1.1 style). On the sample page, exact equality would raise 13 false alarms out
   of 20.
 - **The rounding mode is inferred from evidence.** A note in the filing (百万円未満切捨て) wins.
-  Otherwise a sign test runs over every table in the document: under rounding, a non-zero residual
-  falls outside the truncation interval half the time, so finding almost none (p < 0.01) means
-  truncation. Choosing whichever mode passes would let real errors hide in the slack. Without
-  evidence, the checks use the hull of both modes and the table is flagged.
+  Otherwise a sign test runs over every table in the document. Take the residuals (printed total
+  minus printed sum) for which exactly one of r and −r fits the truncation interval. Rounding errors
+  are symmetric, so under rounding the observed residual is the one that misfits half the time;
+  under truncation it never is. Finding almost no misfits (p < 0.01) therefore means truncation.
+  Choosing whichever mode passes would let real errors hide in the slack. Without evidence, the
+  checks use the hull of both modes and the table is flagged.
 - **Abstain explicitly.** Every table ends as `verified`, `accepted_with_warnings`, `needs_review`
   or `failed`. A failed constraint, a cell that no constraint covers, or a printed figure that
-  could not be bound to a cell sends the table to review. Nothing is dropped silently.
+  could not be bound to a cell sends the table to review. A page that names a statement but yields
+  no table, or has no usable text layer, fails with a reason. Nothing is dropped silently.
 
 ## Results on the sample page
 
@@ -90,7 +93,7 @@ Decisions that matter:
 | Rows (label and hierarchy path), F1 | 1.00 (43/43) |
 | Facts (path, period, typed value), F1 | 1.00 (74/74) |
 | Constraints derived from the tree, passing | 20/20, every cell covered |
-| Rounding | truncation, inferred from 13 one-sided residuals |
+| Rounding | truncation, inferred: 13 informative residuals, none misfit (p = 2⁻¹³) |
 | Correction underlines | 2/2 (投資有価証券, 関係会社株式, current year) |
 | Page state | verified |
 | pdfplumber, ruling lines | 43/43 body rows, no period dates, no unit, no hierarchy |

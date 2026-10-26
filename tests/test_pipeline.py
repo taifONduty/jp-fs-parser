@@ -8,7 +8,9 @@ from jpfs import Result, parse_pdf
 from jpfs.cli import main
 from jpfs.evaluation.gold import load_gold
 from jpfs.evaluation.metrics import score
-from jpfs.model import Amount, PageState, Rounding, Table
+from jpfs.layout import PageContent, Word
+from jpfs.model import Amount, PageState, Rounding, RoundingBasis, Table
+from jpfs.pipeline import page_failure
 from jpfs.verdict import verify
 
 DATA = Path(__file__).parents[1] / "data"
@@ -31,7 +33,7 @@ def test_sample_page_is_exact_and_verified(sample: Result, gold: Table) -> None:
     assert score(sample.table, gold)["page_exact"]
     assert sample.state is PageState.VERIFIED
     assert sample.verification.rounding is Rounding.TRUNCATE
-    assert sample.verification.rounding_basis == "inferred"
+    assert sample.verification.rounding_basis is RoundingBasis.INFERRED
 
 
 def test_correction_underlines_are_found(sample: Result) -> None:
@@ -49,9 +51,21 @@ def test_a_misread_digit_sends_the_page_to_review(sample: Result) -> None:
     misread = replace(cash.cells[1], amount=Amount(608_291))  # printed 608,281
     rows = list(sample.table.rows)
     rows[2] = replace(cash, cells=(cash.cells[0], misread))
-    verification = verify(replace(sample.table, rows=tuple(rows)), Rounding.TRUNCATE, "inferred")
+    verification = verify(
+        replace(sample.table, rows=tuple(rows)), Rounding.TRUNCATE, RoundingBasis.INFERRED
+    )
     assert verification.state is PageState.NEEDS_REVIEW
     assert any("sum:流動資産合計" in reason for reason in verification.reasons)
+
+
+def test_statement_pages_without_a_table_fail_explicitly() -> None:
+    def page(word: str, text: str = "") -> PageContent:
+        return PageContent((Word(word, 60, 40, 60 + 9 * len(word), 49),), (), 600.0, text)
+
+    assert "連結貸借対照表" in page_failure(page("（１）連結貸借対照表"), [], [])
+    assert page_failure(PageContent((), (), 600.0, ""), [], []) is not None
+    assert page_failure(page("経営成績", "(cid:3)"), [], ["unmapped glyphs (cid)"]) is not None
+    assert page_failure(page("経営成績"), [], []) is None  # prose, not a statement
 
 
 def test_evaluate_reports_accuracy_verifier_strength_and_baseline(
