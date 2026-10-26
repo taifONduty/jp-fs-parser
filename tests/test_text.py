@@ -48,6 +48,14 @@ def test_nil_and_negative_zero_are_distinct_facts() -> None:
             "前中間連結会計期間（自 令和6年4月1日 至 令和6年9月30日）",
             Period("前中間連結会計期間", date(2024, 9, 30), start=date(2024, 4, 1)),
         ),
+        (
+            "当第１四半期連結会計期間末(2025年３月31日)",
+            Period("当第1四半期連結会計期間末", date(2025, 3, 31)),
+        ),
+        (
+            "前第１四半期連結累計期間(自 2024年１月１日 至 2024年３月31日)",
+            Period("前第1四半期連結累計期間", date(2024, 3, 31), start=date(2024, 1, 1)),
+        ),
         ("前期", Period("前期", None)),
         ("注記", None),
     ],
@@ -67,6 +75,10 @@ def test_find_unit() -> None:
     [
         ("（１）連結貸借対照表", ("連結貸借対照表", StatementKind.BALANCE_SHEET)),
         ("中間連結財政状態計算書", ("中間連結財政状態計算書", StatementKind.BALANCE_SHEET)),
+        (
+            "（１）要約四半期連結財政状態計算書",
+            ("要約四半期連結財政状態計算書", StatementKind.BALANCE_SHEET),
+        ),
         (
             "連結損益及び包括利益計算書",
             ("連結損益及び包括利益計算書", StatementKind.INCOME_STATEMENT),

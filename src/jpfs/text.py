@@ -49,7 +49,9 @@ def parse_dates(text: str) -> list[date]:
     return dates
 
 
-_PERIOD_RE = re.compile(r"[前当].*?(?:年度末?|期間末?|期末|期)")
+_PERIOD_RE = re.compile(
+    r"[前当][^()]*(?:年度末?|期間末?|期末|期)"
+)  # the longest phrase before its date
 
 
 def parse_period(header: str) -> Period | None:
@@ -88,7 +90,7 @@ _STATEMENTS = {  # longest names first, so combined titles win
     "損益計算書": StatementKind.INCOME_STATEMENT,
 }
 _TITLE_RE = re.compile(
-    r"(?:中間|四半期)?(?:連結)?(?P<name>" + "|".join(map(re.escape, _STATEMENTS)) + ")"
+    r"(?:要約)?(?:中間|四半期)?(?:連結)?(?P<name>" + "|".join(map(re.escape, _STATEMENTS)) + ")"
 )
 
 
