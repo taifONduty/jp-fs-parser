@@ -83,15 +83,21 @@ def test_scoring_checks_units_duration_paths_and_column_dimensions(tmp_path: Pat
     assert score_page(case, [result], tmp_path)["facts"]["matched"] == 0
 
 
-def test_frozen_annotations_load_and_missing_pages_score_zero() -> None:
-    manifest = json.loads((CORPUS / "manifest.json").read_text())
+@pytest.mark.parametrize(
+    ("directory", "expected_facts"),
+    [(CORPUS, 592), (CORPUS.parent / "benchmark-expansion", 741)],
+)
+def test_frozen_annotations_load_and_missing_pages_score_zero(
+    directory: Path, expected_facts: int
+) -> None:
+    manifest = json.loads((directory / "manifest.json").read_text())
     total = 0
     for case in manifest["cases"]:
         for spec in case["tables"]:
-            rows, facts = expected(spec, CORPUS)
+            rows, facts = expected(spec, directory)
             assert rows and facts
             total += facts.total()
-        missing = score_page(case, [], CORPUS)
+        missing = score_page(case, [], directory)
         assert missing["facts"]["recall"] == 0
         assert not missing["autoaccepted_page"] and not missing["page_exact"]
-    assert total == 592
+    assert total == expected_facts

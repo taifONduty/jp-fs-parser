@@ -1,5 +1,9 @@
 # Public-filing benchmark
 
+The [second batch](benchmark-expansion.md) adds 14 pages from four new issuers and a full-document
+ingestion check. Combined results are 82.80% strict fact F1 and 9/25 exact pages on 1,333 values.
+The original 11-page results below remain the frozen first-batch baseline.
+
 Measured on 27 October 2026 with the parser frozen at `cc6a4fe`. No extraction or verification
 code was changed during this evaluation. The original development sample is excluded.
 

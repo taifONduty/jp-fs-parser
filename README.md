@@ -8,11 +8,11 @@ The design, the catalogue of what breaks on real filings, and the evaluation pla
 end: geometry extraction, accounting checks derived from each table's own hierarchy, an explicit
 state for every table, and the evaluation harness.
 
-An [external-page benchmark](docs/benchmark.md) now tests 11 pages from Nintendo, Toyota, MUFG and
-Fast Retailing: **72.04% strict fact F1 and 3/11 exact pages** on 592 annotated values. The perfect
-development-sample score below does not generalise to these layouts. The benchmark preserves the
-current parser and records its failures, including one incorrectly accepted page with missing
-statement metadata.
+Two [external benchmark batches](docs/benchmark-expansion.md) now cover **25 pages from eight
+issuers and 1,333 annotated values: 82.80% strict fact F1 and 9/25 exact pages**. The perfect
+development-sample score below does not generalise to these layouts. Both batches preserve the
+same parser; the [first batch](docs/benchmark.md) remains at 72.04% F1. The reports record missing
+metadata on accepted pages and an accepted empty table found during full-document ingestion.
 
 ## What "correct" means
 
@@ -130,9 +130,9 @@ Knowing the rounding mode improves detection of sampled units-digit errors by 23
 
 ## Limitations
 
-The parser was developed on one page. The [11-page benchmark](docs/benchmark.md) now measures how
-poorly parts of it generalise. Section 7 of the design describes a larger evaluation with
-XBRL-aligned gold, stratified by layout family. Known gaps:
+The parser was developed on one page. The [25-page benchmark](docs/benchmark-expansion.md) now
+measures where it generalises and where it fails. Section 7 of the design describes a larger
+evaluation with XBRL-aligned gold, stratified by layout family. Known gaps:
 
 - Labels wrapped over two lines.
 - Totals placed at the section heading's own indentation.
@@ -141,8 +141,9 @@ XBRL-aligned gold, stratified by layout family. Known gaps:
 - Arithmetic that is not a tree, such as income-statement step-downs, which needs taxonomy
   calculation links.
 
-Most such pages are sent to `needs_review`. However, missing statement metadata on a continuation
-page can still receive `verified`; the benchmark records that acceptance error.
+Most such pages are sent to `needs_review`. Missing statement metadata on a continuation page can
+still receive `verified`; an output with zero periods and facts can receive `accepted_with_warnings`.
+Both acceptance defects are recorded in the benchmark.
 
 ## Layout
 

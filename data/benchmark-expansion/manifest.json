@@ -1,0 +1,508 @@
+{
+  "annotation": "Single-assistant visual transcription checked against every selected rendered page before the first parser run. PDF text used only as a transcription aid; Bank of Japan figures were read from pixels because those amounts are vector outlines. Paths, units and dates are explicit and independent of parser inference. Not independently human-adjudicated.",
+  "selection": "Second purposive challenge batch: four new issuers, non-consolidated statements, complete two-page balance sheets and cash-flow sequence, Heisei/Reiwa dates, quarterly IFRS, and natural account-form pages with a partial text layer. Selected before parser output; original 11-page batch remains unchanged. Page numbers are 1-based PDF positions.",
+  "baseline_parser_revision": "cc6a4fe",
+  "sources": [
+    {
+      "id": "hatena_2025",
+      "issuer": "Hatena",
+      "url": "https://www.kabutec.jp/pdf/202509/140120250909555393.pdf",
+      "sha256": "cac29fa9aed1c108c06bbf721232df308a53e33a96b10afbda56df3b3b2d8c9f",
+      "provenance": "Public Kabutec mirror of the issuer filing; not an issuer-hosted URL."
+    },
+    {
+      "id": "capcom_2016",
+      "issuer": "Capcom",
+      "url": "https://www.capcom.co.jp/ir/news/pdf/160509a.pdf",
+      "sha256": "51a5c110f3f95736dc3f678ba70fa4e09856e74fb6697176942fa90629cb601d",
+      "provenance": "Issuer website."
+    },
+    {
+      "id": "rakuten_q1_2025",
+      "issuer": "Rakuten Group",
+      "url": "https://corp.rakuten.co.jp/investors/assets/doc/documents/25Q1tanshin_J.pdf",
+      "sha256": "9e483e8ac327d3b7fce2440acffdf888bb7254c89d462a5d293465e9da9524e1",
+      "provenance": "Issuer website."
+    },
+    {
+      "id": "boj_2025",
+      "issuer": "Bank of Japan",
+      "url": "https://www.boj.or.jp/about/account/data/zai2505a.pdf",
+      "sha256": "17b95ee32a1e8a9a4ede568179c81a4b98117c3b114aab8b7c725df41f47a98b",
+      "provenance": "Bank of Japan website."
+    }
+  ],
+  "cases": [
+    {
+      "id": "hatena_assets",
+      "source": "hatena_2025",
+      "page": 10,
+      "complexity": "simple",
+      "features": [
+        "non-consolidated",
+        "thousands of yen",
+        "gross-contra-net groups"
+      ],
+      "tables": [
+        {
+          "gold": "hatena_assets.tsv",
+          "title": "貸借対照表",
+          "consolidated": false,
+          "correction": null,
+          "unit": "千円",
+          "columns": [
+            {
+              "label": "前事業年度",
+              "start": null,
+              "end": "2024-07-31",
+              "dimension": null
+            },
+            {
+              "label": "当事業年度",
+              "start": null,
+              "end": "2025-07-31",
+              "dimension": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "hatena_liabilities",
+      "source": "hatena_2025",
+      "page": 11,
+      "complexity": "hard",
+      "features": [
+        "non-consolidated continuation",
+        "deep retained-earnings nesting"
+      ],
+      "tables": [
+        {
+          "gold": "hatena_liabilities.tsv",
+          "title": "貸借対照表",
+          "consolidated": false,
+          "correction": null,
+          "unit": "千円",
+          "columns": [
+            {
+              "label": "前事業年度",
+              "start": null,
+              "end": "2024-07-31",
+              "dimension": null
+            },
+            {
+              "label": "当事業年度",
+              "start": null,
+              "end": "2025-07-31",
+              "dimension": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "hatena_income",
+      "source": "hatena_2025",
+      "page": 12,
+      "complexity": "medium",
+      "features": [
+        "non-consolidated",
+        "nil vs zero",
+        "expense subtotals"
+      ],
+      "tables": [
+        {
+          "gold": "hatena_income.tsv",
+          "title": "損益計算書",
+          "consolidated": false,
+          "correction": null,
+          "unit": "千円",
+          "columns": [
+            {
+              "label": "前事業年度",
+              "start": "2023-08-01",
+              "end": "2024-07-31",
+              "dimension": null
+            },
+            {
+              "label": "当事業年度",
+              "start": "2024-08-01",
+              "end": "2025-07-31",
+              "dimension": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "hatena_cashflows",
+      "source": "hatena_2025",
+      "page": 15,
+      "complexity": "medium",
+      "features": [
+        "non-consolidated",
+        "long one-line labels",
+        "mixed signs",
+        "subtotal chain"
+      ],
+      "tables": [
+        {
+          "gold": "hatena_cashflows.tsv",
+          "title": "キャッシュ・フロー計算書",
+          "consolidated": false,
+          "correction": null,
+          "unit": "千円",
+          "columns": [
+            {
+              "label": "前事業年度",
+              "start": "2023-08-01",
+              "end": "2024-07-31",
+              "dimension": null
+            },
+            {
+              "label": "当事業年度",
+              "start": "2024-08-01",
+              "end": "2025-07-31",
+              "dimension": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "capcom_assets",
+      "source": "capcom_2016",
+      "page": 10,
+      "complexity": "simple",
+      "features": [
+        "Heisei dates",
+        "net-only assets",
+        "producer footer text"
+      ],
+      "tables": [
+        {
+          "gold": "capcom_assets.tsv",
+          "title": "連結貸借対照表",
+          "consolidated": true,
+          "correction": null,
+          "unit": "百万円",
+          "columns": [
+            {
+              "label": "前連結会計年度",
+              "start": null,
+              "end": "2015-03-31",
+              "dimension": null
+            },
+            {
+              "label": "当連結会計年度",
+              "start": null,
+              "end": "2016-03-31",
+              "dimension": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "capcom_liabilities",
+      "source": "capcom_2016",
+      "page": 11,
+      "complexity": "medium",
+      "features": [
+        "Heisei dates",
+        "continuation without title",
+        "negative equity subtotal"
+      ],
+      "tables": [
+        {
+          "gold": "capcom_liabilities.tsv",
+          "title": "連結貸借対照表",
+          "consolidated": true,
+          "correction": null,
+          "unit": "百万円",
+          "columns": [
+            {
+              "label": "前連結会計年度",
+              "start": null,
+              "end": "2015-03-31",
+              "dimension": null
+            },
+            {
+              "label": "当連結会計年度",
+              "start": null,
+              "end": "2016-03-31",
+              "dimension": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "capcom_income",
+      "source": "capcom_2016",
+      "page": 12,
+      "complexity": "medium",
+      "features": [
+        "Heisei duration dates",
+        "gross-profit adjustment nested below gross profit",
+        "nil values"
+      ],
+      "tables": [
+        {
+          "gold": "capcom_income.tsv",
+          "title": "連結損益計算書",
+          "consolidated": true,
+          "correction": null,
+          "unit": "百万円",
+          "columns": [
+            {
+              "label": "前連結会計年度",
+              "start": "2014-04-01",
+              "end": "2015-03-31",
+              "dimension": null
+            },
+            {
+              "label": "当連結会計年度",
+              "start": "2015-04-01",
+              "end": "2016-03-31",
+              "dimension": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "capcom_comprehensive",
+      "source": "capcom_2016",
+      "page": 13,
+      "complexity": "medium",
+      "features": [
+        "Heisei dates",
+        "comprehensive income",
+        "breakdown subsection",
+        "all-nil row"
+      ],
+      "tables": [
+        {
+          "gold": "capcom_comprehensive.tsv",
+          "title": "連結包括利益計算書",
+          "consolidated": true,
+          "correction": null,
+          "unit": "百万円",
+          "columns": [
+            {
+              "label": "前連結会計年度",
+              "start": "2014-04-01",
+              "end": "2015-03-31",
+              "dimension": null
+            },
+            {
+              "label": "当連結会計年度",
+              "start": "2015-04-01",
+              "end": "2016-03-31",
+              "dimension": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "capcom_cashflows_first",
+      "source": "capcom_2016",
+      "page": 16,
+      "complexity": "hard",
+      "features": [
+        "Heisei dates",
+        "wrapped label",
+        "cash flow continues next page",
+        "nil and negative adjustments"
+      ],
+      "tables": [
+        {
+          "gold": "capcom_cashflows_first.tsv",
+          "title": "連結キャッシュ・フロー計算書",
+          "consolidated": true,
+          "correction": null,
+          "unit": "百万円",
+          "columns": [
+            {
+              "label": "前連結会計年度",
+              "start": "2014-04-01",
+              "end": "2015-03-31",
+              "dimension": null
+            },
+            {
+              "label": "当連結会計年度",
+              "start": "2015-04-01",
+              "end": "2016-03-31",
+              "dimension": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "capcom_cashflows_last",
+      "source": "capcom_2016",
+      "page": 17,
+      "complexity": "hard",
+      "features": [
+        "Heisei dates",
+        "cash-flow continuation without title",
+        "unsigned zero vs nil"
+      ],
+      "tables": [
+        {
+          "gold": "capcom_cashflows_last.tsv",
+          "title": "連結キャッシュ・フロー計算書",
+          "consolidated": true,
+          "correction": null,
+          "unit": "百万円",
+          "columns": [
+            {
+              "label": "前連結会計年度",
+              "start": "2014-04-01",
+              "end": "2015-03-31",
+              "dimension": null
+            },
+            {
+              "label": "当連結会計年度",
+              "start": "2015-04-01",
+              "end": "2016-03-31",
+              "dimension": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "rakuten_balance",
+      "source": "rakuten_q1_2025",
+      "page": 12,
+      "complexity": "hard",
+      "features": [
+        "quarterly IFRS",
+        "condensed title",
+        "banking and insurance assets",
+        "all balance-sheet sections on one page"
+      ],
+      "tables": [
+        {
+          "gold": "rakuten_balance.tsv",
+          "title": "要約四半期連結財政状態計算書",
+          "consolidated": true,
+          "correction": null,
+          "unit": "百万円",
+          "columns": [
+            {
+              "label": "前連結会計年度",
+              "start": null,
+              "end": "2024-12-31",
+              "dimension": null
+            },
+            {
+              "label": "当第1四半期連結会計期間末",
+              "start": null,
+              "end": "2025-03-31",
+              "dimension": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "rakuten_income",
+      "source": "rakuten_q1_2025",
+      "page": 13,
+      "complexity": "hard",
+      "features": [
+        "quarterly duration",
+        "condensed title",
+        "negative decimal EPS in yen",
+        "wrapped EPS heading"
+      ],
+      "tables": [
+        {
+          "gold": "rakuten_income.tsv",
+          "title": "要約四半期連結損益計算書",
+          "consolidated": true,
+          "correction": null,
+          "unit": "百万円",
+          "columns": [
+            {
+              "label": "前第1四半期連結累計期間",
+              "start": "2024-01-01",
+              "end": "2024-03-31",
+              "dimension": null
+            },
+            {
+              "label": "当第1四半期連結累計期間",
+              "start": "2025-01-01",
+              "end": "2025-03-31",
+              "dimension": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "boj_balance",
+      "source": "boj_2025",
+      "page": 5,
+      "complexity": "stress",
+      "features": [
+        "natural account-form balance sheet",
+        "amounts are vector outlines absent from selectable text",
+        "one period",
+        "exact yen amounts",
+        "Reiwa date"
+      ],
+      "tables": [
+        {
+          "gold": "boj_balance.tsv",
+          "title": "貸借対照表",
+          "consolidated": false,
+          "correction": null,
+          "unit": "円",
+          "columns": [
+            {
+              "label": "第140回事業年度末",
+              "start": null,
+              "end": "2025-03-31",
+              "dimension": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "boj_income",
+      "source": "boj_2025",
+      "page": 6,
+      "complexity": "stress",
+      "features": [
+        "two account-form panels",
+        "amounts are vector outlines absent from selectable text",
+        "exact yen amounts",
+        "Reiwa duration"
+      ],
+      "tables": [
+        {
+          "gold": "boj_income.tsv",
+          "title": "損益計算書",
+          "consolidated": false,
+          "correction": null,
+          "unit": "円",
+          "columns": [
+            {
+              "label": "第140回事業年度",
+              "start": "2024-04-01",
+              "end": "2025-03-31",
+              "dimension": null
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -232,10 +232,11 @@ def dumps(value: object) -> str:
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--download", action="store_true", help="download missing source PDFs")
+    parser.add_argument("--manifest", type=Path, default=CORPUS / "manifest.json")
     parser.add_argument("--out", type=Path, default=ROOT / "out/benchmark")
     args = parser.parse_args()
-    manifest = json.loads((CORPUS / "manifest.json").read_text())
-    report = run(manifest, CORPUS, args.out, args.download)
+    manifest = json.loads(args.manifest.read_text())
+    report = run(manifest, args.manifest.parent, args.out, args.download)
     (args.out / "report.json").write_text(dumps(report))
     print(dumps(report["summary"]), end="")
 
