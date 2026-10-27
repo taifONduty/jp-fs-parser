@@ -11,9 +11,11 @@ state for every table, and the evaluation harness.
 A [fresh holdout](docs/benchmark-holdout.md) of 12 pages from four new issuers, frozen before its
 first parser run, covers EDINET and Antenna House annual securities reports and a TAKARA PRINTING
 earnings release. It scores **86.41% strict fact F1, 8/12 exact pages and every header correct**,
-but **1 of its 4 auto-accepted pages is wrong**: commas left by footnote markers inside value
-cells corrupt three labels, and no arithmetic check reads labels. That is 6 wrong facts among
-224 accepted.
+but **1 of its 4 auto-accepted pages was wrong**: commas left by footnote markers inside value
+cells corrupted three labels, and no arithmetic check reads labels. That was 6 wrong facts among
+224 accepted. The [label fix](docs/benchmark-holdout.md#label-fix-regression-run) keeps marker lists
+out of labels and adds a label check to the verifier. On the now-spent holdout, no accepted page
+is wrong, but that is a regression result, not a new measurement.
 
 Two earlier [benchmark batches](docs/benchmark-expansion.md) of 25 pages from eight issuers were
 used to develop the fixes since `cc6a4fe`, so their scores (82.86% strict fact F1, 16/25 exact
@@ -99,7 +101,8 @@ Decisions that matter:
   checks use the hull of both modes and the table is flagged.
 - **Abstain explicitly.** Every table ends as `verified`, `accepted_with_warnings`, `needs_review`
   or `failed`. A failed constraint, a cell that no constraint covers, a printed figure that could
-  not be bound to a cell, or a missing statement title sends the table to review. A table with no
+  not be bound to a cell, a damaged-looking label, or a missing statement title sends the table to
+  review. A table with no
   bound amount fails, as does a page that names a statement but yields no table, or has no usable
   text layer. Nothing is dropped silently.
 
@@ -135,9 +138,10 @@ counts how often at least one check fails:
 
 On this sample, the checks detect every tested single digit error at 10千円 or above. Passing them
 does not establish extraction accuracy: units-digit errors, swaps within a sum, missing metadata and
-wrong labels can survive; the holdout's wrong acceptance is a label error. Those blind spots are why
-the design adds a second extraction path and XBRL comparison. Knowing the rounding mode improves
-detection of sampled units-digit errors by 23.8 percentage points.
+wrong labels can survive arithmetic. A separate label check catches visibly damaged labels, such as
+the holdout's stray commas. Those blind spots are why the design adds a second extraction path and
+XBRL comparison. Knowing the rounding mode improves detection of sampled units-digit errors by 23.8
+percentage points.
 
 ## Limitations
 
@@ -147,8 +151,8 @@ establish an error rate: the observed wrong acceptance of 1 in 4 accepted pages 
 of 0.6% to 80.6%. Section 7 of the design describes the evaluation that can, with XBRL-aligned
 gold stratified by layout family. Known gaps:
 
-- Footnote markers inside value cells (※１,※５): their commas reach the label, and nothing checks
-  label text. This caused the holdout's wrong acceptance.
+- Labels are checked only for visible damage (stray separators, marker residue, trailing
+  numbers, unbalanced brackets). A wrong label that looks clean still passes.
 - Section headings printed at their parent's indentation (負債及び資本 above 負債), and totals
   printed at their section heading's indentation.
 - Labels wrapped over two lines.

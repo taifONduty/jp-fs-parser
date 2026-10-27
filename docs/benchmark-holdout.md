@@ -6,7 +6,8 @@ filings it was never developed on.
 
 **Result: 86.41% strict fact F1 and 8/12 exact pages, with every header correct; but one of the
 four auto-accepted pages is wrong.** Its values are right and its labels are not, which arithmetic
-cannot see.
+cannot see. That first run is the unbiased measurement. The bug was then
+[fixed](#label-fix-regression-run), which turns these pages into regression cases.
 
 ## Protocol
 
@@ -109,6 +110,42 @@ flagged as unreadable figures. Automation on correct pages is therefore 3 of 8.
   hierarchy that indentation does not express (NRI); wrapped labels; note-number lists; flat
   tax lines.
 
+## Label fix (regression run)
+
+Commit `98d75be` fixes the wrong acceptance and closes the blind spot behind it. A footnote-marker
+list such as ※１,※５ is now one note reference, split into its markers, so its commas no longer
+reach the label. Arithmetic never reads labels, so the verifier also sends a table to review when a
+label looks damaged: a separator at its edge, marker residue, a trailing number such as a glued
+note reference, or unbalanced brackets. None of the 506 distinct gold labels across the three
+corpora trips this check.
+
+Since this fix was made by looking at the holdout, these are regression results, not a new
+measurement:
+
+| Measure | First run | After the label fix |
+|---|---:|---:|
+| Strict fact F1 | 86.41% | 87.38% |
+| Flat fact F1 | 97.73% | 98.71% |
+| Exact pages | 8/12 | 9/12 |
+| Auto-accepted pages | 4 | 4 |
+| Auto-accepted pages that are wrong | 1 | **0** |
+| Auto-accepted facts, wrong | 6 of 224 | **0 of 224** |
+
+JSF 61 now scores 60/60 and is correctly verified. Nothing else changes on the holdout or on the
+first batch. On the second batch, the label check also flags two fragments of Capcom 16's wrapped
+label, オンラインコンテンツ仮勘定の増減額（△ and は増加）. That page was already in review.
+
+The fixed parser was also run over all 445 pages of the four holdout filings
+([summary](benchmark-holdout-full-documents.json)). It produced 285 tables. Seven were auto-accepted:
+the four annotated ones, plus non-consolidated balance sheets on ARE 114, NRI 138 and Shin Nihon 15.
+All 84 rows of those three unseen tables match their pages. One differs from its text line only by
+※1 markers, and its values were confirmed on the rendered page. The label check flags damage in
+103 tables, all of them in review or failed: for example header date lines read as rows, or numbers
+glued onto labels in narrow tables.
+
+A label can still be wrong without looking damaged, for instance a valid but misattached label.
+Only a second extraction path or XBRL comparison would catch that.
+
 ## Reproduce
 
 ```bash
@@ -120,6 +157,7 @@ The [snapshot](benchmark-holdout-results.json) records page scores, verifier rea
 and annotation fingerprints. The generated report in `out/` also lists every missing and unexpected
 fact.
 
-This holdout is now spent. Fixing the JSF labels would be development on these pages, which would
-turn them into regression cases. An unbiased measurement of the next parser needs another fresh
-holdout or XBRL-aligned gold, as section 7 of the design proposes.
+This holdout is now spent: it is a regression set, kept with both snapshots
+([first run](benchmark-holdout-results.json), [after the label fix](benchmark-holdout-results-labels.json)).
+An unbiased measurement of the next parser needs another fresh holdout or XBRL-aligned gold, as
+section 7 of the design proposes.
