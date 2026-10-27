@@ -35,6 +35,7 @@ COLUMN_TOLERANCE = 8.0  # pt between right edges of amounts in one column
 MIN_COLUMN_SIZE = 3  # amounts needed to establish a value column
 INDENT_TOLERANCE = 2.5  # pt between label starts on one indentation level
 LABEL_AREA = 0.3  # share of the page width, from the left, where labels start
+WRAP_PITCH = 0.85  # share of the row pitch below which a label line continues the one above
 RULE_SPAN = 0.9  # share of a column a summation rule spans
 UNDERLINE_SPAN = 0.6  # share of a figure's width a correction underline spans
 UNDERLINE_GAP = 4.0  # pt below a figure within which an underline belongs to it
@@ -221,6 +222,8 @@ def _table(
         unplaced += lost
         if row is not None:
             rows.append(replace(row, unit=unit))
+    rows = _join_wrapped(rows)
+    unplaced += [f"row without a label at y={row.bbox[1]:.0f}" for row in rows if not row.label]
     linked, warnings = build_structure(_with_cues(_with_levels(rows), content.rules, columns))
     header = _header(lines[: held[0]], label_edge, above, content.text)
     return Table(header, periods, linked, tuple(unplaced), warnings)
@@ -349,11 +352,78 @@ def _row(
     label = NOTE_RE.sub("", raw).strip()
     if not label and not any(cells):
         return None, unplaced
-    if not label:
-        unplaced.append(f"row without a label at y={line[0].top:.0f}")
     markers = [m for w in notes for m in note_markers(w.text) or [normalize(w.text)]]
     markers += note_markers(raw)
-    return Row(label, _union(label_words or line), tuple(cells), notes=tuple(markers)), unplaced
+    box = _union([w.bbox for w in label_words or line])
+    return Row(label, box, tuple(cells), notes=tuple(markers)), unplaced
+
+
+def _join_wrapped(rows: Sequence[Row]) -> list[Row]:
+    """Rejoin labels printed over two lines starting at the same indentation.
+
+    A wrapped row's values sit either on a baseline of their own, centred between its two label
+    lines, or below a first line that runs to the label column's right edge and is followed
+    closer than the table's row pitch.
+    """
+    labelled = [row for row in rows if row.label]
+    tops = [row.bbox[1] for row in labelled]
+    pitch = median(b - a for a, b in pairwise(tops)) if len(tops) > 1 else 0.0
+    edge = max((row.bbox[2] for row in labelled), default=0.0)
+    joined: list[Row] = []
+    i = 0
+    while i < len(rows):
+        span = 3 if _centred(rows[i : i + 3]) else 2 if _close(rows[i : i + 2], pitch, edge) else 1
+        joined.append(rows[i] if span == 1 else _joined(rows[i : i + span]))
+        i += span
+    return joined
+
+
+def _centred(rows: Sequence[Row]) -> bool:
+    if len(rows) < 3:
+        return False
+    head, values, tail = rows
+    above, below = values.bbox[1] - head.bbox[1], tail.bbox[1] - values.bbox[1]
+    return (
+        _label_only(head)
+        and _label_only(tail)
+        and not values.label
+        and _same_start(head, tail)
+        and abs(above - below) <= LINE_TOLERANCE
+    )
+
+
+def _close(rows: Sequence[Row], pitch: float, edge: float) -> bool:
+    if len(rows) < 2:
+        return False
+    head, tail = rows
+    glyph = head.bbox[3] - head.bbox[1]
+    return (
+        _label_only(head)
+        and bool(tail.label)
+        and _same_start(head, tail)
+        and head.bbox[2] >= edge - glyph
+        and tail.bbox[1] - head.bbox[1] < WRAP_PITCH * pitch
+    )
+
+
+def _label_only(row: Row) -> bool:
+    return bool(row.label) and not any(row.cells)
+
+
+def _same_start(a: Row, b: Row) -> bool:
+    return abs(a.bbox[0] - b.bbox[0]) <= INDENT_TOLERANCE
+
+
+def _joined(parts: Sequence[Row]) -> Row:
+    """One row from the lines of a wrapped label; at most one line carries values."""
+    labelled = [p for p in parts if p.label]
+    return replace(
+        parts[0],
+        label="".join(p.label for p in labelled),
+        bbox=_union([p.bbox for p in labelled]),
+        cells=next((p.cells for p in parts if any(p.cells)), parts[0].cells),
+        notes=tuple(n for p in parts for n in p.notes),
+    )
 
 
 def _with_levels(rows: Sequence[Row]) -> list[Row]:
@@ -423,10 +493,6 @@ def _text(words: Iterable[Word]) -> str:
     return "".join(w.text for w in words)
 
 
-def _union(words: Sequence[Word]) -> BBox:
-    return (
-        min(w.x0 for w in words),
-        min(w.top for w in words),
-        max(w.x1 for w in words),
-        max(w.bottom for w in words),
-    )
+def _union(boxes: Sequence[BBox]) -> BBox:
+    x0s, tops, x1s, bottoms = zip(*boxes, strict=True)
+    return (min(x0s), min(tops), max(x1s), max(bottoms))

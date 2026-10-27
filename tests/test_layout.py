@@ -5,6 +5,7 @@ import pytest
 
 from jpfs.layout import INK, PageContent, Rule, Word, extract_tables, luminance
 from jpfs.model import Amount, Period, Role, StatementKind
+from jpfs.text import normalize
 
 NOTES, PRIOR, CURRENT = 300.0, 420.0, 540.0  # right edges of the value columns
 INDENT = 13.0
@@ -176,6 +177,58 @@ def test_rule_under_a_net_row_does_not_close_the_group_at_a_page_break() -> None
     assert roles["建物（純額）"] is Role.NET
     assert roles["建設仮勘定"] is Role.ITEM
     assert table.warnings == ("group '有形固定資産' has no closing total on this page",)
+
+
+def _page(*words: Word) -> PageContent:
+    header = (Word("前期", 340, 64, 405, 73), Word("当期", 460, 64, 525, 73))
+    return PageContent(header + words, (), width=600.0, text="")
+
+
+def test_values_centred_between_two_label_lines_belong_to_one_row() -> None:
+    (table,) = extract_tables(
+        _page(
+            *_line(80, "売上高", "1,000", "1,200"),
+            _label("有価証券及び投資有価証券の売却及び償還によ", 60, 92),
+            _figure("300", PRIOR, 97),
+            _figure("400", CURRENT, 97),
+            _label("る収入", 60, 102),
+            *_line(114, "その他", "5", "6"),
+        )
+    )
+    proceeds = table.rows[1]
+    assert proceeds.label == "有価証券及び投資有価証券の売却及び償還による収入"
+    assert [cell.amount.value for cell in proceeds.cells] == [300, 400]
+    assert len(table.rows) == 3
+    assert not table.unplaced
+
+
+def test_a_heading_wrapped_at_the_label_edge_onto_a_closer_line_is_one_row() -> None:
+    (table,) = extract_tables(
+        _page(
+            *_line(80, "売上高", "1,000", "1,200"),
+            *_line(92, "四半期損失（△）", "△35,841", "△61,883"),
+            _label("親会社の所有者に帰属する１株当たり四半期損", 60, 104),
+            _label("失（△）：", 60, 113),
+            *_line(125, "基本的", "△19.78", "△34.08", level=1),
+            *_line(137, "希薄化後", "△19.78", "△34.09", level=1),
+        )
+    )
+    heading = "親会社の所有者に帰属する１株当たり四半期損失（△）："
+    assert [row.label for row in table.rows][2:] == [heading, "基本的", "希薄化後"]
+    assert table.rows[3].path == (normalize(heading), "基本的")
+
+
+def test_close_lines_that_do_not_reach_the_label_edge_stay_apart() -> None:
+    (table,) = extract_tables(
+        _page(
+            *_line(80, "有価証券及び投資有価証券の売却による収入", "1,000", "1,200"),
+            _label("自己株式の取得", 60, 92),
+            _label("株主資本以外の項目", 60, 101),
+            *_line(113, "当期変動額合計", "5", "6"),
+            *_line(125, "当期末残高", "7", "8"),
+        )
+    )
+    assert [row.label for row in table.rows][1:3] == ["自己株式の取得", "株主資本以外の項目"]
 
 
 @pytest.mark.parametrize(

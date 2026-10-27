@@ -46,13 +46,99 @@ def build_structure(rows: Sequence[Row]) -> tuple[tuple[Row, ...], tuple[str, ..
 
 
 def _tree_levels(rows: Sequence[Row]) -> list[int]:
-    """Printed levels, except that a total printed right after a total at the same level closes
-    the enclosing level: 負債純資産合計 after 純資産合計 sums the whole sheet, not 純資産の部."""
+    """Printed levels, corrected where the totals say the indentation does not express the tree.
+
+    A total that names a heading closes it (流動資産合計 closes 流動資産), so the rows between
+    belong to that heading even when printed at its indentation. A compound heading such as
+    負債及び資本 encloses the sections it names even when its own total is on a later page. A
+    total printed right after a total at the same level, naming no heading, closes the enclosing
+    level: 負債純資産合計 after 純資産合計 sums the whole sheet, not 純資産の部.
+    """
     levels = [row.level for row in rows]
+    closed = _close_named_headings(rows, levels)
+    _enclose_compound_headings(rows, levels, closed)
     for i in range(1, len(rows)):
-        if rows[i].level == rows[i - 1].level > 0 and _is_total(rows[i]) and _is_total(rows[i - 1]):
+        if (
+            i not in closed
+            and rows[i].level == rows[i - 1].level > 0
+            and _is_total(rows[i])
+            and _is_total(rows[i - 1])
+        ):
             levels[i] -= 1
     return levels
+
+
+def _close_named_headings(rows: Sequence[Row], levels: list[int]) -> set[int]:
+    """Make each total that names a heading that heading's last child, nesting the rows between
+    beneath the heading when they were printed at its level; innermost first. Returns the totals."""
+    closed: set[int] = set()
+    for total, row in enumerate(rows):
+        name = _named_heading(row)
+        heading = next(
+            (
+                k
+                for k in range(total - 1, -1, -1)
+                if not any(rows[k].cells) and _section(rows[k].label) == name
+            ),
+            None,
+        )
+        if name is None or heading is None:
+            continue
+        between = range(heading + 1, total)
+        if between and (lowest := min(levels[k] for k in between)) <= levels[heading]:
+            for k in between:
+                levels[k] += levels[heading] + 1 - lowest
+        levels[total] = levels[heading] + 1
+        closed.add(total)
+    return closed
+
+
+def _enclose_compound_headings(rows: Sequence[Row], levels: list[int], closed: set[int]) -> None:
+    """A heading such as 負債及び資本, directly followed at its own level by one of the sections it
+    names, encloses those sections and their totals even when its own total is not on the page."""
+    named = {_named_heading(rows[t]) for t in closed}
+    for heading, row in enumerate(rows):
+        parts = _parts(row.label)
+        first = heading + 1
+        if (
+            any(row.cells)
+            or len(parts) < 2
+            or _section(row.label) in named
+            or first >= len(rows)
+            or levels[first] > levels[heading]
+            or _section(rows[first].label) not in parts
+        ):
+            continue
+        end = next(
+            (
+                k
+                for k in range(first, len(rows))
+                if levels[k] <= levels[heading]
+                and _section(rows[k].label) not in parts
+                and _named_heading(rows[k]) not in parts
+            ),
+            len(rows),
+        )
+        for k in range(first, end):
+            levels[k] += 1
+
+
+def _section(label: str) -> str:
+    """A heading's name for matching against totals: 資産の部 is the section 資産."""
+    return normalize(label).removesuffix("の部")
+
+
+def _named_heading(row: Row) -> str | None:
+    """The heading a total names: 流動資産合計 names 流動資産, 資産の部合計 names 資産."""
+    label = normalize(row.label)
+    if not any(row.cells) or not label.endswith("合計"):
+        return None
+    return _section(label.removesuffix("合計")) or None
+
+
+def _parts(label: str) -> list[str]:
+    """The sections a compound heading names: 負債及び資本 names 負債 and 資本."""
+    return [_section(part) for part in re.split("及び|並びに", normalize(label)) if part]
 
 
 def _is_total(row: Row) -> bool:

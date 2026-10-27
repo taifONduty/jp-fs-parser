@@ -131,6 +131,51 @@ def test_grand_total_after_a_section_total_closes_the_sheet() -> None:
     assert _constraints(table)["sum:負債純資産合計"] == ["負債合計", "純資産合計"]
 
 
+def test_totals_close_the_headings_they_name_whatever_the_indentation() -> None:
+    table = _table(
+        (0, "負債及び資本", None),
+        (0, "負債", None),
+        (1, "流動負債", None),
+        (2, "買掛金", "100"),
+        (2, "未払金", "50"),
+        (1, "流動負債合計", "150"),
+        (1, "非流動負債", None),
+        (2, "社債", "30"),
+        (1, "非流動負債合計", "30"),
+        (0, "負債合計", "180"),
+        (0, "資本", None),
+        (1, "資本金", "20"),
+        (0, "資本合計", "20"),
+        (0, "負債及び資本合計", "200"),
+    )
+    paths = {row.label: row.path for row in table.rows}
+    assert paths["買掛金"] == ("負債及び資本", "負債", "流動負債", "買掛金")
+    assert paths["負債合計"] == ("負債及び資本", "負債", "負債合計")
+    assert paths["資本金"] == ("負債及び資本", "資本", "資本金")
+    constraints = _constraints(table)
+    assert constraints["sum:負債合計"] == ["流動負債合計", "非流動負債合計"]
+    assert constraints["sum:負債及び資本合計"] == ["負債合計", "資本合計"]
+    assert not table.warnings
+
+
+def test_a_compound_heading_encloses_its_sections_before_its_total_is_printed() -> None:
+    table = _table(
+        (0, "負債及び資本", None),
+        (0, "負債", None),
+        (0, "流動負債", None),
+        (1, "買掛金", "100"),
+        (1, "流動負債合計", "100"),
+        (0, "非流動負債", None),
+        (1, "社債", "30"),
+        (1, "非流動負債合計", "30"),
+        (0, "負債合計", "130"),  # 資本 and 負債及び資本合計 follow on the next page
+    )
+    assert table.rows[3].path == ("負債及び資本", "負債", "流動負債", "買掛金")
+    assert table.rows[-1].path == ("負債及び資本", "負債", "負債合計")
+    assert _constraints(table)["sum:負債合計"] == ["流動負債合計", "非流動負債合計"]
+    assert table.warnings == ("group '負債及び資本' has no closing total on this page",)
+
+
 def _groups_with_residuals(*residuals: int) -> Table:
     """One group per residual: two items of 10 and a total printed as 20 + residual."""
     specs = []
