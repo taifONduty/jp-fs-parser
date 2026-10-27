@@ -1,0 +1,121 @@
+{
+  "parser_revision": "479c8fd",
+  "scope": "All pages of the four holdout PDFs. Annotated pages are scored in benchmark-holdout-results-labels.json; every other auto-accepted table was audited row by row against the page's own text lines and by eye where they differed.",
+  "documents": [
+    {
+      "source": "jsf_2026",
+      "sha256": "96abd3286410c6b65c57883cae1cb2f186df49cb046440b262a3c7a3a3f40a52",
+      "pdf_pages": 125,
+      "output_records": 78,
+      "states": {
+        "needs_review": 50,
+        "failed": 26,
+        "verified": 2
+      },
+      "tables_with_damaged_labels": 23
+    },
+    {
+      "source": "nri_2026",
+      "sha256": "731ccd4485d7d06944b3530c33c01e1d4155554f55f8561f2d3a530d9db6bd2a",
+      "pdf_pages": 160,
+      "output_records": 103,
+      "states": {
+        "needs_review": 69,
+        "failed": 33,
+        "verified": 1
+      },
+      "tables_with_damaged_labels": 42
+    },
+    {
+      "source": "are_2026",
+      "sha256": "48b71d5b0682d2c4c89854a0b84e03e1ca8ff09e769295065adcab86bf5b0afe",
+      "pdf_pages": 138,
+      "output_records": 82,
+      "states": {
+        "failed": 21,
+        "needs_review": 60,
+        "verified": 1
+      },
+      "tables_with_damaged_labels": 28
+    },
+    {
+      "source": "shinnihon_2026",
+      "sha256": "2c92bc37a2e1c1d25a9d49c633e509c593d819bfecb38a3fe345ebfd88639dc3",
+      "pdf_pages": 22,
+      "output_records": 22,
+      "states": {
+        "needs_review": 17,
+        "failed": 2,
+        "verified": 2,
+        "accepted_with_warnings": 1
+      },
+      "tables_with_damaged_labels": 7
+    }
+  ],
+  "auto_accepted_tables": [
+    {
+      "source": "jsf_2026",
+      "page": 61,
+      "state": "verified",
+      "title": "連結貸借対照表",
+      "annotated": true,
+      "rows_with_values": 30
+    },
+    {
+      "source": "jsf_2026",
+      "page": 62,
+      "state": "verified",
+      "title": "連結貸借対照表",
+      "annotated": true,
+      "rows_with_values": 35
+    },
+    {
+      "source": "nri_2026",
+      "page": 138,
+      "state": "verified",
+      "title": "貸借対照表",
+      "annotated": false,
+      "rows_with_values": 32
+    },
+    {
+      "source": "are_2026",
+      "page": 114,
+      "state": "verified",
+      "title": "貸借対照表",
+      "annotated": false,
+      "rows_with_values": 21
+    },
+    {
+      "source": "shinnihon_2026",
+      "page": 15,
+      "state": "accepted_with_warnings",
+      "title": "貸借対照表",
+      "annotated": false,
+      "rows_with_values": 31
+    },
+    {
+      "source": "shinnihon_2026",
+      "page": 6,
+      "state": "verified",
+      "title": "連結貸借対照表",
+      "annotated": true,
+      "rows_with_values": 23
+    },
+    {
+      "source": "shinnihon_2026",
+      "page": 7,
+      "state": "verified",
+      "title": "連結貸借対照表",
+      "annotated": true,
+      "rows_with_values": 24
+    }
+  ],
+  "unseen_accepted_audit": {
+    "tables": 3,
+    "rows": 84,
+    "rows_wrong": 0,
+    "note": "One row (ARE p114 未収入金) differs from its text line only by ※1 markers between label and values; its values were confirmed on the rendered page. All three outputs are identical to the audited 98d75be outputs."
+  },
+  "total_pdf_pages": 445,
+  "total_output_records": 285
+}

@@ -298,6 +298,43 @@ without a statement, and it is not accepted. No decimal in the 114 pages was fla
 its unit. The run still exits with code 0, now with 63 records. All 14 annotated pages match the
 page-selected run, and no empty output is accepted.
 
+## Hierarchy rules
+
+Commit `479c8fd` reads the tree from the totals that close each heading, not from indentation
+alone, and rejoins labels wrapped over two lines. The rules are described with the
+[holdout regression run](benchmark-holdout.md#hierarchy-rules-regression-run). The label fix
+(`98d75be`) did not change either batch, so the baseline here is the per-share column above. The
+results are in the [first-batch](benchmark-results-hierarchy.json),
+[second-batch](benchmark-expansion-results-hierarchy.json) and
+[ingestion](benchmark-document-smoke-hierarchy.json) snapshots.
+
+| Measure, both batches | Per-share | Hierarchy rules |
+|---|---:|---:|
+| Strict fact F1 | 82.86% | **89.13%** |
+| Flat fact F1 | 92.27% | **92.74%** |
+| Row-path F1 | 81.59% | **88.48%** |
+| Exact pages | 16/25 | **20/25** |
+| Correct headers | 22/25 | 22/25 |
+| Auto-accepted pages | 5 | 6 |
+| Auto-accepted pages that are wrong | 0 | 0 |
+
+Five pages change:
+
+- **Fast Retailing 9** rises from 0 to 70 of 70. Its 資産, 負債及び資本 and 負債 headings print at
+  the indentation of the sections below them. All 12 checks now pass, up from 10. It stays in
+  review: 負債及び資本 closes on page 10, and its note column holds marks the reader cannot place.
+- **Nintendo 13**, **Capcom 16** and **Toyota 11** each recover the two values of a label wrapped
+  around its values. Capcom 16 is now verified, since its label is whole and its checks pass.
+  Toyota 11 is exact on its 50 gold values but still predicts one unlabelled nil cell.
+- **Rakuten 13** rises from 28 to 32 of 32, now that its EPS heading is one label.
+
+The first batch's strict F1 rises from 72.48% to 85.13%, the second's from 91.66% to 92.53%. The
+197 strict misses left in both batches have three causes. BOJ's vector-outline digits account for
+103 and Nintendo's equity matrix for 48. Toyota 19's segment heading （自動車等） is missing from
+every path, which accounts for 46. In the
+full-document run, the only change of state is Capcom 16 to verified, and the 14 annotated pages
+still match the page-selected run.
+
 ## Reproduce
 
 ```bash

@@ -15,10 +15,12 @@ but **1 of its 4 auto-accepted pages was wrong**: commas left by footnote marker
 cells corrupted three labels, and no arithmetic check reads labels. That was 6 wrong facts among
 224 accepted. The [label fix](docs/benchmark-holdout.md#label-fix-regression-run) keeps marker lists
 out of labels and adds a label check to the verifier. On the now-spent holdout, no accepted page
-is wrong, but that is a regression result, not a new measurement.
+is wrong, but that is a regression result, not a new measurement. So is the holdout's 618 of 618
+values after the [hierarchy rules](docs/benchmark-holdout.md#hierarchy-rules-regression-run),
+which read the tree from the totals that close each heading and rejoin wrapped labels.
 
 Two earlier [benchmark batches](docs/benchmark-expansion.md) of 25 pages from eight issuers were
-used to develop the fixes since `cc6a4fe`, so their scores (82.86% strict fact F1, 16/25 exact
+used to develop the fixes since `cc6a4fe`, so their scores (89.13% strict fact F1, 20/25 exact
 pages) are optimistic. They found two acceptance defects, continuation pages verified without
 their statement title and an empty table accepted, which
 [the acceptance fix](docs/benchmark-expansion.md#acceptance-fix) and
@@ -153,9 +155,8 @@ gold stratified by layout family. Known gaps:
 
 - Labels are checked only for visible damage (stray separators, marker residue, trailing
   numbers, unbalanced brackets). A wrong label that looks clean still passes.
-- Section headings printed at their parent's indentation (負債及び資本 above 負債), and totals
-  printed at their section heading's indentation.
-- Labels wrapped over two lines.
+- Hierarchy that neither indentation nor the name of a closing total reveals, and labels wrapped
+  over more than two lines or, in equity-change matrices, short of the label column's edge.
 - Account-form pages.
 - Multi-page statements are checked page by page: a continuation page inherits its statement's
   title, but totals whose members sit on another page are not verified.

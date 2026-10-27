@@ -146,6 +146,47 @@ glued onto labels in narrow tables.
 A label can still be wrong without looking damaged, for instance a valid but misattached label.
 Only a second extraction path or XBRL comparison would catch that.
 
+## Hierarchy rules (regression run)
+
+Commit `479c8fd` stops trusting indentation alone. A total that names a heading closes it: the
+rows between 流動負債 and 流動負債合計 belong to 流動負債 even when NRI prints them at its
+indentation. A compound heading such as 負債及び資本 encloses the sections it names, even when its
+total is on the next page. A label wrapped over two lines becomes one row in two cases. In the
+first, its values sit on their own baseline, centred between the two lines. In the second, its
+first line runs to the label column's edge and the next line is set closer than the table's row
+pitch.
+
+These rules were written while looking at the holdout's NRI pages, so the results below are
+regression results:
+
+| Measure | First run | Label fix | Hierarchy rules |
+|---|---:|---:|---:|
+| Strict fact F1 | 86.41% | 87.38% | **100%** |
+| Flat fact F1 | 97.73% | 98.71% | **100%** |
+| Row-path F1 | 86.38% | 87.19% | **100%** |
+| Exact pages | 8/12 | 9/12 | **12/12** |
+| Auto-accepted pages | 4 | 4 | 4 |
+| Auto-accepted facts, wrong | 6 of 224 | 0 of 224 | 0 of 224 |
+
+NRI 81, 82 and 83 are now exact. NRI 82 had scored 0 of 54: every value was read, but every
+path was wrong. Their arithmetic now passes in full (6/6, 12/12 and 4/4 checks), but they stay
+in review. Their 注記 columns print note lists such as 7,31, which the reader reports as figures it
+cannot place. The same holds for ARE 57 to 59.
+
+Every join the new rules make was listed on all pages of the twelve filings. The first version of
+the close-line rule also joined separate rows of equity-change matrices, such as 自己株式の取得 and
+株主資本以外の項目 on Shin Nihon 20. It also joined the tail of one wrapped label to the head of the
+next. Requiring the first line to reach the label column's edge removed every such join on a
+statement page. The rules now make 165 joins over the twelve filings. On statement pages, the
+only joins that do not rejoin one label are in ARE's equity-change matrix (61, 62). There, column
+headers are already read as body rows, and both pages fail. The other misjoins are in shareholder
+lists and prose on pages without statements.
+
+Over all 445 pages of the four filings
+([summary](benchmark-holdout-full-documents-hierarchy.json)), every document's state counts are
+unchanged. The same seven tables are accepted, and the three unseen ones are identical to the
+outputs audited above. Tables with damaged labels fall from 103 to 100.
+
 ## Reproduce
 
 ```bash
@@ -157,7 +198,8 @@ The [snapshot](benchmark-holdout-results.json) records page scores, verifier rea
 and annotation fingerprints. The generated report in `out/` also lists every missing and unexpected
 fact.
 
-This holdout is now spent: it is a regression set, kept with both snapshots
-([first run](benchmark-holdout-results.json), [after the label fix](benchmark-holdout-results-labels.json)).
+This holdout is now spent: it is a regression set, kept with every snapshot
+([first run](benchmark-holdout-results.json), [after the label fix](benchmark-holdout-results-labels.json),
+[after the hierarchy rules](benchmark-holdout-results-hierarchy.json)).
 An unbiased measurement of the next parser needs another fresh holdout or XBRL-aligned gold, as
 section 7 of the design proposes.
