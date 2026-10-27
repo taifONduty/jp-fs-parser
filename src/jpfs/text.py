@@ -138,7 +138,33 @@ def declared_rounding(text: str) -> Rounding | None:
     return Rounding.TRUNCATE if truncate else Rounding.ROUND
 
 
-NOTE_RE = re.compile(r"※\d*|[*＊]\d+")  # footnote markers next to labels or amounts
+_MARKER = r"(?:※\d*|[*＊]\d+)"
+NOTE_RE = re.compile(rf"{_MARKER}(?:[,，、]{_MARKER})*")  # a footnote marker or a list: ※１,※５
+_MARKER_RE = re.compile(_MARKER)
+
+
+def note_markers(text: str) -> list[str]:
+    """The individual footnote markers in a text, such as ['※1', '※5'] for ※１,※５."""
+    return _MARKER_RE.findall(normalize(text))
+
+
+_DAMAGE = (
+    (re.compile(r"^[,、]|[,、]$"), "a separator at its edge"),
+    (re.compile(r"[※*]"), "footnote-marker residue"),
+    (re.compile(r"[^\d]\d+$"), "a trailing number, perhaps a glued note reference"),
+)
+
+
+def label_defect(label: str) -> str | None:
+    """How a label looks damaged by extraction, or None. Arithmetic never reads labels, so this
+    is the only check that can catch a wrong row identity with right values."""
+    t = normalize(label)
+    for pattern, defect in _DAMAGE:
+        if pattern.search(t):
+            return defect
+    if t.count("(") != t.count(")"):
+        return "unbalanced brackets"
+    return None
 
 
 def audit_text_layer(text: str) -> tuple[list[str], list[str]]:

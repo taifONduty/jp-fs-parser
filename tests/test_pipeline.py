@@ -80,6 +80,17 @@ def test_a_decimal_without_its_own_unit_is_reviewed(sample: Result) -> None:
     assert any("its own unit is not printed" in reason for reason in verification.reasons)
 
 
+def test_a_damaged_label_is_reviewed_even_when_every_check_passes(sample: Result) -> None:
+    rows = list(sample.table.rows)
+    rows[2] = replace(rows[2], label="現金及び預金,,")
+    verification = verify(
+        replace(sample.table, rows=tuple(rows)), Rounding.TRUNCATE, RoundingBasis.INFERRED
+    )
+    assert all(check.passed for check in verification.checks)
+    assert verification.state is PageState.NEEDS_REVIEW
+    assert any("looks damaged" in reason for reason in verification.reasons)
+
+
 def test_a_table_without_any_value_fails(sample: Result) -> None:
     rows = tuple(replace(row, cells=()) for row in sample.table.rows)
     empty = replace(sample.table, periods=(), rows=rows)

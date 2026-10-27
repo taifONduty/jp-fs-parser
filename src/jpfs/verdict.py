@@ -5,6 +5,7 @@ from dataclasses import dataclass
 
 from jpfs.checks import Check, derive_constraints, evaluate, uncovered_cells
 from jpfs.model import UNIT_SCALES, PageState, Rounding, RoundingBasis, Table
+from jpfs.text import label_defect
 
 
 @dataclass(frozen=True, slots=True)
@@ -28,15 +29,21 @@ def verify(
 
     failed: no amount was bound to a period, so there is nothing to accept or review.
     needs_review: a constraint fails, a cell is vouched for by no check, printed content was not
-    bound to a cell, the header is incomplete (no statement title, unit or dated period), or the
-    text layer is untrusted. Facts without their statement are not correct facts, so a
-    continuation page is reviewed until cross-page assembly supplies its title.
+    bound to a cell, a label looks damaged, the header is incomplete (no statement title, unit or
+    dated period), or the text layer is untrusted. Facts without their statement are not correct
+    facts, so a page whose title is neither printed nor inherited is reviewed.
     accepted_with_warnings: everything holds but something soft was noticed.
     verified: everything holds and nothing was noticed.
     """
     checks = evaluate(table, derive_constraints(table.rows), rounding)
     uncovered = uncovered_cells(table, checks)
-    review = [*untrusted, *table.unplaced, *_failures(table, checks), *_unitless_decimals(table)]
+    review = [
+        *untrusted,
+        *table.unplaced,
+        *_failures(table, checks),
+        *_unitless_decimals(table),
+        *_damaged_labels(table),
+    ]
     if uncovered:
         review.append(f"{len(uncovered)} cell(s) covered by no constraint")
     if table.header.title is None:
@@ -60,6 +67,14 @@ def verify(
     else:
         state = PageState.VERIFIED
     return Verification(rounding, rounding_basis, checks, uncovered, state, (*review, *soft))
+
+
+def _damaged_labels(table: Table) -> list[str]:
+    return [
+        f"label '{row.label}' looks damaged: {defect}"
+        for row in table.rows
+        if (defect := label_defect(row.label))
+    ]
 
 
 def _unitless_decimals(table: Table) -> list[str]:

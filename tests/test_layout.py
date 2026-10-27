@@ -136,6 +136,21 @@ def test_figures_under_a_header_that_names_no_period_are_reported_lost() -> None
     assert all(not row.notes for row in table.rows)
 
 
+def test_footnote_marker_lists_inside_value_cells_stay_out_of_labels() -> None:
+    words = [Word("前期", 340, 64, 405, 73), Word("当期", 460, 64, 525, 73)]
+    for i, label in enumerate(("現金及び預金", "有価証券", "営業貸付金")):
+        top = 80 + 12 * i
+        words += _line(top, label, "1,000", "2,000")
+        words += [
+            Word("※１,※５", 360, top + 2, 385, top + 9),
+            Word("※１,※５", 480, top + 2, 505, top + 9),
+        ]
+    (table,) = extract_tables(PageContent(tuple(words), (), width=600.0, text=""))
+    assert [row.label for row in table.rows] == ["現金及び預金", "有価証券", "営業貸付金"]
+    assert table.rows[1].notes == ("※1", "※5", "※1", "※5")
+    assert not table.unplaced
+
+
 def test_a_column_holds_every_figure_it_was_clustered_from() -> None:
     words = [Word("当期", 500, 64, 518, 73)]
     for i, right in enumerate((524.0, 531.0, 538.0)):  # ragged, each within tolerance of the next

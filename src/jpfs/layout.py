@@ -21,6 +21,7 @@ from jpfs.text import (
     find_title,
     find_unit,
     normalize,
+    note_markers,
     parse_amount,
     parse_period,
     unit_line,
@@ -350,7 +351,8 @@ def _row(
         return None, unplaced
     if not label:
         unplaced.append(f"row without a label at y={line[0].top:.0f}")
-    markers = [normalize(w.text) for w in notes] + [normalize(m) for m in NOTE_RE.findall(raw)]
+    markers = [m for w in notes for m in note_markers(w.text) or [normalize(w.text)]]
+    markers += note_markers(raw)
     return Row(label, _union(label_words or line), tuple(cells), notes=tuple(markers)), unplaced
 
 

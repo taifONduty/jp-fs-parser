@@ -5,11 +5,14 @@ import pytest
 
 from jpfs.model import Amount, Period, Rounding, StatementKind
 from jpfs.text import (
+    NOTE_RE,
     audit_text_layer,
     declared_rounding,
     find_title,
     find_unit,
+    label_defect,
     normalize,
+    note_markers,
     parse_amount,
     parse_period,
 )
@@ -105,6 +108,29 @@ def test_find_title(line: str, title: tuple[str, StatementKind] | None) -> None:
 )
 def test_declared_rounding(text: str, rounding: Rounding | None) -> None:
     assert declared_rounding(text) == rounding
+
+
+def test_footnote_marker_lists_are_one_note_reference() -> None:
+    assert NOTE_RE.fullmatch(normalize("※１,※５"))
+    assert note_markers("※１、※４、※５") == ["※1", "※4", "※5"]
+    assert NOTE_RE.sub("", "有価証券※１,※５") == "有価証券"
+    assert not NOTE_RE.fullmatch("96,241")
+
+
+@pytest.mark.parametrize(
+    ("label", "damaged"),
+    [
+        ("有価証券,,", True),
+        ("現金及び現金同等物7,31", True),
+        ("建物（純額", True),
+        ("受取手形※", True),
+        ("建物及び構築物（純額）", False),
+        ("１年内返済予定の長期借入金", False),
+        ("親会社の所有者に帰属する１株当たり四半期損失（△）：", False),
+    ],
+)
+def test_label_defects(label: str, damaged: bool) -> None:
+    assert (label_defect(label) is not None) is damaged
 
 
 def test_text_layer_audit() -> None:
