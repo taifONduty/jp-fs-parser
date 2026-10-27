@@ -10,8 +10,9 @@ from datetime import date
 from decimal import Decimal
 from pathlib import Path
 
+from jpfs.engines import ENGINES, parser_for
 from jpfs.model import PageState
-from jpfs.pipeline import Result, parse_pdf
+from jpfs.pipeline import Result
 from jpfs.render import to_markdown, to_record
 from jpfs.text import normalize
 
@@ -178,7 +179,10 @@ def source_pdf(source: dict, directory: Path, download: bool) -> Path:
     return path
 
 
-def run(manifest: dict, directory: Path, out: Path, download: bool) -> dict:
+def run(
+    manifest: dict, directory: Path, out: Path, download: bool, engine: str = "geometry"
+) -> dict:
+    parse_pdf = parser_for(engine)
     sources = out / "sources"
     sources.mkdir(parents=True, exist_ok=True)
     pages = []
@@ -210,10 +214,13 @@ def run(manifest: dict, directory: Path, out: Path, download: bool) -> dict:
     )
     revision = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip()
     parser_files = sorted((ROOT / "src/jpfs").glob("*.py"))
+    if engine != "geometry":
+        parser_files += sorted((ROOT / "src/jpfs/engines").glob("*.py"))
     digest = hashlib.sha256(
         b"".join(p.name.encode() + p.read_bytes() for p in parser_files)
     ).hexdigest()
     return {
+        "engine": engine,
         "revision": revision,
         "parser_sha256": digest,
         "annotation_sha256": hashlib.sha256(
@@ -235,9 +242,10 @@ def main() -> None:
     parser.add_argument("--download", action="store_true", help="download missing source PDFs")
     parser.add_argument("--manifest", type=Path, default=CORPUS / "manifest.json")
     parser.add_argument("--out", type=Path, default=ROOT / "out/benchmark")
+    parser.add_argument("--engine", choices=ENGINES, default="geometry")
     args = parser.parse_args()
     manifest = json.loads(args.manifest.read_text())
-    report = run(manifest, args.manifest.parent, args.out, args.download)
+    report = run(manifest, args.manifest.parent, args.out, args.download, args.engine)
     (args.out / "report.json").write_text(dumps(report))
     print(dumps(report["summary"]), end="")
 

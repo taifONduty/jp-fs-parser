@@ -73,7 +73,7 @@ def parse_pdf(path: str | Path, pages: Collection[int] | None = None) -> list[Re
                 failures.append(Result(source, failure=failure))
             found += [(source, table, untrusted, warnings) for table in tables]
 
-    rounding, basis = _document_rounding(document_text, [table for _, table, _, _ in found])
+    rounding, basis = document_rounding(document_text, [table for _, table, _, _ in found])
     verified = [
         Result(source, table, verify(table, rounding, basis, untrusted, warnings))
         for source, table, untrusted, warnings in found
@@ -96,7 +96,7 @@ def page_failure(
     return None
 
 
-def _document_rounding(text: str, tables: Sequence[Table]) -> tuple[Rounding, RoundingBasis]:
+def document_rounding(text: str, tables: Sequence[Table]) -> tuple[Rounding, RoundingBasis]:
     """The filing's own note (千円未満切捨て) wins; otherwise a sign test over all its tables."""
     if (declared := declared_rounding(text)) is not None:
         return declared, RoundingBasis.DECLARED

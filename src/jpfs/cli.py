@@ -1,4 +1,5 @@
-"""Command line: `jpfs parse` turns filings into verified tables; `jpfs evaluate` scores a page."""
+"""Command line: `jpfs parse` turns filings into verified tables with the chosen engine;
+`jpfs evaluate` scores a page."""
 
 import argparse
 import json
@@ -8,8 +9,9 @@ from pathlib import Path
 
 from pdfplumber.utils.exceptions import PdfminerException
 
+from jpfs.engines import ENGINES, parser_for
 from jpfs.evaluation import evaluate_page
-from jpfs.pipeline import Result, parse_pdf
+from jpfs.pipeline import Result
 from jpfs.render import to_facts, to_markdown, to_record
 
 
@@ -21,6 +23,7 @@ def main(argv: list[str] | None = None) -> int:
     parse.add_argument("pdfs", nargs="+", type=Path)
     parse.add_argument("-o", "--out", type=Path, default=Path("out"))
     parse.add_argument("-p", "--pages", type=_pages, help="1-based pages, e.g. 4,5 (default: all)")
+    parse.add_argument("-e", "--engine", choices=ENGINES, default="geometry")
     parse.set_defaults(run=_parse)
 
     evaluate = commands.add_parser("evaluate", help="score one page against a gold transcription")
@@ -43,6 +46,11 @@ def _pages(spec: str) -> list[int]:
 
 
 def _parse(args: argparse.Namespace) -> int:
+    try:
+        parse_pdf = parser_for(args.engine)
+    except RuntimeError as error:
+        print(error, file=sys.stderr)
+        return 1
     status = 0
     for pdf in args.pdfs:
         try:
