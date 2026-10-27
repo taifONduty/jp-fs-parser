@@ -8,8 +8,77 @@ Three extraction engines are available. **Geometry is the default and performed 
 49-page benchmark:** 94.73% strict fact F1 and 43 exact pages. The Docling engines are comparison
 paths; passing their accounting checks does not guarantee correct labels or hierarchy.
 
-The [design document](docs/design.pdf) explains the pipeline and evaluation approach. The
+The [pipeline design](#pipeline-design) below describes the current implementation. The
 [engine comparison](docs/benchmark-engines.md) contains the complete results and failure cases.
+
+## Pipeline design
+
+The pipeline separates **reading the page** from **deciding whether to trust the result**.
+Choose one extraction engine; its tables enter a common representation and the same checks.
+There is no automatic fallback or agreement vote between engines.
+
+[![Pipeline: select Geometry, TableFormer or GLM-OCR; build typed tables, assemble context, verify accounting, and export facts with a review state.](docs/assets/pipeline.svg)](docs/assets/pipeline.svg)
+
+[Editable Figma source](https://www.figma.com/design/L0qkwSYvyNdRy4lzsIm9Xp?node-id=2-2)
+· [Lucide icon license](docs/assets/LICENSE-lucide.txt)
+
+### 1. Read the filing
+
+Hash the source PDF, select its pages and retain the document text for context and rounding
+notes. The geometry path audits the text layer and splits pages at statement titles. The two
+Docling paths use layout detection to find tables.
+
+| Reader | How it reconstructs a table |
+|---|---|
+| **Geometry · default** | Cluster right-aligned figures into columns; recover rows from text positions, indentation and vector rules; distinguish correction underlines from total rules. |
+| **TableFormer** | Use Docling's layout detector and accurate table-structure model over the PDF text layer, with OCR disabled. |
+| **GLM-OCR** | Use Docling to locate table crops, then read their pixels as HTML tables through MLX. PDF text supplies surrounding context and row indentation. |
+
+### 2. Build typed facts and recover context
+
+All readers produce the same `Table → Row → Cell` model. Values retain exact decimal
+magnitudes, signs and the distinction between a blank, a dash and △0. Metadata records the
+statement, consolidated scope, correction status, unit and dated periods. A row may use its
+own unit, such as earnings per share in 円 inside a 百万円 statement.
+
+Hierarchy comes from indentation and named closing totals, rather than company-specific
+account lists. Geometry also rejoins supported wrapped labels. Continuation pages inherit
+statement metadata only when their dated periods and units agree; assembly does not merge
+cross-page arithmetic.
+
+### 3. Verify before accepting
+
+The verifier derives sum and gross-to-net constraints from the recovered tree. It compares
+intervals of possible underlying values to allow for display rounding.
+A printed rounding note takes precedence; otherwise a sign test may establish truncation.
+Without enough evidence, checks use the hull of the rounding and truncation intervals and
+record that uncertainty.
+
+Acceptance also requires a statement title, unit, dated columns, constraint coverage and labels
+without visible damage. Failed checks, unbound figures, uncovered cells or incomplete metadata
+send a table to review. A clean-looking wrong label or an incorrect tree can still pass; the model
+benchmarks demonstrate both failure modes.
+
+| State | Meaning |
+|---|---|
+| `verified` | All implemented checks pass, with no review reasons or warnings. |
+| `accepted_with_warnings` | No review reason remains, but a soft warning is recorded. |
+| `needs_review` | A check fails or the available evidence is incomplete. |
+| `failed` | No amount could be bound to a period, or the geometry path could not read a statement page. |
+
+### 4. Export the result and its evidence
+
+The CLI writes typed facts, a rendered Markdown table and the full audit record from the same
+rows. Each fact includes its source PDF hash, page and passing constraints. Geometry retains
+cell boxes and correction underlines; the model adapters currently retain less spatial
+provenance. Review states remain visible in the exported records.
+
+| Responsibility | Source |
+|---|---|
+| Document flow and continuation context | [`pipeline.py`](src/jpfs/pipeline.py), [`assembly.py`](src/jpfs/assembly.py) |
+| Geometry and model adapters | [`layout.py`](src/jpfs/layout.py), [`engines/`](src/jpfs/engines/) |
+| Typed model, lexical rules and hierarchy | [`model.py`](src/jpfs/model.py), [`text.py`](src/jpfs/text.py), [`structure.py`](src/jpfs/structure.py) |
+| Constraints, state and export | [`checks.py`](src/jpfs/checks.py), [`verdict.py`](src/jpfs/verdict.py), [`render.py`](src/jpfs/render.py) |
 
 ## Quick start
 
@@ -132,38 +201,12 @@ records, rendered tables and `report.json`. Generated outputs and cached PDFs st
 which is ignored by Git. The [comparison guide](docs/benchmark-engines.md#reproduce) covers all
 three engines and four corpora.
 
-## How it works
-
-| Stage | Implementation |
-|---|---|
-| Extract tables | `layout.py` for geometry; `engines/docling_models.py` and `engines/grid.py` for model tables |
-| Build row hierarchy and roles | `structure.py`: indentation, named closing totals and wrapped labels |
-| Parse metadata and values | `text.py`: Japanese/Gregorian dates, units, notes, signs and exact decimals |
-| Assemble continuation pages | `assembly.py`: inherit statement metadata when periods and units match |
-| Check and decide | `checks.py`, `verdict.py`: accounting constraints, coverage, damaged labels and page state |
-| Export | `render.py`: facts, Markdown and full records from the same typed rows |
-
-Geometry clusters the right edges of amounts to find columns, separates note references from
-values, and distinguishes correction underlines from summation rules. Its text audit flags
-unusable text layers. Model tables enter the common representation through separate adapters.
-
-The verifier derives sums and gross-to-net constraints from the table's own hierarchy, without
-per-company rules. A printed number represents an interval of possible values under truncation
-or rounding. Checks compare those intervals rather than demand exact displayed sums. A filing's
-rounding note takes precedence; otherwise the parser infers the mode from residuals or flags it
-as unknown. The [design](docs/design.pdf) gives the interval definitions and inference method.
-
-On the original development page, geometry extracts all 43 rows and 74 facts, recovers both
-correction underlines, and passes 20 constraints with every cell covered. Mutation testing on
-that page detects 94.8% of digit substitutions and every tested lost sign, but only 45.5% of
-adjacent-row swaps. This measures the checks' sensitivity on one table, not extraction accuracy
-on new filings. Correct arithmetic can coexist with wrong labels, paths or metadata.
-
 ## Limitations
 
 - Account-form layouts, equity matrices and some semantic groups remain unsupported. The
   Bank of Japan's two account-form pages score zero strict matches for every engine here.
-- Cross-page assembly carries metadata; it does not verify totals whose members span pages.
+- Cross-page assembly looks back up to four pages to recover metadata. It does not verify
+  totals whose members span pages.
 - Parent rows followed by breakdowns, unnamed subtotals and income-statement step-downs can
   produce incomplete or incorrect constraints, even when extracted values are correct.
 - Label checks detect visible damage, not plausible substitutions. Wrong labels and hierarchy
@@ -187,4 +230,5 @@ The tests are offline; they do not download filings or load model weights. The o
 engines were exercised separately by the benchmark runs. The frozen annotations live in
 `data/benchmark*/`; evaluation and comparison commands live in `src/jpfs/evaluation/`.
 
-The project [chat log](docs/chatlog.md) is also available.
+The [original design PDF](docs/design.pdf) is retained as background; the pipeline above is the
+current design. The project [chat log](docs/chatlog.md) is also available.
