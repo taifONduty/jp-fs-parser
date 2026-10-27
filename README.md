@@ -13,72 +13,107 @@ The [pipeline design](#pipeline-design) below describes the current implementati
 
 ## Pipeline design
 
-The pipeline separates **reading the page** from **deciding whether to trust the result**.
-Choose one extraction engine; its tables enter a common representation and the same checks.
-There is no automatic fallback or agreement vote between engines.
+JPFS reconstructs **financial facts from page evidence**, then checks the accounting
+relationships between them. The architecture below follows the design's evidence, typed
+representation and verification boundaries. Solid paths describe the implemented geometry
+pipeline; dashed blocks and links are proposed extensions.
 
-[![Pipeline: select Geometry, TableFormer or GLM-OCR; build typed tables, assemble context, verify accounting, and export facts with a review state.](docs/assets/pipeline.svg)](docs/assets/pipeline.svg)
+[![JPFS architecture: page evidence feeds geometry and typed financial identity; continuation context and rounding evidence feed tree-derived accounting checks, followed by explicit states and provenance-bearing exports. Dashed paths show proposed independent vision, taxonomy, XBRL and review feedback.](docs/assets/pipeline.svg)](docs/assets/pipeline.svg)
 
 [Editable Figma source](https://www.figma.com/design/L0qkwSYvyNdRy4lzsIm9Xp?node-id=2-2)
 · [Lucide icon license](docs/assets/LICENSE-lucide.txt)
 
-### 1. Read the filing
+### Page evidence and table reconstruction
 
-Hash the source PDF, select its pages and retain the document text for context and rounding
-notes. The geometry path audits the text layer and splits pages at statement titles. The two
-Docling paths use layout detection to find tables.
+The parser hashes the PDF, selects pages and reads the document text. On each selected page,
+it de-duplicates glyphs, filters background-coloured content and audits the extracted Unicode.
+Words retain their coordinates; dark vector rules supply layout and correction cues. This
+page evidence is held in memory and carried into the extracted cells, rather than kept in a
+separate persistent evidence store.
 
-| Reader | How it reconstructs a table |
-|---|---|
-| **Geometry · default** | Cluster right-aligned figures into columns; recover rows from text positions, indentation and vector rules; distinguish correction underlines from total rules. |
-| **TableFormer** | Use Docling's layout detector and accurate table-structure model over the PDF text layer, with OCR disabled. |
-| **GLM-OCR** | Use Docling to locate table crops, then read their pixels as HTML tables through MLX. PDF text supplies surrounding context and row indentation. |
+Statement titles split pages into table regions. Right-edge clusters of numeric tokens
+identify amount columns, which are bound to period headers. The parser separates note markers,
+rejoins supported wrapped labels and distinguishes correction underlines from summation rules.
+A statement page without usable text or value columns is reported as `failed`.
 
-### 2. Build typed facts and recover context
+### Financial identity in one typed representation
 
-All readers produce the same `Table → Row → Cell` model. Values retain exact decimal
-magnitudes, signs and the distinction between a blank, a dash and △0. Metadata records the
-statement, consolidated scope, correction status, unit and dated periods. A row may use its
-own unit, such as earnings per share in 円 inside a 百万円 statement.
+The output of reconstruction is a `Table` with a `Header`, dated `Period` columns, and `Row`
+objects containing typed `Cell` values. A cell keeps its printed text, exact decimal magnitude,
+sign, nil state, correction flag and bounding box. A blank is no cell; a dash is a nil amount;
+△0 retains a negative sign. Table units can be overridden by a row, such as EPS in 円 inside
+a 百万円 statement.
 
-Hierarchy comes from indentation and named closing totals, rather than company-specific
-account lists. Geometry also rejoins supported wrapped labels. Continuation pages inherit
-statement metadata only when their dated periods and units agree; assembly does not merge
-cross-page arithmetic.
+Rows form a tree. Indentation supplies the first structure, and named closing totals correct
+it: `流動資産合計` closes `流動資産`, even when the printed indentation is flat. Roles distinguish
+sections, ordinary items, gross values, contras, net amounts and totals. Repeated labels such
+as その他 therefore have distinct identities through their complete paths.
 
-### 3. Verify before accepting
+For example, a cash value belongs to `資産の部 / 流動資産 / 現金及び預金`, one dated column and
+one unit. Reading its digits correctly is insufficient if any of those bindings is wrong.
 
-The verifier derives sum and gross-to-net constraints from the recovered tree. It compares
-intervals of possible underlying values to allow for display rounding.
-A printed rounding note takes precedence; otherwise a sign test may establish truncation.
-Without enough evidence, checks use the hull of the rounding and truncation intervals and
-record that uncertainty.
+### Document context and rounding evidence
 
-Acceptance also requires a statement title, unit, dated columns, constraint coverage and labels
-without visible damage. Failed checks, unbound figures, uncovered cells or incomplete metadata
-send a table to review. A clean-looking wrong label or an incorrect tree can still pass; the model
-benchmarks demonstrate both failure modes.
+An untitled continuation can inherit statement metadata from up to four preceding pages,
+provided its dated columns and unit agree. The source page is recorded. This carries metadata;
+it does not join accounting constraints across pages.
 
-| State | Meaning |
+Document-wide rounding notes take precedence. Otherwise, a sign test over the recovered
+tables' accounting residuals may establish truncation. If the evidence is insufficient, the
+mode remains unknown and checks use the hull of rounding and truncation intervals.
+
+### Accounting verification and coverage
+
+The recovered tree supplies constraints: a closing total sums its members' contributions,
+while a net amount combines its gross value and contra rows. This works without a company
+account list, but it depends on recovering the correct hierarchy and roles.
+
+Each printed amount represents an interval of possible underlying values. Under truncation,
+a positive integer `v` in display units represents `[v, v+1)`. A sum passes when the total's
+interval overlaps the sum of its members' intervals. The original sample's current-assets
+total exceeds its ten printed components by 2千円; interval checks allow that valid truncation
+difference without an arbitrary fixed tolerance.
+
+The verdict also considers incomplete headers, unbound figures, uncovered cells, damaged-looking
+labels and the text audit. An arithmetic pass cannot establish that a plausible label or parent
+is correct. Each result keeps the checks, uncovered cells and reasons behind its state:
+
+| State | Condition |
 |---|---|
 | `verified` | All implemented checks pass, with no review reasons or warnings. |
 | `accepted_with_warnings` | No review reason remains, but a soft warning is recorded. |
-| `needs_review` | A check fails or the available evidence is incomplete. |
-| `failed` | No amount could be bound to a period, or the geometry path could not read a statement page. |
+| `needs_review` | A constraint fails or the available evidence is incomplete. |
+| `failed` | No amount is bound to a period, or a statement page could not be read. |
 
-### 4. Export the result and its evidence
+### Facts, provenance and proposed extensions
 
-The CLI writes typed facts, a rendered Markdown table and the full audit record from the same
-rows. Each fact includes its source PDF hash, page and passing constraints. Geometry retains
-cell boxes and correction underlines; the model adapters currently retain less spatial
-provenance. Review states remain visible in the exported records.
+The same typed rows produce JSONL facts, a Markdown table and a full JSON audit record. Geometry
+facts include the source PDF hash, page, cell box, correction flags and passing constraints.
+Review reasons remain in the output. A cell's box establishes where the text was read; it does
+not independently confirm that the PDF's Unicode mapping matches its pixels.
+
+The broader [design](docs/design.pdf), Sections 4–7, proposes additional checks and feedback.
+These capabilities are **not implemented**:
+
+| Extension | What it would add |
+|---|---|
+| Independent vision and grounding | Recognised pixel tokens with boxes, per-cell agreement, and repair restricted to candidates an extractor actually read. |
+| Taxonomy concepts and calculation links | Semantic identity and accounting relationships that are not recoverable as simple tree sums. |
+| XBRL and prior-filing comparison | Independent checks of values, periods and scale, with restatements handled explicitly. |
+| Review feedback | Stored corrections and confirmed mappings for later filings. |
+
+The existing TableFormer and GLM-OCR adapters are **alternative readers for comparison**. They
+feed the shared representation and verifier, but do not provide automatic routing, independent
+path agreement or constraint-guided repair. Their usage and results are documented below.
 
 | Responsibility | Source |
 |---|---|
 | Document flow and continuation context | [`pipeline.py`](src/jpfs/pipeline.py), [`assembly.py`](src/jpfs/assembly.py) |
-| Geometry and model adapters | [`layout.py`](src/jpfs/layout.py), [`engines/`](src/jpfs/engines/) |
-| Typed model, lexical rules and hierarchy | [`model.py`](src/jpfs/model.py), [`text.py`](src/jpfs/text.py), [`structure.py`](src/jpfs/structure.py) |
-| Constraints, state and export | [`checks.py`](src/jpfs/checks.py), [`verdict.py`](src/jpfs/verdict.py), [`render.py`](src/jpfs/render.py) |
+| Page evidence and geometry reconstruction | [`layout.py`](src/jpfs/layout.py) |
+| Typed values, dates and row hierarchy | [`model.py`](src/jpfs/model.py), [`text.py`](src/jpfs/text.py), [`structure.py`](src/jpfs/structure.py) |
+| Constraints, interval checks and verdict | [`checks.py`](src/jpfs/checks.py), [`verdict.py`](src/jpfs/verdict.py) |
+| Provenance and export | [`render.py`](src/jpfs/render.py) |
+| Optional comparison readers | [`engines/`](src/jpfs/engines/) |
 
 ## Quick start
 
@@ -230,5 +265,6 @@ The tests are offline; they do not download filings or load model weights. The o
 engines were exercised separately by the benchmark runs. The frozen annotations live in
 `data/benchmark*/`; evaluation and comparison commands live in `src/jpfs/evaluation/`.
 
-The [original design PDF](docs/design.pdf) is retained as background; the pipeline above is the
-current design. The project [chat log](docs/chatlog.md) is also available.
+The [design PDF](docs/design.pdf) contains the broader architecture and research. The pipeline
+section above distinguishes the implemented subset from its proposed extensions. The project
+[chat log](docs/chatlog.md) is also available.
