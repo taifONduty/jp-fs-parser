@@ -1,0 +1,790 @@
+{
+  "engine": "geometry",
+  "revision": "5ebf99c53c1bcecae53d52b03a44a6cc59543864",
+  "parser_sha256": "e147ea6bd591c09bfdceb13c9740ccff03cecb04a93fa1f234a712563068579c",
+  "annotation_sha256": "f6a90316f89fcdae777dfef417395507d18db45dbfe618ae3ee56cb22543d2a9",
+  "selection": "Fresh holdout: four issuers new to the corpus, chosen for layout families the parser was not developed on: two EDINET-rendered annual securities reports (Japanese GAAP finance industry; IFRS), one Antenna House annual securities report (IFRS) and one TAKARA PRINTING earnings release (Japanese GAAP construction). For each, the consolidated balance sheet over both its pages and the income or comprehensive income statement. Pages were chosen from text-layer titles and rendered pages before any parser run on these files. Page numbers are 1-based PDF positions.",
+  "annotation": "Single-assistant visual transcription checked against every selected rendered page before the first parser run on these files. A text-layer listing independent of jpfs was used only as a transcription aid. Paths, units and dates are explicit; semantic paths follow the earlier batches (totals under their section even when printed at the heading's indentation; wrapped labels joined). The gold's own totals were checked against their members within display rounding. Not independently human-adjudicated.",
+  "summary": {
+    "facts": {
+      "matched": 618,
+      "predicted": 618,
+      "gold": 618,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "flat_facts": {
+      "matched": 618,
+      "predicted": 618,
+      "gold": 618,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "rows": {
+      "matched": 363,
+      "predicted": 363,
+      "gold": 363,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "autoaccepted_facts": {
+      "matched": 224,
+      "predicted": 224,
+      "gold": 618,
+      "precision": 1.0,
+      "recall": 0.3625,
+      "f1": 0.5321
+    },
+    "pages": 12,
+    "page_exact": 12,
+    "headers_correct": 12,
+    "autoaccepted_pages": 4,
+    "wrong_autoaccepted_pages": 0
+  },
+  "pages": [
+    {
+      "id": "jsf_assets",
+      "source": "jsf_2026",
+      "page": 61,
+      "complexity": "medium",
+      "features": [
+        "EDINET annual-report layout",
+        "securities-finance accounts",
+        "footnote markers inside value cells",
+        "gross-contra-net groups",
+        "nil values"
+      ],
+      "rows": {
+        "matched": 35,
+        "predicted": 35,
+        "gold": 35,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "facts": {
+        "matched": 60,
+        "predicted": 60,
+        "gold": 60,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "flat_facts": {
+        "matched": 60,
+        "predicted": 60,
+        "gold": 60,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "header_correct": true,
+      "page_exact": true,
+      "states": [
+        "verified"
+      ],
+      "autoaccepted_page": true,
+      "autoaccepted_facts": {
+        "matched": 60,
+        "predicted": 60,
+        "gold": 60,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "checks": {
+        "passed": 14,
+        "total": 14
+      },
+      "reasons": [],
+      "missing": [],
+      "unexpected": []
+    },
+    {
+      "id": "jsf_liabilities",
+      "source": "jsf_2026",
+      "page": 62,
+      "complexity": "medium",
+      "features": [
+        "continuation page without a title",
+        "footnote markers inside value cells",
+        "land revaluation items"
+      ],
+      "rows": {
+        "matched": 41,
+        "predicted": 41,
+        "gold": 41,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "facts": {
+        "matched": 70,
+        "predicted": 70,
+        "gold": 70,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "flat_facts": {
+        "matched": 70,
+        "predicted": 70,
+        "gold": 70,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "header_correct": true,
+      "page_exact": true,
+      "states": [
+        "verified"
+      ],
+      "autoaccepted_page": true,
+      "autoaccepted_facts": {
+        "matched": 70,
+        "predicted": 70,
+        "gold": 70,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "checks": {
+        "passed": 14,
+        "total": 14
+      },
+      "reasons": [],
+      "missing": [],
+      "unexpected": []
+    },
+    {
+      "id": "jsf_income",
+      "source": "jsf_2026",
+      "page": 63,
+      "complexity": "hard",
+      "features": [
+        "heading naming two statements above the statement title",
+        "finance-industry operating revenue and expense sections",
+        "nil values",
+        "footnote marker beside an amount"
+      ],
+      "rows": {
+        "matched": 53,
+        "predicted": 53,
+        "gold": 53,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "facts": {
+        "matched": 94,
+        "predicted": 94,
+        "gold": 94,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "flat_facts": {
+        "matched": 94,
+        "predicted": 94,
+        "gold": 94,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "header_correct": true,
+      "page_exact": true,
+      "states": [
+        "needs_review"
+      ],
+      "autoaccepted_page": false,
+      "autoaccepted_facts": {
+        "matched": 0,
+        "predicted": 0,
+        "gold": 94,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "checks": {
+        "passed": 12,
+        "total": 14
+      },
+      "reasons": [
+        "sum:法人税等合計 fails for 前連結会計年度 (residual -167632)",
+        "sum:法人税等合計 fails for 当連結会計年度 (residual -281308)",
+        "6 cell(s) covered by no constraint"
+      ],
+      "missing": [],
+      "unexpected": []
+    },
+    {
+      "id": "nri_assets",
+      "source": "nri_2026",
+      "page": 81,
+      "complexity": "medium",
+      "features": [
+        "EDINET annual-report layout",
+        "IFRS",
+        "注記 column with comma-separated note numbers",
+        "totals at the section heading's indentation"
+      ],
+      "rows": {
+        "matched": 19,
+        "predicted": 19,
+        "gold": 19,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "facts": {
+        "matched": 32,
+        "predicted": 32,
+        "gold": 32,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "flat_facts": {
+        "matched": 32,
+        "predicted": 32,
+        "gold": 32,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "header_correct": true,
+      "page_exact": true,
+      "states": [
+        "needs_review"
+      ],
+      "autoaccepted_page": false,
+      "autoaccepted_facts": {
+        "matched": 0,
+        "predicted": 0,
+        "gold": 32,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "checks": {
+        "passed": 6,
+        "total": 6
+      },
+      "reasons": [
+        "figure '7,31' is not an amount (decimal or ratio?)",
+        "figure '8,31' is not an amount (decimal or ratio?)",
+        "figure '23,31' is not an amount (decimal or ratio?)",
+        "figure '9,31' is not an amount (decimal or ratio?)",
+        "figure '10,12' is not an amount (decimal or ratio?)",
+        "figure '12,15' is not an amount (decimal or ratio?)",
+        "figure '11,12' is not an amount (decimal or ratio?)",
+        "amount '18' at x=270 lies outside every value column",
+        "figure '9,31' is not an amount (decimal or ratio?)",
+        "amount '13' at x=270 lies outside every value column"
+      ],
+      "missing": [],
+      "unexpected": []
+    },
+    {
+      "id": "nri_liabilities",
+      "source": "nri_2026",
+      "page": 82,
+      "complexity": "hard",
+      "features": [
+        "continuation page without a title",
+        "section headings at the same indentation",
+        "totals at the section heading's indentation"
+      ],
+      "rows": {
+        "matched": 32,
+        "predicted": 32,
+        "gold": 32,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "facts": {
+        "matched": 54,
+        "predicted": 54,
+        "gold": 54,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "flat_facts": {
+        "matched": 54,
+        "predicted": 54,
+        "gold": 54,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "header_correct": true,
+      "page_exact": true,
+      "states": [
+        "needs_review"
+      ],
+      "autoaccepted_page": false,
+      "autoaccepted_facts": {
+        "matched": 0,
+        "predicted": 0,
+        "gold": 54,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "checks": {
+        "passed": 12,
+        "total": 12
+      },
+      "reasons": [
+        "figure '16,31' is not an amount (decimal or ratio?)",
+        "figure '14,31' is not an amount (decimal or ratio?)",
+        "figure '17,31' is not an amount (decimal or ratio?)",
+        "figure '14,31' is not an amount (decimal or ratio?)",
+        "figure '17,31' is not an amount (decimal or ratio?)"
+      ],
+      "missing": [],
+      "unexpected": []
+    },
+    {
+      "id": "nri_comprehensive",
+      "source": "nri_2026",
+      "page": 83,
+      "complexity": "hard",
+      "features": [
+        "single-statement comprehensive income",
+        "note numbers wrapped over lines",
+        "labels wrapped with the value on the middle line",
+        "OCI items at the subsection heading's indentation"
+      ],
+      "rows": {
+        "matched": 27,
+        "predicted": 27,
+        "gold": 27,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "facts": {
+        "matched": 48,
+        "predicted": 48,
+        "gold": 48,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "flat_facts": {
+        "matched": 48,
+        "predicted": 48,
+        "gold": 48,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "header_correct": true,
+      "page_exact": true,
+      "states": [
+        "needs_review"
+      ],
+      "autoaccepted_page": false,
+      "autoaccepted_facts": {
+        "matched": 0,
+        "predicted": 0,
+        "gold": 48,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "checks": {
+        "passed": 4,
+        "total": 4
+      },
+      "reasons": [
+        "figure '6,23' is not an amount (decimal or ratio?)",
+        "figure '10,11,' is not an amount (decimal or ratio?)",
+        "figure '15,18,' is not an amount (decimal or ratio?)",
+        "figure '24,30' is not an amount (decimal or ratio?)",
+        "figure '10,11,' is not an amount (decimal or ratio?)",
+        "figure '15,18,' is not an amount (decimal or ratio?)",
+        "figure '24,30' is not an amount (decimal or ratio?)",
+        "figure '18,26' is not an amount (decimal or ratio?)",
+        "figure '10,12,' is not an amount (decimal or ratio?)",
+        "figure '18,27' is not an amount (decimal or ratio?)",
+        "30 cell(s) covered by no constraint",
+        "group 'その他の包括利益' has no closing total on this page"
+      ],
+      "missing": [],
+      "unexpected": []
+    },
+    {
+      "id": "are_assets",
+      "source": "are_2026",
+      "page": 57,
+      "complexity": "medium",
+      "features": [
+        "Antenna House annual-report layout",
+        "IFRS",
+        "full-width note numbers",
+        "invisible typesetting stamp in the text layer",
+        "nil values"
+      ],
+      "rows": {
+        "matched": 20,
+        "predicted": 20,
+        "gold": 20,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "facts": {
+        "matched": 34,
+        "predicted": 34,
+        "gold": 34,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "flat_facts": {
+        "matched": 34,
+        "predicted": 34,
+        "gold": 34,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "header_correct": true,
+      "page_exact": true,
+      "states": [
+        "needs_review"
+      ],
+      "autoaccepted_page": false,
+      "autoaccepted_facts": {
+        "matched": 0,
+        "predicted": 0,
+        "gold": 34,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "checks": {
+        "passed": 6,
+        "total": 6
+      },
+      "reasons": [
+        "figure '７,32' is not an amount (decimal or ratio?)",
+        "figure '８,24,32' is not an amount (decimal or ratio?)",
+        "figure '10,32' is not an amount (decimal or ratio?)",
+        "figure '10,32' is not an amount (decimal or ratio?)",
+        "amount '-' at x=289 lies outside every value column",
+        "amount '54' at x=302 lies outside every value column",
+        "amount '-' at x=311 lies outside every value column"
+      ],
+      "missing": [],
+      "unexpected": []
+    },
+    {
+      "id": "are_liabilities",
+      "source": "are_2026",
+      "page": 58,
+      "complexity": "medium",
+      "features": [
+        "continuation page without a title",
+        "invisible typesetting stamp in the text layer"
+      ],
+      "rows": {
+        "matched": 28,
+        "predicted": 28,
+        "gold": 28,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "facts": {
+        "matched": 46,
+        "predicted": 46,
+        "gold": 46,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "flat_facts": {
+        "matched": 46,
+        "predicted": 46,
+        "gold": 46,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "header_correct": true,
+      "page_exact": true,
+      "states": [
+        "needs_review"
+      ],
+      "autoaccepted_page": false,
+      "autoaccepted_facts": {
+        "matched": 0,
+        "predicted": 0,
+        "gold": 46,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "checks": {
+        "passed": 12,
+        "total": 12
+      },
+      "reasons": [
+        "figure '18,32' is not an amount (decimal or ratio?)",
+        "figure '16,32' is not an amount (decimal or ratio?)",
+        "figure '16,32' is not an amount (decimal or ratio?)",
+        "figure '20,31' is not an amount (decimal or ratio?)",
+        "figure '21,24' is not an amount (decimal or ratio?)",
+        "figure '16,32' is not an amount (decimal or ratio?)",
+        "figure '16,32' is not an amount (decimal or ratio?)",
+        "amount '-' at x=289 lies outside every value column",
+        "amount '55' at x=302 lies outside every value column",
+        "amount '-' at x=311 lies outside every value column"
+      ],
+      "missing": [],
+      "unexpected": []
+    },
+    {
+      "id": "are_income",
+      "source": "are_2026",
+      "page": 59,
+      "complexity": "hard",
+      "features": [
+        "expenses printed as negatives",
+        "profit attribution block repeating 当期利益",
+        "per-share amounts in 円 with decimals"
+      ],
+      "rows": {
+        "matched": 20,
+        "predicted": 20,
+        "gold": 20,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "facts": {
+        "matched": 36,
+        "predicted": 36,
+        "gold": 36,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "flat_facts": {
+        "matched": 36,
+        "predicted": 36,
+        "gold": 36,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "header_correct": true,
+      "page_exact": true,
+      "states": [
+        "needs_review"
+      ],
+      "autoaccepted_page": false,
+      "autoaccepted_facts": {
+        "matched": 0,
+        "predicted": 0,
+        "gold": 36,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "checks": {
+        "passed": 2,
+        "total": 2
+      },
+      "reasons": [
+        "figure '６,24' is not an amount (decimal or ratio?)",
+        "amount '-' at x=289 lies outside every value column",
+        "amount '56' at x=302 lies outside every value column",
+        "amount '-' at x=311 lies outside every value column",
+        "30 cell(s) covered by no constraint",
+        "group '１株当たり当期利益' has no closing total on this page"
+      ],
+      "missing": [],
+      "unexpected": []
+    },
+    {
+      "id": "shinnihon_assets",
+      "source": "shinnihon_2026",
+      "page": 6,
+      "complexity": "simple",
+      "features": [
+        "決算短信 by TAKARA PRINTING",
+        "construction-industry accounts",
+        "fixed assets shown net"
+      ],
+      "rows": {
+        "matched": 28,
+        "predicted": 28,
+        "gold": 28,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "facts": {
+        "matched": 46,
+        "predicted": 46,
+        "gold": 46,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "flat_facts": {
+        "matched": 46,
+        "predicted": 46,
+        "gold": 46,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "header_correct": true,
+      "page_exact": true,
+      "states": [
+        "verified"
+      ],
+      "autoaccepted_page": true,
+      "autoaccepted_facts": {
+        "matched": 46,
+        "predicted": 46,
+        "gold": 46,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "checks": {
+        "passed": 10,
+        "total": 10
+      },
+      "reasons": [],
+      "missing": [],
+      "unexpected": []
+    },
+    {
+      "id": "shinnihon_liabilities",
+      "source": "shinnihon_2026",
+      "page": 7,
+      "complexity": "medium",
+      "features": [
+        "continuation page without a title",
+        "accumulated other comprehensive income"
+      ],
+      "rows": {
+        "matched": 30,
+        "predicted": 30,
+        "gold": 30,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "facts": {
+        "matched": 48,
+        "predicted": 48,
+        "gold": 48,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "flat_facts": {
+        "matched": 48,
+        "predicted": 48,
+        "gold": 48,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "header_correct": true,
+      "page_exact": true,
+      "states": [
+        "verified"
+      ],
+      "autoaccepted_page": true,
+      "autoaccepted_facts": {
+        "matched": 48,
+        "predicted": 48,
+        "gold": 48,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "checks": {
+        "passed": 14,
+        "total": 14
+      },
+      "reasons": [],
+      "missing": [],
+      "unexpected": []
+    },
+    {
+      "id": "shinnihon_income",
+      "source": "shinnihon_2026",
+      "page": 8,
+      "complexity": "medium",
+      "features": [
+        "revenue, cost and gross profit split by business with subtotals",
+        "zero values",
+        "duration dates"
+      ],
+      "rows": {
+        "matched": 30,
+        "predicted": 30,
+        "gold": 30,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "facts": {
+        "matched": 50,
+        "predicted": 50,
+        "gold": 50,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "flat_facts": {
+        "matched": 50,
+        "predicted": 50,
+        "gold": 50,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "header_correct": true,
+      "page_exact": true,
+      "states": [
+        "needs_review"
+      ],
+      "autoaccepted_page": false,
+      "autoaccepted_facts": {
+        "matched": 0,
+        "predicted": 0,
+        "gold": 50,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "checks": {
+        "passed": 10,
+        "total": 12
+      },
+      "reasons": [
+        "sum:法人税等合計 fails for 前連結会計年度 (residual -323689)",
+        "sum:法人税等合計 fails for 当連結会計年度 (residual -344383)",
+        "4 cell(s) covered by no constraint"
+      ],
+      "missing": [],
+      "unexpected": []
+    }
+  ]
+}

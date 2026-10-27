@@ -1,0 +1,3300 @@
+{
+  "engine": "docling-glmocr",
+  "revision": "5ebf99c53c1bcecae53d52b03a44a6cc59543864",
+  "parser_sha256": "7d1403a42b96d065e51d5afef562fafbdca186d89260556cd3210bebd61443e8",
+  "annotation_sha256": "f6a90316f89fcdae777dfef417395507d18db45dbfe618ae3ee56cb22543d2a9",
+  "selection": "Fresh holdout: four issuers new to the corpus, chosen for layout families the parser was not developed on: two EDINET-rendered annual securities reports (Japanese GAAP finance industry; IFRS), one Antenna House annual securities report (IFRS) and one TAKARA PRINTING earnings release (Japanese GAAP construction). For each, the consolidated balance sheet over both its pages and the income or comprehensive income statement. Pages were chosen from text-layer titles and rendered pages before any parser run on these files. Page numbers are 1-based PDF positions.",
+  "annotation": "Single-assistant visual transcription checked against every selected rendered page before the first parser run on these files. A text-layer listing independent of jpfs was used only as a transcription aid. Paths, units and dates are explicit; semantic paths follow the earlier batches (totals under their section even when printed at the heading's indentation; wrapped labels joined). The gold's own totals were checked against their members within display rounding. Not independently human-adjudicated.",
+  "summary": {
+    "facts": {
+      "matched": 527,
+      "predicted": 597,
+      "gold": 618,
+      "precision": 0.8827,
+      "recall": 0.8528,
+      "f1": 0.8675
+    },
+    "flat_facts": {
+      "matched": 555,
+      "predicted": 597,
+      "gold": 618,
+      "precision": 0.9296,
+      "recall": 0.8981,
+      "f1": 0.9136
+    },
+    "rows": {
+      "matched": 324,
+      "predicted": 362,
+      "gold": 363,
+      "precision": 0.895,
+      "recall": 0.8926,
+      "f1": 0.8938
+    },
+    "autoaccepted_facts": {
+      "matched": 188,
+      "predicted": 206,
+      "gold": 618,
+      "precision": 0.9126,
+      "recall": 0.3042,
+      "f1": 0.4563
+    },
+    "pages": 12,
+    "page_exact": 0,
+    "headers_correct": 9,
+    "autoaccepted_pages": 5,
+    "wrong_autoaccepted_pages": 5
+  },
+  "pages": [
+    {
+      "id": "jsf_assets",
+      "source": "jsf_2026",
+      "page": 61,
+      "complexity": "medium",
+      "features": [
+        "EDINET annual-report layout",
+        "securities-finance accounts",
+        "footnote markers inside value cells",
+        "gross-contra-net groups",
+        "nil values"
+      ],
+      "rows": {
+        "matched": 35,
+        "predicted": 35,
+        "gold": 35,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "facts": {
+        "matched": 48,
+        "predicted": 48,
+        "gold": 60,
+        "precision": 1.0,
+        "recall": 0.8,
+        "f1": 0.8889
+      },
+      "flat_facts": {
+        "matched": 48,
+        "predicted": 48,
+        "gold": 60,
+        "precision": 1.0,
+        "recall": 0.8,
+        "f1": 0.8889
+      },
+      "header_correct": true,
+      "page_exact": false,
+      "states": [
+        "needs_review"
+      ],
+      "autoaccepted_page": false,
+      "autoaccepted_facts": {
+        "matched": 0,
+        "predicted": 0,
+        "gold": 60,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "checks": {
+        "passed": 8,
+        "total": 14
+      },
+      "reasons": [
+        "cell '※11,435,297' is not an amount",
+        "cell '※1,※596,241' is not an amount",
+        "cell '※1,※5668,634' is not an amount",
+        "cell '※1,※3796,827' is not an amount",
+        "cell '※1,※31,040,240' is not an amount",
+        "cell '※191,227' is not an amount",
+        "cell '※1124,720' is not an amount",
+        "cell '※73,231' is not an amount",
+        "cell '※73,231' is not an amount",
+        "cell '※1,※4,※5544,475' is not an amount",
+        "cell '※1,※430,162' is not an amount",
+        "sum:流動資産合計 fails for 前連結会計年度 (residual 2419595)",
+        "sum:流動資産合計 fails for 当連結会計年度 (residual 1833596)",
+        "sum:有形固定資産合計 fails for 前連結会計年度 (residual 3232)",
+        "sum:有形固定資産合計 fails for 当連結会計年度 (residual 3232)",
+        "sum:投資その他の資産合計 fails for 前連結会計年度 (residual 544478)",
+        "sum:投資その他の資産合計 fails for 当連結会計年度 (residual 30268)"
+      ],
+      "missing": [
+        [
+          [
+            "資産の部",
+            "流動資産",
+            "現金及び預金"
+          ],
+          null,
+          "2025-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "1435297",
+            false
+          ]
+        ],
+        [
+          [
+            "資産の部",
+            "流動資産",
+            "有価証券"
+          ],
+          null,
+          "2025-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "96241",
+            false
+          ]
+        ],
+        [
+          [
+            "資産の部",
+            "流動資産",
+            "有価証券"
+          ],
+          null,
+          "2026-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "668634",
+            false
+          ]
+        ],
+        [
+          [
+            "資産の部",
+            "流動資産",
+            "営業貸付金"
+          ],
+          null,
+          "2025-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "796827",
+            false
+          ]
+        ],
+        [
+          [
+            "資産の部",
+            "流動資産",
+            "営業貸付金"
+          ],
+          null,
+          "2026-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "1040240",
+            false
+          ]
+        ],
+        [
+          [
+            "資産の部",
+            "流動資産",
+            "その他"
+          ],
+          null,
+          "2025-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "91227",
+            false
+          ]
+        ],
+        [
+          [
+            "資産の部",
+            "流動資産",
+            "その他"
+          ],
+          null,
+          "2026-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "124720",
+            false
+          ]
+        ],
+        [
+          [
+            "資産の部",
+            "固定資産",
+            "有形固定資産",
+            "土地"
+          ],
+          null,
+          "2025-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "3231",
+            false
+          ]
+        ],
+        [
+          [
+            "資産の部",
+            "固定資産",
+            "有形固定資産",
+            "土地"
+          ],
+          null,
+          "2026-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "3231",
+            false
+          ]
+        ],
+        [
+          [
+            "資産の部",
+            "固定資産",
+            "投資その他の資産",
+            "投資有価証券"
+          ],
+          null,
+          "2025-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "544475",
+            false
+          ]
+        ],
+        [
+          [
+            "資産の部",
+            "固定資産",
+            "投資その他の資産",
+            "投資有価証券"
+          ],
+          null,
+          "2026-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "30162",
+            false
+          ]
+        ],
+        [
+          [
+            "資産の部",
+            "固定資産",
+            "投資その他の資産",
+            "その他"
+          ],
+          null,
+          "2026-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "104",
+            false
+          ]
+        ]
+      ],
+      "unexpected": []
+    },
+    {
+      "id": "jsf_liabilities",
+      "source": "jsf_2026",
+      "page": 62,
+      "complexity": "medium",
+      "features": [
+        "continuation page without a title",
+        "footnote markers inside value cells",
+        "land revaluation items"
+      ],
+      "rows": {
+        "matched": 37,
+        "predicted": 40,
+        "gold": 41,
+        "precision": 0.925,
+        "recall": 0.9024,
+        "f1": 0.9136
+      },
+      "facts": {
+        "matched": 56,
+        "predicted": 62,
+        "gold": 70,
+        "precision": 0.9032,
+        "recall": 0.8,
+        "f1": 0.8485
+      },
+      "flat_facts": {
+        "matched": 56,
+        "predicted": 62,
+        "gold": 70,
+        "precision": 0.9032,
+        "recall": 0.8,
+        "f1": 0.8485
+      },
+      "header_correct": true,
+      "page_exact": false,
+      "states": [
+        "needs_review"
+      ],
+      "autoaccepted_page": false,
+      "autoaccepted_facts": {
+        "matched": 0,
+        "predicted": 0,
+        "gold": 70,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "checks": {
+        "passed": 8,
+        "total": 14
+      },
+      "reasons": [
+        "cell '※1315,600' is not an amount",
+        "cell '※1298,100' is not an amount",
+        "sum:流動負債合計 fails for 前連結会計年度 (residual 1506005)",
+        "sum:流動負債合計 fails for 当連結会計年度 (residual 1812905)",
+        "sum:固定負債合計 fails for 前連結会計年度 (residual 315680)",
+        "sum:固定負債合計 fails for 当連結会計年度 (residual 298179)",
+        "sum:その他の包括利益累計額合計 fails for 前連結会計年度 (residual 166)",
+        "sum:その他の包括利益累計額合計 fails for 当連結会計年度 (residual 166)"
+      ],
+      "missing": [
+        [
+          [
+            "負債の部",
+            "流動負債",
+            "コールマネー"
+          ],
+          null,
+          "2025-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "1506000",
+            false
+          ]
+        ],
+        [
+          [
+            "負債の部",
+            "流動負債",
+            "コールマネー"
+          ],
+          null,
+          "2026-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "1812900",
+            false
+          ]
+        ],
+        [
+          [
+            "負債の部",
+            "流動負債",
+            "コマーシャル・ペーパー"
+          ],
+          null,
+          "2025-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "438466",
+            false
+          ]
+        ],
+        [
+          [
+            "負債の部",
+            "流動負債",
+            "コマーシャル・ペーパー"
+          ],
+          null,
+          "2026-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "859729",
+            false
+          ]
+        ],
+        [
+          [
+            "負債の部",
+            "固定負債",
+            "長期借入金"
+          ],
+          null,
+          "2025-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "315600",
+            false
+          ]
+        ],
+        [
+          [
+            "負債の部",
+            "固定負債",
+            "長期借入金"
+          ],
+          null,
+          "2026-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "298100",
+            false
+          ]
+        ],
+        [
+          [
+            "負債の部",
+            "固定負債",
+            "再評価に係る繰延税金負債"
+          ],
+          null,
+          "2025-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "76",
+            false
+          ]
+        ],
+        [
+          [
+            "負債の部",
+            "固定負債",
+            "再評価に係る繰延税金負債"
+          ],
+          null,
+          "2026-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "76",
+            false
+          ]
+        ],
+        [
+          [
+            "純資産の部",
+            "株主資本",
+            "資本剰余金"
+          ],
+          null,
+          "2025-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "5194",
+            false
+          ]
+        ],
+        [
+          [
+            "純資産の部",
+            "株主資本",
+            "資本剰余金"
+          ],
+          null,
+          "2026-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "5181",
+            false
+          ]
+        ],
+        [
+          [
+            "純資産の部",
+            "株主資本",
+            "利益剰余金"
+          ],
+          null,
+          "2025-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "125323",
+            false
+          ]
+        ],
+        [
+          [
+            "純資産の部",
+            "株主資本",
+            "利益剰余金"
+          ],
+          null,
+          "2026-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "120941",
+            false
+          ]
+        ],
+        [
+          [
+            "純資産の部",
+            "その他の包括利益累計額",
+            "土地再評価差額金"
+          ],
+          null,
+          "2025-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "165",
+            false
+          ]
+        ],
+        [
+          [
+            "純資産の部",
+            "その他の包括利益累計額",
+            "土地再評価差額金"
+          ],
+          null,
+          "2026-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "165",
+            false
+          ]
+        ]
+      ],
+      "unexpected": [
+        [
+          [
+            "負債の部",
+            "流動負債",
+            "コーマーシャル・ペーパー"
+          ],
+          null,
+          "2025-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "438466",
+            false
+          ]
+        ],
+        [
+          [
+            "負債の部",
+            "流動負債",
+            "コーマーシャル・ペーパー"
+          ],
+          null,
+          "2026-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "859729",
+            false
+          ]
+        ],
+        [
+          [
+            "純資産の部",
+            "株主資本",
+            "資本剩余金"
+          ],
+          null,
+          "2025-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "5194",
+            false
+          ]
+        ],
+        [
+          [
+            "純資産の部",
+            "株主資本",
+            "資本剩余金"
+          ],
+          null,
+          "2026-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "5181",
+            false
+          ]
+        ],
+        [
+          [
+            "純資産の部",
+            "株主資本",
+            "利益剩余金"
+          ],
+          null,
+          "2025-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "125323",
+            false
+          ]
+        ],
+        [
+          [
+            "純資産の部",
+            "株主資本",
+            "利益剩余金"
+          ],
+          null,
+          "2026-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "120941",
+            false
+          ]
+        ]
+      ]
+    },
+    {
+      "id": "jsf_income",
+      "source": "jsf_2026",
+      "page": 63,
+      "complexity": "hard",
+      "features": [
+        "heading naming two statements above the statement title",
+        "finance-industry operating revenue and expense sections",
+        "nil values",
+        "footnote marker beside an amount"
+      ],
+      "rows": {
+        "matched": 51,
+        "predicted": 53,
+        "gold": 53,
+        "precision": 0.9623,
+        "recall": 0.9623,
+        "f1": 0.9623
+      },
+      "facts": {
+        "matched": 89,
+        "predicted": 93,
+        "gold": 94,
+        "precision": 0.957,
+        "recall": 0.9468,
+        "f1": 0.9519
+      },
+      "flat_facts": {
+        "matched": 89,
+        "predicted": 93,
+        "gold": 94,
+        "precision": 0.957,
+        "recall": 0.9468,
+        "f1": 0.9519
+      },
+      "header_correct": false,
+      "page_exact": false,
+      "states": [
+        "needs_review"
+      ],
+      "autoaccepted_page": false,
+      "autoaccepted_facts": {
+        "matched": 0,
+        "predicted": 0,
+        "gold": 94,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "checks": {
+        "passed": 11,
+        "total": 14
+      },
+      "reasons": [
+        "cell '※1,163' is not an amount",
+        "sum:特別利益合計 fails for 前連結会计年度 (residual 1164)",
+        "sum:法人税等合計 fails for 前連結会计年度 (residual -167632)",
+        "sum:法人税等合計 fails for 当連結会计年度 (residual -281308)",
+        "6 cell(s) covered by no constraint"
+      ],
+      "missing": [
+        [
+          [
+            "営業外収益",
+            "雑収入"
+          ],
+          "2024-04-01",
+          "2025-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "60",
+            false
+          ]
+        ],
+        [
+          [
+            "営業外収益",
+            "雑収入"
+          ],
+          "2025-04-01",
+          "2026-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "62",
+            false
+          ]
+        ],
+        [
+          [
+            "営業外費用",
+            "雑支出"
+          ],
+          "2024-04-01",
+          "2025-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "0",
+            false
+          ]
+        ],
+        [
+          [
+            "営業外費用",
+            "雑支出"
+          ],
+          "2025-04-01",
+          "2026-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "0",
+            false
+          ]
+        ],
+        [
+          [
+            "特別利益",
+            "固定資産売却益"
+          ],
+          "2024-04-01",
+          "2025-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "1163",
+            false
+          ]
+        ]
+      ],
+      "unexpected": [
+        [
+          [
+            "営業外収益",
+            "雜収入"
+          ],
+          "2024-04-01",
+          "2025-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "60",
+            false
+          ]
+        ],
+        [
+          [
+            "営業外収益",
+            "雜収入"
+          ],
+          "2025-04-01",
+          "2026-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "62",
+            false
+          ]
+        ],
+        [
+          [
+            "営業外費用",
+            "雜支出"
+          ],
+          "2024-04-01",
+          "2025-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "0",
+            false
+          ]
+        ],
+        [
+          [
+            "営業外費用",
+            "雜支出"
+          ],
+          "2025-04-01",
+          "2026-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "0",
+            false
+          ]
+        ]
+      ]
+    },
+    {
+      "id": "nri_assets",
+      "source": "nri_2026",
+      "page": 81,
+      "complexity": "medium",
+      "features": [
+        "EDINET annual-report layout",
+        "IFRS",
+        "注記 column with comma-separated note numbers",
+        "totals at the section heading's indentation"
+      ],
+      "rows": {
+        "matched": 17,
+        "predicted": 19,
+        "gold": 19,
+        "precision": 0.8947,
+        "recall": 0.8947,
+        "f1": 0.8947
+      },
+      "facts": {
+        "matched": 28,
+        "predicted": 32,
+        "gold": 32,
+        "precision": 0.875,
+        "recall": 0.875,
+        "f1": 0.875
+      },
+      "flat_facts": {
+        "matched": 28,
+        "predicted": 32,
+        "gold": 32,
+        "precision": 0.875,
+        "recall": 0.875,
+        "f1": 0.875
+      },
+      "header_correct": true,
+      "page_exact": false,
+      "states": [
+        "verified"
+      ],
+      "autoaccepted_page": true,
+      "autoaccepted_facts": {
+        "matched": 28,
+        "predicted": 32,
+        "gold": 32,
+        "precision": 0.875,
+        "recall": 0.875,
+        "f1": 0.875
+      },
+      "checks": {
+        "passed": 6,
+        "total": 6
+      },
+      "reasons": [],
+      "missing": [
+        [
+          [
+            "資産",
+            "流動資産",
+            "現金及び現金同等物"
+          ],
+          null,
+          "2025-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "168597",
+            false
+          ]
+        ],
+        [
+          [
+            "資産",
+            "流動資産",
+            "現金及び現金同等物"
+          ],
+          null,
+          "2026-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "132620",
+            false
+          ]
+        ],
+        [
+          [
+            "資産",
+            "流動資産",
+            "営業債権及びその他の債権"
+          ],
+          null,
+          "2025-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "158295",
+            false
+          ]
+        ],
+        [
+          [
+            "資産",
+            "流動資産",
+            "営業債権及びその他の債権"
+          ],
+          null,
+          "2026-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "214389",
+            false
+          ]
+        ]
+      ],
+      "unexpected": [
+        [
+          [
+            "資産",
+            "流動資産",
+            "現金及現金同等物"
+          ],
+          null,
+          "2025-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "168597",
+            false
+          ]
+        ],
+        [
+          [
+            "資産",
+            "流動資産",
+            "現金及現金同等物"
+          ],
+          null,
+          "2026-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "132620",
+            false
+          ]
+        ],
+        [
+          [
+            "資産",
+            "流動資産",
+            "営業債権及その他の債権"
+          ],
+          null,
+          "2025-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "158295",
+            false
+          ]
+        ],
+        [
+          [
+            "資産",
+            "流動資産",
+            "営業債権及その他の債権"
+          ],
+          null,
+          "2026-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "214389",
+            false
+          ]
+        ]
+      ]
+    },
+    {
+      "id": "nri_liabilities",
+      "source": "nri_2026",
+      "page": 82,
+      "complexity": "hard",
+      "features": [
+        "continuation page without a title",
+        "section headings at the same indentation",
+        "totals at the section heading's indentation"
+      ],
+      "rows": {
+        "matched": 30,
+        "predicted": 32,
+        "gold": 32,
+        "precision": 0.9375,
+        "recall": 0.9375,
+        "f1": 0.9375
+      },
+      "facts": {
+        "matched": 50,
+        "predicted": 54,
+        "gold": 54,
+        "precision": 0.9259,
+        "recall": 0.9259,
+        "f1": 0.9259
+      },
+      "flat_facts": {
+        "matched": 50,
+        "predicted": 54,
+        "gold": 54,
+        "precision": 0.9259,
+        "recall": 0.9259,
+        "f1": 0.9259
+      },
+      "header_correct": false,
+      "page_exact": false,
+      "states": [
+        "needs_review"
+      ],
+      "autoaccepted_page": false,
+      "autoaccepted_facts": {
+        "matched": 0,
+        "predicted": 0,
+        "gold": 54,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "checks": {
+        "passed": 12,
+        "total": 12
+      },
+      "reasons": [
+        "no statement title on the page (continuation?): statement and scope unknown"
+      ],
+      "missing": [
+        [
+          [
+            "負債及び資本",
+            "資本",
+            "資本剰余金"
+          ],
+          null,
+          "2025-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "34274",
+            false
+          ]
+        ],
+        [
+          [
+            "負債及び資本",
+            "資本",
+            "資本剰余金"
+          ],
+          null,
+          "2026-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "33178",
+            false
+          ]
+        ],
+        [
+          [
+            "負債及び資本",
+            "資本",
+            "利益剰余金"
+          ],
+          null,
+          "2025-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "378659",
+            false
+          ]
+        ],
+        [
+          [
+            "負債及び資本",
+            "資本",
+            "利益剰余金"
+          ],
+          null,
+          "2026-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "354056",
+            false
+          ]
+        ]
+      ],
+      "unexpected": [
+        [
+          [
+            "負債及び資本",
+            "資本",
+            "資本剩余金"
+          ],
+          null,
+          "2025-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "34274",
+            false
+          ]
+        ],
+        [
+          [
+            "負債及び資本",
+            "資本",
+            "資本剩余金"
+          ],
+          null,
+          "2026-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "33178",
+            false
+          ]
+        ],
+        [
+          [
+            "負債及び資本",
+            "資本",
+            "利益剩余金"
+          ],
+          null,
+          "2025-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "378659",
+            false
+          ]
+        ],
+        [
+          [
+            "負債及び資本",
+            "資本",
+            "利益剩余金"
+          ],
+          null,
+          "2026-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "354056",
+            false
+          ]
+        ]
+      ]
+    },
+    {
+      "id": "nri_comprehensive",
+      "source": "nri_2026",
+      "page": 83,
+      "complexity": "hard",
+      "features": [
+        "single-statement comprehensive income",
+        "note numbers wrapped over lines",
+        "labels wrapped with the value on the middle line",
+        "OCI items at the subsection heading's indentation"
+      ],
+      "rows": {
+        "matched": 12,
+        "predicted": 27,
+        "gold": 27,
+        "precision": 0.4444,
+        "recall": 0.4444,
+        "f1": 0.4444
+      },
+      "facts": {
+        "matched": 22,
+        "predicted": 48,
+        "gold": 48,
+        "precision": 0.4583,
+        "recall": 0.4583,
+        "f1": 0.4583
+      },
+      "flat_facts": {
+        "matched": 42,
+        "predicted": 48,
+        "gold": 48,
+        "precision": 0.875,
+        "recall": 0.875,
+        "f1": 0.875
+      },
+      "header_correct": false,
+      "page_exact": false,
+      "states": [
+        "needs_review"
+      ],
+      "autoaccepted_page": false,
+      "autoaccepted_facts": {
+        "matched": 0,
+        "predicted": 0,
+        "gold": 48,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "checks": {
+        "passed": 0,
+        "total": 0
+      },
+      "reasons": [
+        "48 cell(s) covered by no constraint",
+        "group '確定給付制度の再測定' has no closing total on this page",
+        "group 'キャッシュ・フロー・ヘッジ' has no closing total on this page"
+      ],
+      "missing": [
+        [
+          [
+            "売上収益"
+          ],
+          "2024-04-01",
+          "2025-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "764813",
+            false
+          ]
+        ],
+        [
+          [
+            "売上収益"
+          ],
+          "2025-04-01",
+          "2026-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "814708",
+            false
+          ]
+        ],
+        [
+          [
+            "売上原価"
+          ],
+          "2024-04-01",
+          "2025-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "489517",
+            false
+          ]
+        ],
+        [
+          [
+            "売上原価"
+          ],
+          "2025-04-01",
+          "2026-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "514556",
+            false
+          ]
+        ],
+        [
+          [
+            "売上総利益"
+          ],
+          "2024-04-01",
+          "2025-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "275295",
+            false
+          ]
+        ],
+        [
+          [
+            "売上総利益"
+          ],
+          "2025-04-01",
+          "2026-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "300151",
+            false
+          ]
+        ],
+        [
+          [
+            "その他の包括利益",
+            "純損益に振り替えられることのない項目",
+            "その他の包括利益を通じて公正価値で測定する資本性金融商品"
+          ],
+          "2024-04-01",
+          "2025-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "583",
+            false
+          ]
+        ],
+        [
+          [
+            "その他の包括利益",
+            "純損益に振り替えられることのない項目",
+            "その他の包括利益を通じて公正価値で測定する資本性金融商品"
+          ],
+          "2025-04-01",
+          "2026-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "967",
+            false
+          ]
+        ],
+        [
+          [
+            "その他の包括利益",
+            "純損益に振り替えられることのない項目",
+            "確定給付制度の再測定"
+          ],
+          "2024-04-01",
+          "2025-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "2310",
+            true
+          ]
+        ],
+        [
+          [
+            "その他の包括利益",
+            "純損益に振り替えられることのない項目",
+            "確定給付制度の再測定"
+          ],
+          "2025-04-01",
+          "2026-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "462",
+            true
+          ]
+        ],
+        [
+          [
+            "その他の包括利益",
+            "純損益に振り替えられることのない項目",
+            "持分法適用会社におけるその他の包括利益に対する持分"
+          ],
+          "2024-04-01",
+          "2025-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "55",
+            false
+          ]
+        ],
+        [
+          [
+            "その他の包括利益",
+            "純損益に振り替えられることのない項目",
+            "持分法適用会社におけるその他の包括利益に対する持分"
+          ],
+          "2025-04-01",
+          "2026-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "107",
+            true
+          ]
+        ],
+        [
+          [
+            "その他の包括利益",
+            "純損益に振り替えられることのない項目",
+            "純損益に振り替えられることのない項目合計"
+          ],
+          "2024-04-01",
+          "2025-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "1670",
+            true
+          ]
+        ],
+        [
+          [
+            "その他の包括利益",
+            "純損益に振り替えられることのない項目",
+            "純損益に振り替えられることのない項目合計"
+          ],
+          "2025-04-01",
+          "2026-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "397",
+            false
+          ]
+        ],
+        [
+          [
+            "その他の包括利益",
+            "純損益に振り替えられる可能性のある項目",
+            "その他の包括利益を通じて公正価値で測定する負債性金融商品"
+          ],
+          "2024-04-01",
+          "2025-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "0",
+            false
+          ]
+        ],
+        [
+          [
+            "その他の包括利益",
+            "純損益に振り替えられる可能性のある項目",
+            "その他の包括利益を通じて公正価値で測定する負債性金融商品"
+          ],
+          "2025-04-01",
+          "2026-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "0",
+            false
+          ]
+        ],
+        [
+          [
+            "その他の包括利益",
+            "純損益に振り替えられる可能性のある項目",
+            "在外営業活動体の換算差額"
+          ],
+          "2024-04-01",
+          "2025-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "4232",
+            true
+          ]
+        ],
+        [
+          [
+            "その他の包括利益",
+            "純損益に振り替えられる可能性のある項目",
+            "在外営業活動体の換算差額"
+          ],
+          "2025-04-01",
+          "2026-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "15047",
+            false
+          ]
+        ],
+        [
+          [
+            "その他の包括利益",
+            "純損益に振り替えられる可能性のある項目",
+            "キャッシュ・フロー・ヘッジ"
+          ],
+          "2024-04-01",
+          "2025-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "836",
+            true
+          ]
+        ],
+        [
+          [
+            "その他の包括利益",
+            "純損益に振り替えられる可能性のある項目",
+            "キャッシュ・フロー・ヘッジ"
+          ],
+          "2025-04-01",
+          "2026-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "588",
+            false
+          ]
+        ],
+        [
+          [
+            "その他の包括利益",
+            "純損益に振り替えられる可能性のある項目",
+            "持分法適用会社におけるその他の包括利益に対する持分"
+          ],
+          "2024-04-01",
+          "2025-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "12",
+            true
+          ]
+        ],
+        [
+          [
+            "その他の包括利益",
+            "純損益に振り替えられる可能性のある項目",
+            "持分法適用会社におけるその他の包括利益に対する持分"
+          ],
+          "2025-04-01",
+          "2026-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "125",
+            false
+          ]
+        ],
+        [
+          [
+            "その他の包括利益",
+            "純損益に振り替えられる可能性のある項目",
+            "純損益に振り替えられる可能性のある項目合計"
+          ],
+          "2024-04-01",
+          "2025-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "5081",
+            true
+          ]
+        ],
+        [
+          [
+            "その他の包括利益",
+            "純損益に振り替えられる可能性のある項目",
+            "純損益に振り替えられる可能性のある項目合計"
+          ],
+          "2025-04-01",
+          "2026-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "15761",
+            false
+          ]
+        ],
+        [
+          [
+            "その他の包括利益",
+            "税引後その他の包括利益"
+          ],
+          "2024-04-01",
+          "2025-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "6752",
+            true
+          ]
+        ],
+        [
+          [
+            "その他の包括利益",
+            "税引後その他の包括利益"
+          ],
+          "2025-04-01",
+          "2026-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "16158",
+            false
+          ]
+        ]
+      ],
+      "unexpected": [
+        [
+          [
+            "壳上収益"
+          ],
+          "2024-04-01",
+          "2025-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "764813",
+            false
+          ]
+        ],
+        [
+          [
+            "壳上収益"
+          ],
+          "2025-04-01",
+          "2026-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "814708",
+            false
+          ]
+        ],
+        [
+          [
+            "壳上原価"
+          ],
+          "2024-04-01",
+          "2025-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "489517",
+            false
+          ]
+        ],
+        [
+          [
+            "壳上原価"
+          ],
+          "2025-04-01",
+          "2026-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "514556",
+            false
+          ]
+        ],
+        [
+          [
+            "壳上総利益"
+          ],
+          "2024-04-01",
+          "2025-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "275295",
+            false
+          ]
+        ],
+        [
+          [
+            "壳上総利益"
+          ],
+          "2025-04-01",
+          "2026-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "300151",
+            false
+          ]
+        ],
+        [
+          [
+            "純損益に振り替えられることのない項目",
+            "その他の包括利益を通じて公正価値で測定する資本性金融商品"
+          ],
+          "2024-04-01",
+          "2025-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "583",
+            false
+          ]
+        ],
+        [
+          [
+            "純損益に振り替えられることのない項目",
+            "その他の包括利益を通じて公正価値で測定する資本性金融商品"
+          ],
+          "2025-04-01",
+          "2026-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "967",
+            false
+          ]
+        ],
+        [
+          [
+            "純損益に振り替えられることのない項目",
+            "確定給付制度の再測定"
+          ],
+          "2024-04-01",
+          "2025-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "2310",
+            true
+          ]
+        ],
+        [
+          [
+            "純損益に振り替えられることのない項目",
+            "確定給付制度の再測定"
+          ],
+          "2025-04-01",
+          "2026-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "462",
+            true
+          ]
+        ],
+        [
+          [
+            "純損益に振り替えられることのない項目",
+            "確定給付制度の再測定",
+            "持分法適用会社におけるその他の包括利益に対する持分"
+          ],
+          "2024-04-01",
+          "2025-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "55",
+            false
+          ]
+        ],
+        [
+          [
+            "純損益に振り替えられることのない項目",
+            "確定給付制度の再測定",
+            "持分法適用会社におけるその他の包括利益に対する持分"
+          ],
+          "2025-04-01",
+          "2026-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "107",
+            true
+          ]
+        ],
+        [
+          [
+            "純損益に振り替えられることのない項目",
+            "純損益に振り替えられることのない項目合計"
+          ],
+          "2024-04-01",
+          "2025-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "1670",
+            true
+          ]
+        ],
+        [
+          [
+            "純損益に振り替えられることのない項目",
+            "純損益に振り替えられることのない項目合計"
+          ],
+          "2025-04-01",
+          "2026-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "397",
+            false
+          ]
+        ],
+        [
+          [
+            "純損益に振り替えられる可能性のある項目",
+            "その他の包括利益を通じて公正価値で測定する負債性金融商品"
+          ],
+          "2024-04-01",
+          "2025-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "0",
+            false
+          ]
+        ],
+        [
+          [
+            "純損益に振り替えられる可能性のある項目",
+            "その他の包括利益を通じて公正価値で測定する負債性金融商品"
+          ],
+          "2025-04-01",
+          "2026-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "0",
+            false
+          ]
+        ],
+        [
+          [
+            "純損益に振り替えられる可能性のある項目",
+            "在外営業活動体の換算差額"
+          ],
+          "2024-04-01",
+          "2025-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "4232",
+            true
+          ]
+        ],
+        [
+          [
+            "純損益に振り替えられる可能性のある項目",
+            "在外営業活動体の換算差額"
+          ],
+          "2025-04-01",
+          "2026-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "15047",
+            false
+          ]
+        ],
+        [
+          [
+            "純損益に振り替えられる可能性のある項目",
+            "キャッシュ・フロー・ヘッジ"
+          ],
+          "2024-04-01",
+          "2025-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "836",
+            true
+          ]
+        ],
+        [
+          [
+            "純損益に振り替えられる可能性のある項目",
+            "キャッシュ・フロー・ヘッジ"
+          ],
+          "2025-04-01",
+          "2026-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "588",
+            false
+          ]
+        ],
+        [
+          [
+            "純損益に振り替えられる可能性のある項目",
+            "キャッシュ・フロー・ヘッジ",
+            "持分法適用会社におけるその他の包括利益に対する持分"
+          ],
+          "2024-04-01",
+          "2025-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "12",
+            true
+          ]
+        ],
+        [
+          [
+            "純損益に振り替えられる可能性のある項目",
+            "キャッシュ・フロー・ヘッジ",
+            "持分法適用会社におけるその他の包括利益に対する持分"
+          ],
+          "2025-04-01",
+          "2026-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "125",
+            false
+          ]
+        ],
+        [
+          [
+            "純損益に振り替えられる可能性のある項目",
+            "純損益に振り替えられる可能性のある項目合計"
+          ],
+          "2024-04-01",
+          "2025-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "5081",
+            true
+          ]
+        ],
+        [
+          [
+            "純損益に振り替えられる可能性のある項目",
+            "純損益に振り替えられる可能性のある項目合計"
+          ],
+          "2025-04-01",
+          "2026-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "15761",
+            false
+          ]
+        ],
+        [
+          [
+            "税引後その他の包括利益"
+          ],
+          "2024-04-01",
+          "2025-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "6752",
+            true
+          ]
+        ],
+        [
+          [
+            "税引後その他の包括利益"
+          ],
+          "2025-04-01",
+          "2026-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "16158",
+            false
+          ]
+        ]
+      ]
+    },
+    {
+      "id": "are_assets",
+      "source": "are_2026",
+      "page": 57,
+      "complexity": "medium",
+      "features": [
+        "Antenna House annual-report layout",
+        "IFRS",
+        "full-width note numbers",
+        "invisible typesetting stamp in the text layer",
+        "nil values"
+      ],
+      "rows": {
+        "matched": 19,
+        "predicted": 20,
+        "gold": 20,
+        "precision": 0.95,
+        "recall": 0.95,
+        "f1": 0.95
+      },
+      "facts": {
+        "matched": 32,
+        "predicted": 34,
+        "gold": 34,
+        "precision": 0.9412,
+        "recall": 0.9412,
+        "f1": 0.9412
+      },
+      "flat_facts": {
+        "matched": 32,
+        "predicted": 34,
+        "gold": 34,
+        "precision": 0.9412,
+        "recall": 0.9412,
+        "f1": 0.9412
+      },
+      "header_correct": true,
+      "page_exact": false,
+      "states": [
+        "verified"
+      ],
+      "autoaccepted_page": true,
+      "autoaccepted_facts": {
+        "matched": 32,
+        "predicted": 34,
+        "gold": 34,
+        "precision": 0.9412,
+        "recall": 0.9412,
+        "f1": 0.9412
+      },
+      "checks": {
+        "passed": 6,
+        "total": 6
+      },
+      "reasons": [],
+      "missing": [
+        [
+          [
+            "資産",
+            "流動資産",
+            "営業債権及びその他の債権"
+          ],
+          null,
+          "2025-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "304306",
+            false
+          ]
+        ],
+        [
+          [
+            "資産",
+            "流動資産",
+            "営業債権及びその他の債権"
+          ],
+          null,
+          "2026-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "315302",
+            false
+          ]
+        ]
+      ],
+      "unexpected": [
+        [
+          [
+            "資産",
+            "流動資産",
+            "営業債權及びその他の債權"
+          ],
+          null,
+          "2025-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "304306",
+            false
+          ]
+        ],
+        [
+          [
+            "資産",
+            "流動資産",
+            "営業債權及びその他の債權"
+          ],
+          null,
+          "2026-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "315302",
+            false
+          ]
+        ]
+      ]
+    },
+    {
+      "id": "are_liabilities",
+      "source": "are_2026",
+      "page": 58,
+      "complexity": "medium",
+      "features": [
+        "continuation page without a title",
+        "invisible typesetting stamp in the text layer"
+      ],
+      "rows": {
+        "matched": 26,
+        "predicted": 28,
+        "gold": 28,
+        "precision": 0.9286,
+        "recall": 0.9286,
+        "f1": 0.9286
+      },
+      "facts": {
+        "matched": 42,
+        "predicted": 46,
+        "gold": 46,
+        "precision": 0.913,
+        "recall": 0.913,
+        "f1": 0.913
+      },
+      "flat_facts": {
+        "matched": 42,
+        "predicted": 46,
+        "gold": 46,
+        "precision": 0.913,
+        "recall": 0.913,
+        "f1": 0.913
+      },
+      "header_correct": true,
+      "page_exact": false,
+      "states": [
+        "verified"
+      ],
+      "autoaccepted_page": true,
+      "autoaccepted_facts": {
+        "matched": 42,
+        "predicted": 46,
+        "gold": 46,
+        "precision": 0.913,
+        "recall": 0.913,
+        "f1": 0.913
+      },
+      "checks": {
+        "passed": 12,
+        "total": 12
+      },
+      "reasons": [],
+      "missing": [
+        [
+          [
+            "負債及び資本",
+            "資本",
+            "資本剰余金"
+          ],
+          null,
+          "2025-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "12080",
+            false
+          ]
+        ],
+        [
+          [
+            "負債及び資本",
+            "資本",
+            "資本剰余金"
+          ],
+          null,
+          "2026-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "26760",
+            false
+          ]
+        ],
+        [
+          [
+            "負債及び資本",
+            "資本",
+            "利益剰余金"
+          ],
+          null,
+          "2025-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "121679",
+            false
+          ]
+        ],
+        [
+          [
+            "負債及び資本",
+            "資本",
+            "利益剰余金"
+          ],
+          null,
+          "2026-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "138497",
+            false
+          ]
+        ]
+      ],
+      "unexpected": [
+        [
+          [
+            "負債及び資本",
+            "資本",
+            "資本剩余金"
+          ],
+          null,
+          "2025-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "12080",
+            false
+          ]
+        ],
+        [
+          [
+            "負債及び資本",
+            "資本",
+            "資本剩余金"
+          ],
+          null,
+          "2026-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "26760",
+            false
+          ]
+        ],
+        [
+          [
+            "負債及び資本",
+            "資本",
+            "利益剩余金"
+          ],
+          null,
+          "2025-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "121679",
+            false
+          ]
+        ],
+        [
+          [
+            "負債及び資本",
+            "資本",
+            "利益剩余金"
+          ],
+          null,
+          "2026-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "138497",
+            false
+          ]
+        ]
+      ]
+    },
+    {
+      "id": "are_income",
+      "source": "are_2026",
+      "page": 59,
+      "complexity": "hard",
+      "features": [
+        "expenses printed as negatives",
+        "profit attribution block repeating 当期利益",
+        "per-share amounts in 円 with decimals"
+      ],
+      "rows": {
+        "matched": 17,
+        "predicted": 20,
+        "gold": 20,
+        "precision": 0.85,
+        "recall": 0.85,
+        "f1": 0.85
+      },
+      "facts": {
+        "matched": 30,
+        "predicted": 36,
+        "gold": 36,
+        "precision": 0.8333,
+        "recall": 0.8333,
+        "f1": 0.8333
+      },
+      "flat_facts": {
+        "matched": 34,
+        "predicted": 36,
+        "gold": 36,
+        "precision": 0.9444,
+        "recall": 0.9444,
+        "f1": 0.9444
+      },
+      "header_correct": true,
+      "page_exact": false,
+      "states": [
+        "needs_review"
+      ],
+      "autoaccepted_page": false,
+      "autoaccepted_facts": {
+        "matched": 0,
+        "predicted": 0,
+        "gold": 36,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "checks": {
+        "passed": 0,
+        "total": 0
+      },
+      "reasons": [
+        "36 cell(s) covered by no constraint",
+        "group '当期利益の帰属' has no closing total on this page"
+      ],
+      "missing": [
+        [
+          [
+            "法人所得税費用"
+          ],
+          "2024-04-01",
+          "2025-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "6172",
+            true
+          ]
+        ],
+        [
+          [
+            "法人所得税費用"
+          ],
+          "2025-04-01",
+          "2026-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "10295",
+            true
+          ]
+        ],
+        [
+          [
+            "1株当たり当期利益",
+            "基本的1株当たり当期利益(円)"
+          ],
+          "2024-04-01",
+          "2025-03-31",
+          null,
+          "円",
+          [
+            "amount",
+            "187.13",
+            false
+          ]
+        ],
+        [
+          [
+            "1株当たり当期利益",
+            "基本的1株当たり当期利益(円)"
+          ],
+          "2025-04-01",
+          "2026-03-31",
+          null,
+          "円",
+          [
+            "amount",
+            "315.49",
+            false
+          ]
+        ],
+        [
+          [
+            "1株当たり当期利益",
+            "希薄化後1株当たり当期利益(円)"
+          ],
+          "2024-04-01",
+          "2025-03-31",
+          null,
+          "円",
+          [
+            "amount",
+            "169.96",
+            false
+          ]
+        ],
+        [
+          [
+            "1株当たり当期利益",
+            "希薄化後1株当たり当期利益(円)"
+          ],
+          "2025-04-01",
+          "2026-03-31",
+          null,
+          "円",
+          [
+            "amount",
+            "287.15",
+            false
+          ]
+        ]
+      ],
+      "unexpected": [
+        [
+          [
+            "法人所得税费用"
+          ],
+          "2024-04-01",
+          "2025-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "6172",
+            true
+          ]
+        ],
+        [
+          [
+            "法人所得税费用"
+          ],
+          "2025-04-01",
+          "2026-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "10295",
+            true
+          ]
+        ],
+        [
+          [
+            "基本的1株当たり当期利益(円)"
+          ],
+          "2024-04-01",
+          "2025-03-31",
+          null,
+          "円",
+          [
+            "amount",
+            "187.13",
+            false
+          ]
+        ],
+        [
+          [
+            "基本的1株当たり当期利益(円)"
+          ],
+          "2025-04-01",
+          "2026-03-31",
+          null,
+          "円",
+          [
+            "amount",
+            "315.49",
+            false
+          ]
+        ],
+        [
+          [
+            "希薄化後1株当たり当期利益(円)"
+          ],
+          "2024-04-01",
+          "2025-03-31",
+          null,
+          "円",
+          [
+            "amount",
+            "169.96",
+            false
+          ]
+        ],
+        [
+          [
+            "希薄化後1株当たり当期利益(円)"
+          ],
+          "2025-04-01",
+          "2026-03-31",
+          null,
+          "円",
+          [
+            "amount",
+            "287.15",
+            false
+          ]
+        ]
+      ]
+    },
+    {
+      "id": "shinnihon_assets",
+      "source": "shinnihon_2026",
+      "page": 6,
+      "complexity": "simple",
+      "features": [
+        "決算短信 by TAKARA PRINTING",
+        "construction-industry accounts",
+        "fixed assets shown net"
+      ],
+      "rows": {
+        "matched": 26,
+        "predicted": 28,
+        "gold": 28,
+        "precision": 0.9286,
+        "recall": 0.9286,
+        "f1": 0.9286
+      },
+      "facts": {
+        "matched": 42,
+        "predicted": 46,
+        "gold": 46,
+        "precision": 0.913,
+        "recall": 0.913,
+        "f1": 0.913
+      },
+      "flat_facts": {
+        "matched": 42,
+        "predicted": 46,
+        "gold": 46,
+        "precision": 0.913,
+        "recall": 0.913,
+        "f1": 0.913
+      },
+      "header_correct": true,
+      "page_exact": false,
+      "states": [
+        "verified"
+      ],
+      "autoaccepted_page": true,
+      "autoaccepted_facts": {
+        "matched": 42,
+        "predicted": 46,
+        "gold": 46,
+        "precision": 0.913,
+        "recall": 0.913,
+        "f1": 0.913
+      },
+      "checks": {
+        "passed": 10,
+        "total": 10
+      },
+      "reasons": [],
+      "missing": [
+        [
+          [
+            "資産の部",
+            "流動資産",
+            "受取手形・完成工事未収入金等"
+          ],
+          null,
+          "2025-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "18266",
+            false
+          ]
+        ],
+        [
+          [
+            "資産の部",
+            "流動資産",
+            "受取手形・完成工事未収入金等"
+          ],
+          null,
+          "2026-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "12649",
+            false
+          ]
+        ],
+        [
+          [
+            "資産の部",
+            "固定資産",
+            "有形固定資産",
+            "建物・構築物(純額)"
+          ],
+          null,
+          "2025-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "4174",
+            false
+          ]
+        ],
+        [
+          [
+            "資産の部",
+            "固定資産",
+            "有形固定資産",
+            "建物・構築物(純額)"
+          ],
+          null,
+          "2026-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "4160",
+            false
+          ]
+        ]
+      ],
+      "unexpected": [
+        [
+          [
+            "資産の部",
+            "流動資産",
+            "受取手形·完成工事未收入金等"
+          ],
+          null,
+          "2025-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "18266",
+            false
+          ]
+        ],
+        [
+          [
+            "資産の部",
+            "流動資産",
+            "受取手形·完成工事未收入金等"
+          ],
+          null,
+          "2026-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "12649",
+            false
+          ]
+        ],
+        [
+          [
+            "資産の部",
+            "固定資産",
+            "有形固定資産",
+            "建物·構築物(純額)"
+          ],
+          null,
+          "2025-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "4174",
+            false
+          ]
+        ],
+        [
+          [
+            "資産の部",
+            "固定資産",
+            "有形固定資産",
+            "建物·構築物(純額)"
+          ],
+          null,
+          "2026-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "4160",
+            false
+          ]
+        ]
+      ]
+    },
+    {
+      "id": "shinnihon_liabilities",
+      "source": "shinnihon_2026",
+      "page": 7,
+      "complexity": "medium",
+      "features": [
+        "continuation page without a title",
+        "accumulated other comprehensive income"
+      ],
+      "rows": {
+        "matched": 28,
+        "predicted": 30,
+        "gold": 30,
+        "precision": 0.9333,
+        "recall": 0.9333,
+        "f1": 0.9333
+      },
+      "facts": {
+        "matched": 44,
+        "predicted": 48,
+        "gold": 48,
+        "precision": 0.9167,
+        "recall": 0.9167,
+        "f1": 0.9167
+      },
+      "flat_facts": {
+        "matched": 44,
+        "predicted": 48,
+        "gold": 48,
+        "precision": 0.9167,
+        "recall": 0.9167,
+        "f1": 0.9167
+      },
+      "header_correct": true,
+      "page_exact": false,
+      "states": [
+        "verified"
+      ],
+      "autoaccepted_page": true,
+      "autoaccepted_facts": {
+        "matched": 44,
+        "predicted": 48,
+        "gold": 48,
+        "precision": 0.9167,
+        "recall": 0.9167,
+        "f1": 0.9167
+      },
+      "checks": {
+        "passed": 14,
+        "total": 14
+      },
+      "reasons": [],
+      "missing": [
+        [
+          [
+            "純資産の部",
+            "株主資本",
+            "資本剰余金"
+          ],
+          null,
+          "2025-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "3440",
+            false
+          ]
+        ],
+        [
+          [
+            "純資産の部",
+            "株主資本",
+            "資本剰余金"
+          ],
+          null,
+          "2026-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "3440",
+            false
+          ]
+        ],
+        [
+          [
+            "純資産の部",
+            "株主資本",
+            "利益剰余金"
+          ],
+          null,
+          "2025-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "115187",
+            false
+          ]
+        ],
+        [
+          [
+            "純資産の部",
+            "株主資本",
+            "利益剰余金"
+          ],
+          null,
+          "2026-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "126902",
+            false
+          ]
+        ]
+      ],
+      "unexpected": [
+        [
+          [
+            "純資産の部",
+            "株主資本",
+            "資本剩余金"
+          ],
+          null,
+          "2025-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "3440",
+            false
+          ]
+        ],
+        [
+          [
+            "純資産の部",
+            "株主資本",
+            "資本剩余金"
+          ],
+          null,
+          "2026-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "3440",
+            false
+          ]
+        ],
+        [
+          [
+            "純資産の部",
+            "株主資本",
+            "利益剩余金"
+          ],
+          null,
+          "2025-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "115187",
+            false
+          ]
+        ],
+        [
+          [
+            "純資産の部",
+            "株主資本",
+            "利益剩余金"
+          ],
+          null,
+          "2026-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "126902",
+            false
+          ]
+        ]
+      ]
+    },
+    {
+      "id": "shinnihon_income",
+      "source": "shinnihon_2026",
+      "page": 8,
+      "complexity": "medium",
+      "features": [
+        "revenue, cost and gross profit split by business with subtotals",
+        "zero values",
+        "duration dates"
+      ],
+      "rows": {
+        "matched": 26,
+        "predicted": 30,
+        "gold": 30,
+        "precision": 0.8667,
+        "recall": 0.8667,
+        "f1": 0.8667
+      },
+      "facts": {
+        "matched": 44,
+        "predicted": 50,
+        "gold": 50,
+        "precision": 0.88,
+        "recall": 0.88,
+        "f1": 0.88
+      },
+      "flat_facts": {
+        "matched": 48,
+        "predicted": 50,
+        "gold": 50,
+        "precision": 0.96,
+        "recall": 0.96,
+        "f1": 0.96
+      },
+      "header_correct": true,
+      "page_exact": false,
+      "states": [
+        "needs_review"
+      ],
+      "autoaccepted_page": false,
+      "autoaccepted_facts": {
+        "matched": 0,
+        "predicted": 0,
+        "gold": 50,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "checks": {
+        "passed": 10,
+        "total": 10
+      },
+      "reasons": [
+        "18 cell(s) covered by no constraint",
+        "group '営業外収益' has no closing total on this page"
+      ],
+      "missing": [
+        [
+          [
+            "営業外費用",
+            "支払手数料"
+          ],
+          "2024-04-01",
+          "2025-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "8",
+            false
+          ]
+        ],
+        [
+          [
+            "営業外費用",
+            "支払手数料"
+          ],
+          "2025-04-01",
+          "2026-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "1",
+            false
+          ]
+        ],
+        [
+          [
+            "営業外費用",
+            "その他"
+          ],
+          "2024-04-01",
+          "2025-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "0",
+            false
+          ]
+        ],
+        [
+          [
+            "営業外費用",
+            "その他"
+          ],
+          "2025-04-01",
+          "2026-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "0",
+            false
+          ]
+        ],
+        [
+          [
+            "営業外費用",
+            "営業外費用合計"
+          ],
+          "2024-04-01",
+          "2025-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "9",
+            false
+          ]
+        ],
+        [
+          [
+            "営業外費用",
+            "営業外費用合計"
+          ],
+          "2025-04-01",
+          "2026-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "2",
+            false
+          ]
+        ]
+      ],
+      "unexpected": [
+        [
+          [
+            "営業外収益",
+            "営業外费用",
+            "支払手数料"
+          ],
+          "2024-04-01",
+          "2025-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "8",
+            false
+          ]
+        ],
+        [
+          [
+            "営業外収益",
+            "営業外费用",
+            "支払手数料"
+          ],
+          "2025-04-01",
+          "2026-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "1",
+            false
+          ]
+        ],
+        [
+          [
+            "営業外収益",
+            "営業外费用",
+            "その他"
+          ],
+          "2024-04-01",
+          "2025-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "0",
+            false
+          ]
+        ],
+        [
+          [
+            "営業外収益",
+            "営業外费用",
+            "その他"
+          ],
+          "2025-04-01",
+          "2026-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "0",
+            false
+          ]
+        ],
+        [
+          [
+            "営業外収益",
+            "営業外费用",
+            "営業外费用合計"
+          ],
+          "2024-04-01",
+          "2025-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "9",
+            false
+          ]
+        ],
+        [
+          [
+            "営業外収益",
+            "営業外费用",
+            "営業外费用合計"
+          ],
+          "2025-04-01",
+          "2026-03-31",
+          null,
+          "百万円",
+          [
+            "amount",
+            "2",
+            false
+          ]
+        ]
+      ]
+    }
+  ]
+}

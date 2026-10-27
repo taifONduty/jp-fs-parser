@@ -1,0 +1,2458 @@
+{
+  "engine": "geometry",
+  "revision": "5ebf99c53c1bcecae53d52b03a44a6cc59543864",
+  "parser_sha256": "e147ea6bd591c09bfdceb13c9740ccff03cecb04a93fa1f234a712563068579c",
+  "annotation_sha256": "37c61db914fd0a1365f0cbd832d70f68afb7f4fc1202b78a34de8e94d62154f5",
+  "selection": "Second purposive challenge batch: four new issuers, non-consolidated statements, complete two-page balance sheets and cash-flow sequence, Heisei/Reiwa dates, quarterly IFRS, and natural account-form pages with a partial text layer. Selected before parser output; original 11-page batch remains unchanged. Page numbers are 1-based PDF positions.",
+  "annotation": "Single-assistant visual transcription checked against every selected rendered page before the first parser run. PDF text used only as a transcription aid; Bank of Japan figures were read from pixels because those amounts are vector outlines. Paths, units and dates are explicit and independent of parser inference. Not independently human-adjudicated.",
+  "summary": {
+    "facts": {
+      "matched": 638,
+      "predicted": 638,
+      "gold": 741,
+      "precision": 1.0,
+      "recall": 0.861,
+      "f1": 0.9253
+    },
+    "flat_facts": {
+      "matched": 638,
+      "predicted": 638,
+      "gold": 741,
+      "precision": 1.0,
+      "recall": 0.861,
+      "f1": 0.9253
+    },
+    "rows": {
+      "matched": 368,
+      "predicted": 368,
+      "gold": 474,
+      "precision": 1.0,
+      "recall": 0.7764,
+      "f1": 0.8741
+    },
+    "autoaccepted_facts": {
+      "matched": 236,
+      "predicted": 236,
+      "gold": 741,
+      "precision": 1.0,
+      "recall": 0.3185,
+      "f1": 0.4831
+    },
+    "pages": 14,
+    "page_exact": 12,
+    "headers_correct": 12,
+    "autoaccepted_pages": 4,
+    "wrong_autoaccepted_pages": 0
+  },
+  "pages": [
+    {
+      "id": "hatena_assets",
+      "source": "hatena_2025",
+      "page": 10,
+      "complexity": "simple",
+      "features": [
+        "non-consolidated",
+        "thousands of yen",
+        "gross-contra-net groups"
+      ],
+      "rows": {
+        "matched": 32,
+        "predicted": 32,
+        "gold": 32,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "facts": {
+        "matched": 52,
+        "predicted": 52,
+        "gold": 52,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "flat_facts": {
+        "matched": 52,
+        "predicted": 52,
+        "gold": 52,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "header_correct": true,
+      "page_exact": true,
+      "states": [
+        "verified"
+      ],
+      "autoaccepted_page": true,
+      "autoaccepted_facts": {
+        "matched": 52,
+        "predicted": 52,
+        "gold": 52,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "checks": {
+        "passed": 16,
+        "total": 16
+      },
+      "reasons": [],
+      "missing": [],
+      "unexpected": []
+    },
+    {
+      "id": "hatena_liabilities",
+      "source": "hatena_2025",
+      "page": 11,
+      "complexity": "hard",
+      "features": [
+        "non-consolidated continuation",
+        "deep retained-earnings nesting"
+      ],
+      "rows": {
+        "matched": 35,
+        "predicted": 35,
+        "gold": 35,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "facts": {
+        "matched": 52,
+        "predicted": 52,
+        "gold": 52,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "flat_facts": {
+        "matched": 52,
+        "predicted": 52,
+        "gold": 52,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "header_correct": true,
+      "page_exact": true,
+      "states": [
+        "needs_review"
+      ],
+      "autoaccepted_page": false,
+      "autoaccepted_facts": {
+        "matched": 0,
+        "predicted": 0,
+        "gold": 52,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "checks": {
+        "passed": 16,
+        "total": 16
+      },
+      "reasons": [
+        "4 cell(s) covered by no constraint",
+        "group 'その他利益剰余金' has no closing total on this page"
+      ],
+      "missing": [],
+      "unexpected": []
+    },
+    {
+      "id": "hatena_income",
+      "source": "hatena_2025",
+      "page": 12,
+      "complexity": "medium",
+      "features": [
+        "non-consolidated",
+        "nil vs zero",
+        "expense subtotals"
+      ],
+      "rows": {
+        "matched": 30,
+        "predicted": 30,
+        "gold": 30,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "facts": {
+        "matched": 52,
+        "predicted": 52,
+        "gold": 52,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "flat_facts": {
+        "matched": 52,
+        "predicted": 52,
+        "gold": 52,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "header_correct": true,
+      "page_exact": true,
+      "states": [
+        "needs_review"
+      ],
+      "autoaccepted_page": false,
+      "autoaccepted_facts": {
+        "matched": 0,
+        "predicted": 0,
+        "gold": 52,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "checks": {
+        "passed": 8,
+        "total": 10
+      },
+      "reasons": [
+        "sum:法人税等合計 fails for 前事業年度 (residual -9545270)",
+        "sum:法人税等合計 fails for 当事業年度 (residual -11550353)",
+        "2 cell(s) covered by no constraint"
+      ],
+      "missing": [],
+      "unexpected": []
+    },
+    {
+      "id": "hatena_cashflows",
+      "source": "hatena_2025",
+      "page": 15,
+      "complexity": "medium",
+      "features": [
+        "non-consolidated",
+        "long one-line labels",
+        "mixed signs",
+        "subtotal chain"
+      ],
+      "rows": {
+        "matched": 46,
+        "predicted": 46,
+        "gold": 46,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "facts": {
+        "matched": 86,
+        "predicted": 86,
+        "gold": 86,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "flat_facts": {
+        "matched": 86,
+        "predicted": 86,
+        "gold": 86,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "header_correct": true,
+      "page_exact": true,
+      "states": [
+        "needs_review"
+      ],
+      "autoaccepted_page": false,
+      "autoaccepted_facts": {
+        "matched": 0,
+        "predicted": 0,
+        "gold": 86,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "checks": {
+        "passed": 8,
+        "total": 8
+      },
+      "reasons": [
+        "8 cell(s) covered by no constraint"
+      ],
+      "missing": [],
+      "unexpected": []
+    },
+    {
+      "id": "capcom_assets",
+      "source": "capcom_2016",
+      "page": 10,
+      "complexity": "simple",
+      "features": [
+        "Heisei dates",
+        "net-only assets",
+        "producer footer text"
+      ],
+      "rows": {
+        "matched": 36,
+        "predicted": 36,
+        "gold": 36,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "facts": {
+        "matched": 60,
+        "predicted": 60,
+        "gold": 60,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "flat_facts": {
+        "matched": 60,
+        "predicted": 60,
+        "gold": 60,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "header_correct": true,
+      "page_exact": true,
+      "states": [
+        "verified"
+      ],
+      "autoaccepted_page": true,
+      "autoaccepted_facts": {
+        "matched": 60,
+        "predicted": 60,
+        "gold": 60,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "checks": {
+        "passed": 12,
+        "total": 12
+      },
+      "reasons": [],
+      "missing": [],
+      "unexpected": []
+    },
+    {
+      "id": "capcom_liabilities",
+      "source": "capcom_2016",
+      "page": 11,
+      "complexity": "medium",
+      "features": [
+        "Heisei dates",
+        "continuation without title",
+        "negative equity subtotal"
+      ],
+      "rows": {
+        "matched": 35,
+        "predicted": 35,
+        "gold": 35,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "facts": {
+        "matched": 58,
+        "predicted": 58,
+        "gold": 58,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "flat_facts": {
+        "matched": 58,
+        "predicted": 58,
+        "gold": 58,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "header_correct": true,
+      "page_exact": true,
+      "states": [
+        "verified"
+      ],
+      "autoaccepted_page": true,
+      "autoaccepted_facts": {
+        "matched": 58,
+        "predicted": 58,
+        "gold": 58,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "checks": {
+        "passed": 14,
+        "total": 14
+      },
+      "reasons": [],
+      "missing": [],
+      "unexpected": []
+    },
+    {
+      "id": "capcom_income",
+      "source": "capcom_2016",
+      "page": 12,
+      "complexity": "medium",
+      "features": [
+        "Heisei duration dates",
+        "gross-profit adjustment nested below gross profit",
+        "nil values"
+      ],
+      "rows": {
+        "matched": 31,
+        "predicted": 31,
+        "gold": 31,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "facts": {
+        "matched": 56,
+        "predicted": 56,
+        "gold": 56,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "flat_facts": {
+        "matched": 56,
+        "predicted": 56,
+        "gold": 56,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "header_correct": true,
+      "page_exact": true,
+      "states": [
+        "needs_review"
+      ],
+      "autoaccepted_page": false,
+      "autoaccepted_facts": {
+        "matched": 0,
+        "predicted": 0,
+        "gold": 56,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "checks": {
+        "passed": 8,
+        "total": 10
+      },
+      "reasons": [
+        "sum:法人税等合計 fails for 前連結会計年度 (residual -177387)",
+        "sum:法人税等合計 fails for 当連結会計年度 (residual -207871)",
+        "4 cell(s) covered by no constraint"
+      ],
+      "missing": [],
+      "unexpected": []
+    },
+    {
+      "id": "capcom_comprehensive",
+      "source": "capcom_2016",
+      "page": 13,
+      "complexity": "medium",
+      "features": [
+        "Heisei dates",
+        "comprehensive income",
+        "breakdown subsection",
+        "all-nil row"
+      ],
+      "rows": {
+        "matched": 10,
+        "predicted": 10,
+        "gold": 10,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "facts": {
+        "matched": 16,
+        "predicted": 16,
+        "gold": 16,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "flat_facts": {
+        "matched": 16,
+        "predicted": 16,
+        "gold": 16,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "header_correct": true,
+      "page_exact": true,
+      "states": [
+        "needs_review"
+      ],
+      "autoaccepted_page": false,
+      "autoaccepted_facts": {
+        "matched": 0,
+        "predicted": 0,
+        "gold": 16,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "checks": {
+        "passed": 2,
+        "total": 2
+      },
+      "reasons": [
+        "8 cell(s) covered by no constraint",
+        "group '（内訳）' has no closing total on this page"
+      ],
+      "missing": [],
+      "unexpected": []
+    },
+    {
+      "id": "capcom_cashflows_first",
+      "source": "capcom_2016",
+      "page": 16,
+      "complexity": "hard",
+      "features": [
+        "Heisei dates",
+        "wrapped label",
+        "cash flow continues next page",
+        "nil and negative adjustments"
+      ],
+      "rows": {
+        "matched": 35,
+        "predicted": 35,
+        "gold": 35,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "facts": {
+        "matched": 66,
+        "predicted": 66,
+        "gold": 66,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "flat_facts": {
+        "matched": 66,
+        "predicted": 66,
+        "gold": 66,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "header_correct": true,
+      "page_exact": true,
+      "states": [
+        "verified"
+      ],
+      "autoaccepted_page": true,
+      "autoaccepted_facts": {
+        "matched": 66,
+        "predicted": 66,
+        "gold": 66,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "checks": {
+        "passed": 6,
+        "total": 6
+      },
+      "reasons": [],
+      "missing": [],
+      "unexpected": []
+    },
+    {
+      "id": "capcom_cashflows_last",
+      "source": "capcom_2016",
+      "page": 17,
+      "complexity": "hard",
+      "features": [
+        "Heisei dates",
+        "cash-flow continuation without title",
+        "unsigned zero vs nil"
+      ],
+      "rows": {
+        "matched": 13,
+        "predicted": 13,
+        "gold": 13,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "facts": {
+        "matched": 24,
+        "predicted": 24,
+        "gold": 24,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "flat_facts": {
+        "matched": 24,
+        "predicted": 24,
+        "gold": 24,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "header_correct": true,
+      "page_exact": true,
+      "states": [
+        "needs_review"
+      ],
+      "autoaccepted_page": false,
+      "autoaccepted_facts": {
+        "matched": 0,
+        "predicted": 0,
+        "gold": 24,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "checks": {
+        "passed": 2,
+        "total": 2
+      },
+      "reasons": [
+        "8 cell(s) covered by no constraint"
+      ],
+      "missing": [],
+      "unexpected": []
+    },
+    {
+      "id": "rakuten_balance",
+      "source": "rakuten_q1_2025",
+      "page": 12,
+      "complexity": "hard",
+      "features": [
+        "quarterly IFRS",
+        "condensed title",
+        "banking and insurance assets",
+        "all balance-sheet sections on one page"
+      ],
+      "rows": {
+        "matched": 46,
+        "predicted": 46,
+        "gold": 46,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "facts": {
+        "matched": 84,
+        "predicted": 84,
+        "gold": 84,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "flat_facts": {
+        "matched": 84,
+        "predicted": 84,
+        "gold": 84,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "header_correct": true,
+      "page_exact": true,
+      "states": [
+        "needs_review"
+      ],
+      "autoaccepted_page": false,
+      "autoaccepted_facts": {
+        "matched": 0,
+        "predicted": 0,
+        "gold": 84,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "checks": {
+        "passed": 8,
+        "total": 10
+      },
+      "reasons": [
+        "sum:負債及び資本合計 fails for 前連結会計年度 (residual -26514728)",
+        "sum:負債及び資本合計 fails for 当第1四半期連結会計期間末 (residual -25077197)"
+      ],
+      "missing": [],
+      "unexpected": []
+    },
+    {
+      "id": "rakuten_income",
+      "source": "rakuten_q1_2025",
+      "page": 13,
+      "complexity": "hard",
+      "features": [
+        "quarterly duration",
+        "condensed title",
+        "negative decimal EPS in yen",
+        "wrapped EPS heading"
+      ],
+      "rows": {
+        "matched": 19,
+        "predicted": 19,
+        "gold": 19,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "facts": {
+        "matched": 32,
+        "predicted": 32,
+        "gold": 32,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "flat_facts": {
+        "matched": 32,
+        "predicted": 32,
+        "gold": 32,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "header_correct": true,
+      "page_exact": true,
+      "states": [
+        "needs_review"
+      ],
+      "autoaccepted_page": false,
+      "autoaccepted_facts": {
+        "matched": 0,
+        "predicted": 0,
+        "gold": 32,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "checks": {
+        "passed": 2,
+        "total": 4
+      },
+      "reasons": [
+        "sum:四半期損失(△) fails for 前第1四半期連結累計期間 (residual -1140285)",
+        "sum:四半期損失(△) fails for 当第1四半期連結累計期間 (residual -1202677)",
+        "4 cell(s) covered by no constraint",
+        "group '親会社の所有者に帰属する１株当たり四半期損失（△）：' has no closing total on this page"
+      ],
+      "missing": [],
+      "unexpected": []
+    },
+    {
+      "id": "boj_balance",
+      "source": "boj_2025",
+      "page": 5,
+      "complexity": "stress",
+      "features": [
+        "natural account-form balance sheet",
+        "amounts are vector outlines absent from selectable text",
+        "one period",
+        "exact yen amounts",
+        "Reiwa date"
+      ],
+      "rows": {
+        "matched": 0,
+        "predicted": 0,
+        "gold": 61,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "facts": {
+        "matched": 0,
+        "predicted": 0,
+        "gold": 58,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "flat_facts": {
+        "matched": 0,
+        "predicted": 0,
+        "gold": 58,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "header_correct": false,
+      "page_exact": false,
+      "states": [
+        "failed"
+      ],
+      "autoaccepted_page": false,
+      "autoaccepted_facts": {
+        "matched": 0,
+        "predicted": 0,
+        "gold": 58,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "checks": {
+        "passed": 0,
+        "total": 0
+      },
+      "reasons": [
+        "貸借対照表 on the page but no value columns found"
+      ],
+      "missing": [
+        [
+          [
+            "(資産の部)",
+            "金地金"
+          ],
+          null,
+          "2025-03-31",
+          null,
+          "円",
+          [
+            "amount",
+            "441253409037",
+            false
+          ]
+        ],
+        [
+          [
+            "(資産の部)",
+            "現金"
+          ],
+          null,
+          "2025-03-31",
+          null,
+          "円",
+          [
+            "amount",
+            "478338619927",
+            false
+          ]
+        ],
+        [
+          [
+            "(資産の部)",
+            "国債"
+          ],
+          null,
+          "2025-03-31",
+          null,
+          "円",
+          [
+            "amount",
+            "575930882821164",
+            false
+          ]
+        ],
+        [
+          [
+            "(資産の部)",
+            "コマーシャル・ペーパー等"
+          ],
+          null,
+          "2025-03-31",
+          null,
+          "円",
+          [
+            "amount",
+            "1040280795563",
+            false
+          ]
+        ],
+        [
+          [
+            "(資産の部)",
+            "社債"
+          ],
+          null,
+          "2025-03-31",
+          null,
+          "円",
+          [
+            "amount",
+            "4853716610326",
+            false
+          ]
+        ],
+        [
+          [
+            "(資産の部)",
+            "金銭の信託(信託財産株式)"
+          ],
+          null,
+          "2025-03-31",
+          null,
+          "円",
+          [
+            "amount",
+            "36965689659",
+            false
+          ]
+        ],
+        [
+          [
+            "(資産の部)",
+            "金銭の信託(信託財産指数連動型上場投資信託)"
+          ],
+          null,
+          "2025-03-31",
+          null,
+          "円",
+          [
+            "amount",
+            "37186178430232",
+            false
+          ]
+        ],
+        [
+          [
+            "(資産の部)",
+            "金銭の信託(信託財産不動産投資信託)"
+          ],
+          null,
+          "2025-03-31",
+          null,
+          "円",
+          [
+            "amount",
+            "665784496064",
+            false
+          ]
+        ],
+        [
+          [
+            "(資産の部)",
+            "貸出金"
+          ],
+          null,
+          "2025-03-31",
+          null,
+          "円",
+          [
+            "amount",
+            "96812600000000",
+            false
+          ]
+        ],
+        [
+          [
+            "(資産の部)",
+            "貸出金",
+            "電子貸付"
+          ],
+          null,
+          "2025-03-31",
+          null,
+          "円",
+          [
+            "amount",
+            "96812600000000",
+            false
+          ]
+        ],
+        [
+          [
+            "(資産の部)",
+            "外国為替"
+          ],
+          null,
+          "2025-03-31",
+          null,
+          "円",
+          [
+            "amount",
+            "11183540135090",
+            false
+          ]
+        ],
+        [
+          [
+            "(資産の部)",
+            "外国為替",
+            "外貨預け金"
+          ],
+          null,
+          "2025-03-31",
+          null,
+          "円",
+          [
+            "amount",
+            "3285063598009",
+            false
+          ]
+        ],
+        [
+          [
+            "(資産の部)",
+            "外国為替",
+            "外貨債券"
+          ],
+          null,
+          "2025-03-31",
+          null,
+          "円",
+          [
+            "amount",
+            "6509474606197",
+            false
+          ]
+        ],
+        [
+          [
+            "(資産の部)",
+            "外国為替",
+            "外貨投資信託"
+          ],
+          null,
+          "2025-03-31",
+          null,
+          "円",
+          [
+            "amount",
+            "91697970884",
+            false
+          ]
+        ],
+        [
+          [
+            "(資産の部)",
+            "外国為替",
+            "外貨貸付金"
+          ],
+          null,
+          "2025-03-31",
+          null,
+          "円",
+          [
+            "amount",
+            "1297303960000",
+            false
+          ]
+        ],
+        [
+          [
+            "(資産の部)",
+            "代理店勘定"
+          ],
+          null,
+          "2025-03-31",
+          null,
+          "円",
+          [
+            "amount",
+            "12841286245",
+            false
+          ]
+        ],
+        [
+          [
+            "(資産の部)",
+            "その他資産"
+          ],
+          null,
+          "2025-03-31",
+          null,
+          "円",
+          [
+            "amount",
+            "881917379927",
+            false
+          ]
+        ],
+        [
+          [
+            "(資産の部)",
+            "その他資産",
+            "取立未済切手手形"
+          ],
+          null,
+          "2025-03-31",
+          null,
+          "円",
+          [
+            "amount",
+            "49229324",
+            false
+          ]
+        ],
+        [
+          [
+            "(資産の部)",
+            "その他資産",
+            "預貯金保険機構出資金"
+          ],
+          null,
+          "2025-03-31",
+          null,
+          "円",
+          [
+            "amount",
+            "225000000",
+            false
+          ]
+        ],
+        [
+          [
+            "(資産の部)",
+            "その他資産",
+            "金融経済教育推進機構出資金"
+          ],
+          null,
+          "2025-03-31",
+          null,
+          "円",
+          [
+            "amount",
+            "25000000",
+            false
+          ]
+        ],
+        [
+          [
+            "(資産の部)",
+            "その他資産",
+            "国際金融機関出資"
+          ],
+          null,
+          "2025-03-31",
+          null,
+          "円",
+          [
+            "amount",
+            "15278374364",
+            false
+          ]
+        ],
+        [
+          [
+            "(資産の部)",
+            "その他資産",
+            "政府勘定保管金"
+          ],
+          null,
+          "2025-03-31",
+          null,
+          "円",
+          [
+            "amount",
+            "15820776040",
+            false
+          ]
+        ],
+        [
+          [
+            "(資産の部)",
+            "その他資産",
+            "未収法人税等還付金"
+          ],
+          null,
+          "2025-03-31",
+          null,
+          "円",
+          [
+            "amount",
+            "183660023051",
+            false
+          ]
+        ],
+        [
+          [
+            "(資産の部)",
+            "その他資産",
+            "未収利息"
+          ],
+          null,
+          "2025-03-31",
+          null,
+          "円",
+          [
+            "amount",
+            "641302168129",
+            false
+          ]
+        ],
+        [
+          [
+            "(資産の部)",
+            "その他資産",
+            "その他の資産"
+          ],
+          null,
+          "2025-03-31",
+          null,
+          "円",
+          [
+            "amount",
+            "25556809019",
+            false
+          ]
+        ],
+        [
+          [
+            "(資産の部)",
+            "有形固定資産"
+          ],
+          null,
+          "2025-03-31",
+          null,
+          "円",
+          [
+            "amount",
+            "242192511474",
+            false
+          ]
+        ],
+        [
+          [
+            "(資産の部)",
+            "有形固定資産",
+            "建物"
+          ],
+          null,
+          "2025-03-31",
+          null,
+          "円",
+          [
+            "amount",
+            "137119768690",
+            false
+          ]
+        ],
+        [
+          [
+            "(資産の部)",
+            "有形固定資産",
+            "土地"
+          ],
+          null,
+          "2025-03-31",
+          null,
+          "円",
+          [
+            "amount",
+            "84116099069",
+            false
+          ]
+        ],
+        [
+          [
+            "(資産の部)",
+            "有形固定資産",
+            "リース資産"
+          ],
+          null,
+          "2025-03-31",
+          null,
+          "円",
+          [
+            "amount",
+            "6770509193",
+            false
+          ]
+        ],
+        [
+          [
+            "(資産の部)",
+            "有形固定資産",
+            "建設仮勘定"
+          ],
+          null,
+          "2025-03-31",
+          null,
+          "円",
+          [
+            "amount",
+            "4235948840",
+            false
+          ]
+        ],
+        [
+          [
+            "(資産の部)",
+            "有形固定資産",
+            "その他の有形固定資産"
+          ],
+          null,
+          "2025-03-31",
+          null,
+          "円",
+          [
+            "amount",
+            "9950185682",
+            false
+          ]
+        ],
+        [
+          [
+            "(資産の部)",
+            "無形固定資産"
+          ],
+          null,
+          "2025-03-31",
+          null,
+          "円",
+          [
+            "amount",
+            "417468452",
+            false
+          ]
+        ],
+        [
+          [
+            "(資産の部)",
+            "無形固定資産",
+            "権利金"
+          ],
+          null,
+          "2025-03-31",
+          null,
+          "円",
+          [
+            "amount",
+            "417468452",
+            false
+          ]
+        ],
+        [
+          [
+            "(資産の部)",
+            "資産の部合計"
+          ],
+          null,
+          "2025-03-31",
+          null,
+          "円",
+          [
+            "amount",
+            "729766909653160",
+            false
+          ]
+        ],
+        [
+          [
+            "(負債の部)",
+            "発行銀行券"
+          ],
+          null,
+          "2025-03-31",
+          null,
+          "円",
+          [
+            "amount",
+            "118668594519846",
+            false
+          ]
+        ],
+        [
+          [
+            "(負債の部)",
+            "預金"
+          ],
+          null,
+          "2025-03-31",
+          null,
+          "円",
+          [
+            "amount",
+            "577450072775196",
+            false
+          ]
+        ],
+        [
+          [
+            "(負債の部)",
+            "預金",
+            "当座預金"
+          ],
+          null,
+          "2025-03-31",
+          null,
+          "円",
+          [
+            "amount",
+            "530432637121543",
+            false
+          ]
+        ],
+        [
+          [
+            "(負債の部)",
+            "預金",
+            "その他預金"
+          ],
+          null,
+          "2025-03-31",
+          null,
+          "円",
+          [
+            "amount",
+            "47017435653653",
+            false
+          ]
+        ],
+        [
+          [
+            "(負債の部)",
+            "政府預金"
+          ],
+          null,
+          "2025-03-31",
+          null,
+          "円",
+          [
+            "amount",
+            "3938057093293",
+            false
+          ]
+        ],
+        [
+          [
+            "(負債の部)",
+            "政府預金",
+            "当座預金"
+          ],
+          null,
+          "2025-03-31",
+          null,
+          "円",
+          [
+            "amount",
+            "150000000000",
+            false
+          ]
+        ],
+        [
+          [
+            "(負債の部)",
+            "政府預金",
+            "国内指定預金"
+          ],
+          null,
+          "2025-03-31",
+          null,
+          "円",
+          [
+            "amount",
+            "3293634125874",
+            false
+          ]
+        ],
+        [
+          [
+            "(負債の部)",
+            "政府預金",
+            "その他政府預金"
+          ],
+          null,
+          "2025-03-31",
+          null,
+          "円",
+          [
+            "amount",
+            "494422967419",
+            false
+          ]
+        ],
+        [
+          [
+            "(負債の部)",
+            "売現先勘定"
+          ],
+          null,
+          "2025-03-31",
+          null,
+          "円",
+          [
+            "amount",
+            "12833111704956",
+            false
+          ]
+        ],
+        [
+          [
+            "(負債の部)",
+            "その他負債"
+          ],
+          null,
+          "2025-03-31",
+          null,
+          "円",
+          [
+            "amount",
+            "363537184314",
+            false
+          ]
+        ],
+        [
+          [
+            "(負債の部)",
+            "その他負債",
+            "未払送金為替"
+          ],
+          null,
+          "2025-03-31",
+          null,
+          "円",
+          [
+            "amount",
+            "20237615184",
+            false
+          ]
+        ],
+        [
+          [
+            "(負債の部)",
+            "その他負債",
+            "未払法人税等"
+          ],
+          null,
+          "2025-03-31",
+          null,
+          "円",
+          [
+            "amount",
+            "21956000000",
+            false
+          ]
+        ],
+        [
+          [
+            "(負債の部)",
+            "その他負債",
+            "リース債務"
+          ],
+          null,
+          "2025-03-31",
+          null,
+          "円",
+          [
+            "amount",
+            "7164546657",
+            false
+          ]
+        ],
+        [
+          [
+            "(負債の部)",
+            "その他負債",
+            "その他の負債"
+          ],
+          null,
+          "2025-03-31",
+          null,
+          "円",
+          [
+            "amount",
+            "314179022473",
+            false
+          ]
+        ],
+        [
+          [
+            "(負債の部)",
+            "退職給付引当金"
+          ],
+          null,
+          "2025-03-31",
+          null,
+          "円",
+          [
+            "amount",
+            "210655850090",
+            false
+          ]
+        ],
+        [
+          [
+            "(負債の部)",
+            "債券取引損失引当金"
+          ],
+          null,
+          "2025-03-31",
+          null,
+          "円",
+          [
+            "amount",
+            "7457731993013",
+            false
+          ]
+        ],
+        [
+          [
+            "(負債の部)",
+            "外国為替等取引損失引当金"
+          ],
+          null,
+          "2025-03-31",
+          null,
+          "円",
+          [
+            "amount",
+            "2918055000000",
+            false
+          ]
+        ],
+        [
+          [
+            "(負債の部)",
+            "負債の部合計"
+          ],
+          null,
+          "2025-03-31",
+          null,
+          "円",
+          [
+            "amount",
+            "723839816120708",
+            false
+          ]
+        ],
+        [
+          [
+            "(純資産の部)",
+            "資本金"
+          ],
+          null,
+          "2025-03-31",
+          null,
+          "円",
+          [
+            "amount",
+            "100000000",
+            false
+          ]
+        ],
+        [
+          [
+            "(純資産の部)",
+            "法定準備金"
+          ],
+          null,
+          "2025-03-31",
+          null,
+          "円",
+          [
+            "amount",
+            "3662696617539",
+            false
+          ]
+        ],
+        [
+          [
+            "(純資産の部)",
+            "特別準備金"
+          ],
+          null,
+          "2025-03-31",
+          null,
+          "円",
+          [
+            "amount",
+            "13196452",
+            false
+          ]
+        ],
+        [
+          [
+            "(純資産の部)",
+            "当期剰余金"
+          ],
+          null,
+          "2025-03-31",
+          null,
+          "円",
+          [
+            "amount",
+            "2264283718461",
+            false
+          ]
+        ],
+        [
+          [
+            "(純資産の部)",
+            "純資産の部合計"
+          ],
+          null,
+          "2025-03-31",
+          null,
+          "円",
+          [
+            "amount",
+            "5927093532452",
+            false
+          ]
+        ],
+        [
+          [
+            "負債および純資産の部合計"
+          ],
+          null,
+          "2025-03-31",
+          null,
+          "円",
+          [
+            "amount",
+            "729766909653160",
+            false
+          ]
+        ]
+      ],
+      "unexpected": []
+    },
+    {
+      "id": "boj_income",
+      "source": "boj_2025",
+      "page": 6,
+      "complexity": "stress",
+      "features": [
+        "two account-form panels",
+        "amounts are vector outlines absent from selectable text",
+        "exact yen amounts",
+        "Reiwa duration"
+      ],
+      "rows": {
+        "matched": 0,
+        "predicted": 0,
+        "gold": 45,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "facts": {
+        "matched": 0,
+        "predicted": 0,
+        "gold": 45,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "flat_facts": {
+        "matched": 0,
+        "predicted": 0,
+        "gold": 45,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "header_correct": false,
+      "page_exact": false,
+      "states": [
+        "failed"
+      ],
+      "autoaccepted_page": false,
+      "autoaccepted_facts": {
+        "matched": 0,
+        "predicted": 0,
+        "gold": 45,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "checks": {
+        "passed": 0,
+        "total": 0
+      },
+      "reasons": [
+        "損益計算書 on the page but no value columns found"
+      ],
+      "missing": [
+        [
+          [
+            "経常収益"
+          ],
+          "2024-04-01",
+          "2025-03-31",
+          null,
+          "円",
+          [
+            "amount",
+            "4575799618663",
+            false
+          ]
+        ],
+        [
+          [
+            "経常収益",
+            "貸出金利息"
+          ],
+          "2024-04-01",
+          "2025-03-31",
+          null,
+          "円",
+          [
+            "amount",
+            "57844852735",
+            false
+          ]
+        ],
+        [
+          [
+            "経常収益",
+            "貸出金利息",
+            "貸付金利息"
+          ],
+          "2024-04-01",
+          "2025-03-31",
+          null,
+          "円",
+          [
+            "amount",
+            "57844852735",
+            false
+          ]
+        ],
+        [
+          [
+            "経常収益",
+            "買現先利息"
+          ],
+          "2024-04-01",
+          "2025-03-31",
+          null,
+          "円",
+          [
+            "amount",
+            "2338",
+            false
+          ]
+        ],
+        [
+          [
+            "経常収益",
+            "国債利息"
+          ],
+          "2024-04-01",
+          "2025-03-31",
+          null,
+          "円",
+          [
+            "amount",
+            "2077404115597",
+            false
+          ]
+        ],
+        [
+          [
+            "経常収益",
+            "コマーシャル・ペーパー等利息"
+          ],
+          "2024-04-01",
+          "2025-03-31",
+          null,
+          "円",
+          [
+            "amount",
+            "3971502426",
+            false
+          ]
+        ],
+        [
+          [
+            "経常収益",
+            "社債利息"
+          ],
+          "2024-04-01",
+          "2025-03-31",
+          null,
+          "円",
+          [
+            "amount",
+            "11146386039",
+            false
+          ]
+        ],
+        [
+          [
+            "経常収益",
+            "外国為替収益"
+          ],
+          "2024-04-01",
+          "2025-03-31",
+          null,
+          "円",
+          [
+            "amount",
+            "518982089561",
+            false
+          ]
+        ],
+        [
+          [
+            "経常収益",
+            "外国為替収益",
+            "外貨債券収益"
+          ],
+          "2024-04-01",
+          "2025-03-31",
+          null,
+          "円",
+          [
+            "amount",
+            "276148886586",
+            false
+          ]
+        ],
+        [
+          [
+            "経常収益",
+            "外国為替収益",
+            "外貨投資信託収益"
+          ],
+          "2024-04-01",
+          "2025-03-31",
+          null,
+          "円",
+          [
+            "amount",
+            "4685677188",
+            false
+          ]
+        ],
+        [
+          [
+            "経常収益",
+            "外国為替収益",
+            "外貨預け金等利息"
+          ],
+          "2024-04-01",
+          "2025-03-31",
+          null,
+          "円",
+          [
+            "amount",
+            "238147525787",
+            false
+          ]
+        ],
+        [
+          [
+            "経常収益",
+            "その他経常収益"
+          ],
+          "2024-04-01",
+          "2025-03-31",
+          null,
+          "円",
+          [
+            "amount",
+            "1906450669967",
+            false
+          ]
+        ],
+        [
+          [
+            "経常収益",
+            "その他経常収益",
+            "金銭の信託(信託財産株式)運用益"
+          ],
+          "2024-04-01",
+          "2025-03-31",
+          null,
+          "円",
+          [
+            "amount",
+            "467037564749",
+            false
+          ]
+        ],
+        [
+          [
+            "経常収益",
+            "その他経常収益",
+            "金銭の信託(信託財産指数連動型上場投資信託)運用益"
+          ],
+          "2024-04-01",
+          "2025-03-31",
+          null,
+          "円",
+          [
+            "amount",
+            "1382602646347",
+            false
+          ]
+        ],
+        [
+          [
+            "経常収益",
+            "その他経常収益",
+            "金銭の信託(信託財産不動産投資信託)運用益"
+          ],
+          "2024-04-01",
+          "2025-03-31",
+          null,
+          "円",
+          [
+            "amount",
+            "32785266677",
+            false
+          ]
+        ],
+        [
+          [
+            "経常収益",
+            "その他経常収益",
+            "受取配当金"
+          ],
+          "2024-04-01",
+          "2025-03-31",
+          null,
+          "円",
+          [
+            "amount",
+            "1343339036",
+            false
+          ]
+        ],
+        [
+          [
+            "経常収益",
+            "その他経常収益",
+            "受入手数料"
+          ],
+          "2024-04-01",
+          "2025-03-31",
+          null,
+          "円",
+          [
+            "amount",
+            "9882689379",
+            false
+          ]
+        ],
+        [
+          [
+            "経常収益",
+            "その他経常収益",
+            "その他の経常収益"
+          ],
+          "2024-04-01",
+          "2025-03-31",
+          null,
+          "円",
+          [
+            "amount",
+            "12799163779",
+            false
+          ]
+        ],
+        [
+          [
+            "経常費用"
+          ],
+          "2024-04-01",
+          "2025-03-31",
+          null,
+          "円",
+          [
+            "amount",
+            "1783524420320",
+            false
+          ]
+        ],
+        [
+          [
+            "経常費用",
+            "売現先利息"
+          ],
+          "2024-04-01",
+          "2025-03-31",
+          null,
+          "円",
+          [
+            "amount",
+            "29484720013",
+            false
+          ]
+        ],
+        [
+          [
+            "経常費用",
+            "国債売却損"
+          ],
+          "2024-04-01",
+          "2025-03-31",
+          null,
+          "円",
+          [
+            "amount",
+            "71831618915",
+            false
+          ]
+        ],
+        [
+          [
+            "経常費用",
+            "外国為替費用"
+          ],
+          "2024-04-01",
+          "2025-03-31",
+          null,
+          "円",
+          [
+            "amount",
+            "90814135055",
+            false
+          ]
+        ],
+        [
+          [
+            "経常費用",
+            "外国為替費用",
+            "為替差損"
+          ],
+          "2024-04-01",
+          "2025-03-31",
+          null,
+          "円",
+          [
+            "amount",
+            "90814135055",
+            false
+          ]
+        ],
+        [
+          [
+            "経常費用",
+            "経費"
+          ],
+          "2024-04-01",
+          "2025-03-31",
+          null,
+          "円",
+          [
+            "amount",
+            "221580361892",
+            false
+          ]
+        ],
+        [
+          [
+            "経常費用",
+            "経費",
+            "銀行券製造費"
+          ],
+          "2024-04-01",
+          "2025-03-31",
+          null,
+          "円",
+          [
+            "amount",
+            "56951541835",
+            false
+          ]
+        ],
+        [
+          [
+            "経常費用",
+            "経費",
+            "国庫国債事務費"
+          ],
+          "2024-04-01",
+          "2025-03-31",
+          null,
+          "円",
+          [
+            "amount",
+            "19223951106",
+            false
+          ]
+        ],
+        [
+          [
+            "経常費用",
+            "経費",
+            "給与等"
+          ],
+          "2024-04-01",
+          "2025-03-31",
+          null,
+          "円",
+          [
+            "amount",
+            "52304227961",
+            false
+          ]
+        ],
+        [
+          [
+            "経常費用",
+            "経費",
+            "交通通信費"
+          ],
+          "2024-04-01",
+          "2025-03-31",
+          null,
+          "円",
+          [
+            "amount",
+            "3678654239",
+            false
+          ]
+        ],
+        [
+          [
+            "経常費用",
+            "経費",
+            "修繕費"
+          ],
+          "2024-04-01",
+          "2025-03-31",
+          null,
+          "円",
+          [
+            "amount",
+            "2879010938",
+            false
+          ]
+        ],
+        [
+          [
+            "経常費用",
+            "経費",
+            "一般事務費"
+          ],
+          "2024-04-01",
+          "2025-03-31",
+          null,
+          "円",
+          [
+            "amount",
+            "52629312968",
+            false
+          ]
+        ],
+        [
+          [
+            "経常費用",
+            "経費",
+            "租税公課"
+          ],
+          "2024-04-01",
+          "2025-03-31",
+          null,
+          "円",
+          [
+            "amount",
+            "16369125388",
+            false
+          ]
+        ],
+        [
+          [
+            "経常費用",
+            "経費",
+            "減価償却費"
+          ],
+          "2024-04-01",
+          "2025-03-31",
+          null,
+          "円",
+          [
+            "amount",
+            "17544537457",
+            false
+          ]
+        ],
+        [
+          [
+            "経常費用",
+            "その他経常費用"
+          ],
+          "2024-04-01",
+          "2025-03-31",
+          null,
+          "円",
+          [
+            "amount",
+            "1369613584445",
+            false
+          ]
+        ],
+        [
+          [
+            "経常費用",
+            "その他経常費用",
+            "補完当座預金制度利息"
+          ],
+          "2024-04-01",
+          "2025-03-31",
+          null,
+          "円",
+          [
+            "amount",
+            "1251729702661",
+            false
+          ]
+        ],
+        [
+          [
+            "経常費用",
+            "その他経常費用",
+            "支払手数料"
+          ],
+          "2024-04-01",
+          "2025-03-31",
+          null,
+          "円",
+          [
+            "amount",
+            "342004324",
+            false
+          ]
+        ],
+        [
+          [
+            "経常費用",
+            "その他経常費用",
+            "その他の経常費用"
+          ],
+          "2024-04-01",
+          "2025-03-31",
+          null,
+          "円",
+          [
+            "amount",
+            "117741877460",
+            false
+          ]
+        ],
+        [
+          [
+            "経常利益"
+          ],
+          "2024-04-01",
+          "2025-03-31",
+          null,
+          "円",
+          [
+            "amount",
+            "2792275198343",
+            false
+          ]
+        ],
+        [
+          [
+            "特別利益"
+          ],
+          "2024-04-01",
+          "2025-03-31",
+          null,
+          "円",
+          [
+            "amount",
+            "1940939436",
+            false
+          ]
+        ],
+        [
+          [
+            "特別利益",
+            "固定資産処分益"
+          ],
+          "2024-04-01",
+          "2025-03-31",
+          null,
+          "円",
+          [
+            "amount",
+            "1940939436",
+            false
+          ]
+        ],
+        [
+          [
+            "特別損失"
+          ],
+          "2024-04-01",
+          "2025-03-31",
+          null,
+          "円",
+          [
+            "amount",
+            "472900384202",
+            false
+          ]
+        ],
+        [
+          [
+            "特別損失",
+            "固定資産処分損"
+          ],
+          "2024-04-01",
+          "2025-03-31",
+          null,
+          "円",
+          [
+            "amount",
+            "112384202",
+            false
+          ]
+        ],
+        [
+          [
+            "特別損失",
+            "債券取引損失引当金繰入額"
+          ],
+          "2024-04-01",
+          "2025-03-31",
+          null,
+          "円",
+          [
+            "amount",
+            "472788000000",
+            false
+          ]
+        ],
+        [
+          [
+            "税引前当期剰余金"
+          ],
+          "2024-04-01",
+          "2025-03-31",
+          null,
+          "円",
+          [
+            "amount",
+            "2321315753577",
+            false
+          ]
+        ],
+        [
+          [
+            "法人税、住民税及び事業税"
+          ],
+          "2024-04-01",
+          "2025-03-31",
+          null,
+          "円",
+          [
+            "amount",
+            "57032035116",
+            false
+          ]
+        ],
+        [
+          [
+            "当期剰余金"
+          ],
+          "2024-04-01",
+          "2025-03-31",
+          null,
+          "円",
+          [
+            "amount",
+            "2264283718461",
+            false
+          ]
+        ]
+      ],
+      "unexpected": []
+    }
+  ]
+}

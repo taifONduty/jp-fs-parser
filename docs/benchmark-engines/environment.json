@@ -1,0 +1,35 @@
+{
+  "measured_on": "2026-10-27",
+  "parser_revision": "5ebf99c53c1bcecae53d52b03a44a6cc59543864",
+  "python": "3.12.11",
+  "platform": {
+    "system": "Darwin",
+    "architecture": "arm64"
+  },
+  "packages": {
+    "pdfplumber": "0.11.10",
+    "docling": "2.143.0",
+    "docling-core": "2.104.0",
+    "docling-ibm-models": "4.0.4",
+    "mlx-vlm": "0.7.10",
+    "mlx": "0.32.4",
+    "torch": "2.14.1",
+    "transformers": "5.21.0",
+    "pypdfium2": "5.14.0"
+  },
+  "tableformer": {
+    "mode": "ACCURATE",
+    "do_ocr": false,
+    "do_cell_matching": true
+  },
+  "glmocr": {
+    "model": "mlx-community/GLM-OCR-bf16",
+    "cached_model_revision": "24f15402e83baa0a80eeeaecf5480e172abc6f2e",
+    "prompt": "Table Recognition:",
+    "max_tokens": 6000,
+    "temperature": 0.0,
+    "render_scale": 2.5,
+    "crop_margin_pt": 4.0
+  },
+  "lockfile_sha256": "5289561fa14a47ca1cec5d31c12fcdd4469ce109f6c8b0b018e58c56952d0711"
+}
