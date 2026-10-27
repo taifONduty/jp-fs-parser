@@ -8,6 +8,7 @@ from pathlib import Path
 
 import pytest
 
+from jpfs.evaluation.compare import load, row, tables
 from jpfs.evaluation.corpus import CORPUS, expected, prf, score_page, source_pdf, typed
 from jpfs.model import Amount, Cell, Header, Period, Row, Table
 from jpfs.pipeline import Result, Source
@@ -106,3 +107,32 @@ def test_frozen_annotations_load_and_missing_pages_score_zero(
         assert missing["facts"]["recall"] == 0
         assert not missing["autoaccepted_page"] and not missing["page_exact"]
     assert total == expected_facts
+
+
+def test_engine_comparison_pools_corpora_from_their_counts(tmp_path: Path) -> None:
+    def report(matched: int, gold: int, accepted: int, wrong_pages: int) -> dict:
+        def metric(m: int, p: int) -> dict:
+            return {"matched": m, "predicted": p, "gold": gold}
+
+        return {
+            "summary": {
+                "facts": metric(matched, gold),
+                "flat_facts": metric(gold, gold),
+                "rows": {"matched": 1, "predicted": 1, "gold": 1},
+                "autoaccepted_facts": metric(accepted - 1, accepted),
+                "pages": 2,
+                "page_exact": 1,
+                "headers_correct": 2,
+                "autoaccepted_pages": 1,
+                "wrong_autoaccepted_pages": wrong_pages,
+            }
+        }
+
+    (tmp_path / "geometry").mkdir()
+    reports = {"holdout-2": report(90, 100, 10, 1), "holdout": report(20, 20, 5, 0)}
+    for corpus, data in reports.items():
+        (tmp_path / "geometry" / f"{corpus}.json").write_text(json.dumps(data))
+    assert row("geometry", [load(tmp_path, "geometry", c) for c in reports]) == (
+        "| geometry | 91.67% | 100.00% | 100.00% | 2/4 | 4/4 | 2 | 1 | 2 of 15 |"
+    )
+    assert "### all corpora" not in tables(tmp_path)
