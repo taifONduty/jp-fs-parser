@@ -1,0 +1,96 @@
+{
+  "parser_revision": "479c8fd",
+  "scope": "All pages of the four second-holdout PDFs. Annotated pages are scored in benchmark-holdout-2-results.json; no unannotated table was auto-accepted, and all 12 annotated pages give identical output in the page-selected and whole-filing runs.",
+  "documents": [
+    {
+      "source": "ajinomoto_2026",
+      "sha256": "10474d5eb836288a390d5498f97ab7b2e4a1c270301b1db26a2b72bbc9397615",
+      "pdf_pages": 22,
+      "output_records": 17,
+      "states": {
+        "needs_review": 10,
+        "failed": 5,
+        "verified": 2
+      },
+      "tables_with_damaged_labels": 5
+    },
+    {
+      "source": "sevenandi_2026h1",
+      "sha256": "7d1fb2821d7a0c7670a5cafcbb9445745e3070519932a0b4294a85ee12b58a61",
+      "pdf_pages": 19,
+      "output_records": 16,
+      "states": {
+        "needs_review": 10,
+        "failed": 3,
+        "verified": 3
+      },
+      "tables_with_damaged_labels": 5
+    },
+    {
+      "source": "disco_2026h1",
+      "sha256": "1c5d3acbc36b9652e508c074782c0e1447f3dd78971b99ecdadfa0beaf92509f",
+      "pdf_pages": 8,
+      "output_records": 5,
+      "states": {
+        "needs_review": 4,
+        "failed": 1
+      },
+      "tables_with_damaged_labels": 1
+    },
+    {
+      "source": "kosei_2026h1",
+      "sha256": "94e1a8d3436627eab805c5f5157df3da9cbce8da48b9486b085d0884bdd941b9",
+      "pdf_pages": 13,
+      "output_records": 9,
+      "states": {
+        "needs_review": 8,
+        "failed": 1
+      },
+      "tables_with_damaged_labels": 2
+    }
+  ],
+  "auto_accepted_tables": [
+    {
+      "source": "ajinomoto_2026",
+      "page": 10,
+      "state": "verified",
+      "title": "連結財政状態計算書",
+      "annotated": true,
+      "rows_with_values": 18
+    },
+    {
+      "source": "ajinomoto_2026",
+      "page": 16,
+      "state": "verified",
+      "title": "連結キャッシュ・フロー計算書",
+      "annotated": true,
+      "rows_with_values": 24
+    },
+    {
+      "source": "sevenandi_2026h1",
+      "page": 10,
+      "state": "verified",
+      "title": "中間連結貸借対照表",
+      "annotated": true,
+      "rows_with_values": 33
+    },
+    {
+      "source": "sevenandi_2026h1",
+      "page": 11,
+      "state": "verified",
+      "title": "中間連結貸借対照表",
+      "annotated": true,
+      "rows_with_values": 41
+    },
+    {
+      "source": "sevenandi_2026h1",
+      "page": 14,
+      "state": "verified",
+      "title": "中間連結キャッシュ・フロー計算書",
+      "annotated": true,
+      "rows_with_values": 43
+    }
+  ],
+  "total_pdf_pages": 62,
+  "total_output_records": 47
+}

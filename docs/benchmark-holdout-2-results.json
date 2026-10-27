@@ -1,0 +1,739 @@
+{
+  "revision": "f1fd87ae502ef26bda2ab42d7748e51138a7a247",
+  "parser_sha256": "014fcf451724d11a37f729543a396bbcf7e110b184b05a0a4fa1b773010f024a",
+  "annotation_sha256": "b0863c240d6efa2ce123f7debd294df5896f8314de3caf1b6687523f9c1a163f",
+  "selection": "Second fresh holdout: four issuers new to the corpus, including three half-year earnings releases published in October 2026, after every jpfs change so far. Two PRONEXUS WORKS releases (Ajinomoto, IFRS annual; Seven & i, Japanese GAAP half-year with a February year-end) and two TAKARA PRINTING releases (DISCO, Japanese GAAP half-year; Kosei Securities, non-consolidated securities company). Each contributes three statement pages, including a cash flow statement where the source has one on the chosen pages. Pages were chosen from text-layer titles and rendered pages before any parser run on these files. Page numbers are 1-based PDF positions.",
+  "annotation": "Single-assistant visual transcription checked against every selected rendered page before the first parser run on these files. A text-layer listing independent of jpfs was used only as a transcription aid. Paths, units and dates are explicit and follow the earlier batches' conventions (totals under their section even when printed at the heading's indentation; wrapped labels joined; 内訳 groups nest their items). The gold's own totals were checked against their members within display rounding. Not independently human-adjudicated.",
+  "summary": {
+    "facts": {
+      "matched": 810,
+      "predicted": 814,
+      "gold": 814,
+      "precision": 0.9951,
+      "recall": 0.9951,
+      "f1": 0.9951
+    },
+    "flat_facts": {
+      "matched": 814,
+      "predicted": 814,
+      "gold": 814,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "rows": {
+      "matched": 464,
+      "predicted": 466,
+      "gold": 466,
+      "precision": 0.9957,
+      "recall": 0.9957,
+      "f1": 0.9957
+    },
+    "autoaccepted_facts": {
+      "matched": 318,
+      "predicted": 318,
+      "gold": 814,
+      "precision": 1.0,
+      "recall": 0.3907,
+      "f1": 0.5618
+    },
+    "pages": 12,
+    "page_exact": 11,
+    "headers_correct": 12,
+    "autoaccepted_pages": 5,
+    "wrong_autoaccepted_pages": 0
+  },
+  "pages": [
+    {
+      "id": "ajinomoto_assets",
+      "source": "ajinomoto_2026",
+      "page": 10,
+      "complexity": "medium",
+      "features": [
+        "PRONEXUS boxed layout",
+        "IFRS",
+        "subtotal before held-for-sale assets",
+        "totals at the section heading's indentation",
+        "wrapped label with values centred"
+      ],
+      "rows": {
+        "matched": 21,
+        "predicted": 21,
+        "gold": 21,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "facts": {
+        "matched": 36,
+        "predicted": 36,
+        "gold": 36,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "flat_facts": {
+        "matched": 36,
+        "predicted": 36,
+        "gold": 36,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "header_correct": true,
+      "page_exact": true,
+      "states": [
+        "verified"
+      ],
+      "autoaccepted_page": true,
+      "autoaccepted_facts": {
+        "matched": 36,
+        "predicted": 36,
+        "gold": 36,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "checks": {
+        "passed": 8,
+        "total": 8
+      },
+      "reasons": []
+    },
+    {
+      "id": "ajinomoto_liabilities",
+      "source": "ajinomoto_2026",
+      "page": 11,
+      "complexity": "hard",
+      "features": [
+        "continuation page",
+        "IFRS",
+        "two wrapped labels",
+        "nil values",
+        "subtotal before held-for-sale liabilities",
+        "totals at the section heading's indentation"
+      ],
+      "rows": {
+        "matched": 35,
+        "predicted": 35,
+        "gold": 35,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "facts": {
+        "matched": 62,
+        "predicted": 62,
+        "gold": 62,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "flat_facts": {
+        "matched": 62,
+        "predicted": 62,
+        "gold": 62,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "header_correct": true,
+      "page_exact": true,
+      "states": [
+        "needs_review"
+      ],
+      "autoaccepted_page": false,
+      "autoaccepted_facts": {
+        "matched": 0,
+        "predicted": 0,
+        "gold": 62,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "checks": {
+        "passed": 10,
+        "total": 12
+      },
+      "reasons": [
+        "sum:資本合計 fails for 前連結会計年度 (residual -746802)",
+        "sum:資本合計 fails for 当連結会計年度 (residual -770818)"
+      ]
+    },
+    {
+      "id": "ajinomoto_cashflows",
+      "source": "ajinomoto_2026",
+      "page": 16,
+      "complexity": "medium",
+      "features": [
+        "IFRS cash flow, operating section only",
+        "subtotal",
+        "section total named like its heading"
+      ],
+      "rows": {
+        "matched": 25,
+        "predicted": 25,
+        "gold": 25,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "facts": {
+        "matched": 48,
+        "predicted": 48,
+        "gold": 48,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "flat_facts": {
+        "matched": 48,
+        "predicted": 48,
+        "gold": 48,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "header_correct": true,
+      "page_exact": true,
+      "states": [
+        "verified"
+      ],
+      "autoaccepted_page": true,
+      "autoaccepted_facts": {
+        "matched": 48,
+        "predicted": 48,
+        "gold": 48,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "checks": {
+        "passed": 4,
+        "total": 4
+      },
+      "reasons": []
+    },
+    {
+      "id": "sevenandi_assets",
+      "source": "sevenandi_2026h1",
+      "page": 10,
+      "complexity": "medium",
+      "features": [
+        "PRONEXUS shaded layout",
+        "half-year",
+        "February year-end",
+        "deferred assets"
+      ],
+      "rows": {
+        "matched": 40,
+        "predicted": 40,
+        "gold": 40,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "facts": {
+        "matched": 66,
+        "predicted": 66,
+        "gold": 66,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "flat_facts": {
+        "matched": 66,
+        "predicted": 66,
+        "gold": 66,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "header_correct": true,
+      "page_exact": true,
+      "states": [
+        "verified"
+      ],
+      "autoaccepted_page": true,
+      "autoaccepted_facts": {
+        "matched": 66,
+        "predicted": 66,
+        "gold": 66,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "checks": {
+        "passed": 14,
+        "total": 14
+      },
+      "reasons": []
+    },
+    {
+      "id": "sevenandi_liabilities",
+      "source": "sevenandi_2026h1",
+      "page": 11,
+      "complexity": "medium",
+      "features": [
+        "continuation page",
+        "half-year",
+        "nil values"
+      ],
+      "rows": {
+        "matched": 47,
+        "predicted": 47,
+        "gold": 47,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "facts": {
+        "matched": 82,
+        "predicted": 82,
+        "gold": 82,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "flat_facts": {
+        "matched": 82,
+        "predicted": 82,
+        "gold": 82,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "header_correct": true,
+      "page_exact": true,
+      "states": [
+        "verified"
+      ],
+      "autoaccepted_page": true,
+      "autoaccepted_facts": {
+        "matched": 82,
+        "predicted": 82,
+        "gold": 82,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "checks": {
+        "passed": 14,
+        "total": 14
+      },
+      "reasons": []
+    },
+    {
+      "id": "sevenandi_cashflows",
+      "source": "sevenandi_2026h1",
+      "page": 14,
+      "complexity": "hard",
+      "features": [
+        "half-year cash flow",
+        "three wrapped labels with values centred",
+        "banking lines",
+        "nil values"
+      ],
+      "rows": {
+        "matched": 45,
+        "predicted": 45,
+        "gold": 45,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "facts": {
+        "matched": 86,
+        "predicted": 86,
+        "gold": 86,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "flat_facts": {
+        "matched": 86,
+        "predicted": 86,
+        "gold": 86,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "header_correct": true,
+      "page_exact": true,
+      "states": [
+        "verified"
+      ],
+      "autoaccepted_page": true,
+      "autoaccepted_facts": {
+        "matched": 86,
+        "predicted": 86,
+        "gold": 86,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "checks": {
+        "passed": 6,
+        "total": 6
+      },
+      "reasons": []
+    },
+    {
+      "id": "disco_assets",
+      "source": "disco_2026h1",
+      "page": 5,
+      "complexity": "simple",
+      "features": [
+        "TAKARA shaded layout",
+        "half-year",
+        "section rows with values"
+      ],
+      "rows": {
+        "matched": 48,
+        "predicted": 48,
+        "gold": 48,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "facts": {
+        "matched": 78,
+        "predicted": 78,
+        "gold": 78,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "flat_facts": {
+        "matched": 78,
+        "predicted": 78,
+        "gold": 78,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "header_correct": true,
+      "page_exact": true,
+      "states": [
+        "needs_review"
+      ],
+      "autoaccepted_page": false,
+      "autoaccepted_facts": {
+        "matched": 0,
+        "predicted": 0,
+        "gold": 78,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "checks": {
+        "passed": 18,
+        "total": 20
+      },
+      "reasons": [
+        "sum:負債純資産合計 fails for 前連結会計年度 (residual -743410)",
+        "sum:負債純資産合計 fails for 当中間連結会計期間 (residual -824583)"
+      ]
+    },
+    {
+      "id": "disco_income",
+      "source": "disco_2026h1",
+      "page": 6,
+      "complexity": "medium",
+      "features": [
+        "combined income and comprehensive income",
+        "half-year",
+        "two 内訳 groups",
+        "footnote marker in a value cell",
+        "nil values"
+      ],
+      "rows": {
+        "matched": 43,
+        "predicted": 45,
+        "gold": 45,
+        "precision": 0.9556,
+        "recall": 0.9556,
+        "f1": 0.9556
+      },
+      "facts": {
+        "matched": 72,
+        "predicted": 76,
+        "gold": 76,
+        "precision": 0.9474,
+        "recall": 0.9474,
+        "f1": 0.9474
+      },
+      "flat_facts": {
+        "matched": 76,
+        "predicted": 76,
+        "gold": 76,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "header_correct": true,
+      "page_exact": false,
+      "states": [
+        "needs_review"
+      ],
+      "autoaccepted_page": false,
+      "autoaccepted_facts": {
+        "matched": 0,
+        "predicted": 0,
+        "gold": 76,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "checks": {
+        "passed": 10,
+        "total": 12
+      },
+      "reasons": [
+        "sum:法人税等合計 fails for 前中間連結会計期間 (residual -683601)",
+        "sum:法人税等合計 fails for 当中間連結会計期間 (residual -931922)",
+        "12 cell(s) covered by no constraint",
+        "group '（内訳）' has no closing total on this page"
+      ]
+    },
+    {
+      "id": "disco_cashflows",
+      "source": "disco_2026h1",
+      "page": 7,
+      "complexity": "medium",
+      "features": [
+        "half-year cash flow",
+        "subtotal",
+        "nil values"
+      ],
+      "rows": {
+        "matched": 40,
+        "predicted": 40,
+        "gold": 40,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "facts": {
+        "matched": 74,
+        "predicted": 74,
+        "gold": 74,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "flat_facts": {
+        "matched": 74,
+        "predicted": 74,
+        "gold": 74,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "header_correct": true,
+      "page_exact": true,
+      "states": [
+        "needs_review"
+      ],
+      "autoaccepted_page": false,
+      "autoaccepted_facts": {
+        "matched": 0,
+        "predicted": 0,
+        "gold": 74,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "checks": {
+        "passed": 8,
+        "total": 8
+      },
+      "reasons": [
+        "8 cell(s) covered by no constraint"
+      ]
+    },
+    {
+      "id": "kosei_assets",
+      "source": "kosei_2026h1",
+      "page": 6,
+      "complexity": "medium",
+      "features": [
+        "non-consolidated",
+        "securities-company accounts",
+        "parents with values and breakdowns below them",
+        "計 totals"
+      ],
+      "rows": {
+        "matched": 39,
+        "predicted": 39,
+        "gold": 39,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "facts": {
+        "matched": 72,
+        "predicted": 72,
+        "gold": 72,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "flat_facts": {
+        "matched": 72,
+        "predicted": 72,
+        "gold": 72,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "header_correct": true,
+      "page_exact": true,
+      "states": [
+        "needs_review"
+      ],
+      "autoaccepted_page": false,
+      "autoaccepted_facts": {
+        "matched": 0,
+        "predicted": 0,
+        "gold": 72,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "checks": {
+        "passed": 2,
+        "total": 2
+      },
+      "reasons": [
+        "66 cell(s) covered by no constraint",
+        "group 'トレーディング商品' has no closing total on this page",
+        "group '信用取引資産' has no closing total on this page",
+        "group '有価証券担保貸付金' has no closing total on this page",
+        "group '有形固定資産' has no closing total on this page",
+        "group '無形固定資産' has no closing total on this page",
+        "group '投資その他の資産' has no closing total on this page"
+      ]
+    },
+    {
+      "id": "kosei_liabilities",
+      "source": "kosei_2026h1",
+      "page": 7,
+      "complexity": "hard",
+      "features": [
+        "continuation page",
+        "non-consolidated",
+        "four-level equity",
+        "nil values",
+        "計 totals"
+      ],
+      "rows": {
+        "matched": 48,
+        "predicted": 48,
+        "gold": 48,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "facts": {
+        "matched": 76,
+        "predicted": 76,
+        "gold": 76,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "flat_facts": {
+        "matched": 76,
+        "predicted": 76,
+        "gold": 76,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "header_correct": true,
+      "page_exact": true,
+      "states": [
+        "needs_review"
+      ],
+      "autoaccepted_page": false,
+      "autoaccepted_facts": {
+        "matched": 0,
+        "predicted": 0,
+        "gold": 76,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "checks": {
+        "passed": 16,
+        "total": 16
+      },
+      "reasons": [
+        "36 cell(s) covered by no constraint",
+        "group 'トレーディング商品' has no closing total on this page",
+        "group '信用取引負債' has no closing total on this page",
+        "group '預り金' has no closing total on this page",
+        "group 'その他利益剰余金' has no closing total on this page"
+      ]
+    },
+    {
+      "id": "kosei_income",
+      "source": "kosei_2026h1",
+      "page": 8,
+      "complexity": "medium",
+      "features": [
+        "non-consolidated",
+        "securities-company income",
+        "wrapped label with values centred",
+        "nil values"
+      ],
+      "rows": {
+        "matched": 33,
+        "predicted": 33,
+        "gold": 33,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "facts": {
+        "matched": 58,
+        "predicted": 58,
+        "gold": 58,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "flat_facts": {
+        "matched": 58,
+        "predicted": 58,
+        "gold": 58,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "header_correct": true,
+      "page_exact": true,
+      "states": [
+        "needs_review"
+      ],
+      "autoaccepted_page": false,
+      "autoaccepted_facts": {
+        "matched": 0,
+        "predicted": 0,
+        "gold": 58,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "checks": {
+        "passed": 6,
+        "total": 6
+      },
+      "reasons": [
+        "34 cell(s) covered by no constraint",
+        "group '受入手数料' has no closing total on this page"
+      ]
+    }
+  ]
+}

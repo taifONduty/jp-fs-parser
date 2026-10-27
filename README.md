@@ -19,6 +19,13 @@ is wrong, but that is a regression result, not a new measurement. So is the hold
 values after the [hierarchy rules](docs/benchmark-holdout.md#hierarchy-rules-regression-run),
 which read the tree from the totals that close each heading and rejoin wrapped labels.
 
+A [second fresh holdout](docs/benchmark-holdout-2.md), frozen the same way, measures that parser on
+four more issuers: half-year earnings releases published in October 2026, a PRONEXUS typesetting
+system new to the corpus, cash flow statements and a non-consolidated securities company. It
+scores **99.51% strict fact F1 (810 of 814 values), 11/12 exact pages and every header correct**,
+and **all 5 auto-accepted pages are exact**. Earnings releases are plainer than the first
+holdout's annual reports, so the two results do not isolate the effect of the fixes.
+
 Two earlier [benchmark batches](docs/benchmark-expansion.md) of 25 pages from eight issuers were
 used to develop the fixes since `cc6a4fe`, so their scores (89.13% strict fact F1, 20/25 exact
 pages) are optimistic. They found two acceptance defects, continuation pages verified without
@@ -148,15 +155,17 @@ percentage points.
 ## Limitations
 
 The parser was developed on one page and then on the [25-page benchmark](docs/benchmark-expansion.md).
-The [12-page holdout](docs/benchmark-holdout.md) measures it on unseen layouts, but 12 pages cannot
-establish an error rate: the observed wrong acceptance of 1 in 4 accepted pages has a 95% interval
-of 0.6% to 80.6%. Section 7 of the design describes the evaluation that can, with XBRL-aligned
-gold stratified by layout family. Known gaps:
+The two [12-page](docs/benchmark-holdout.md) [holdouts](docs/benchmark-holdout-2.md) measure it
+on unseen layouts, but 24 pages cannot establish an error rate: across their first runs, 1 of 9
+accepted pages was wrong, a 95% interval of 0.3% to 48.2%. Section 7 of the design describes the
+evaluation that can, with XBRL-aligned gold stratified by layout family. Known gaps:
 
 - Labels are checked only for visible damage (stray separators, marker residue, trailing
   numbers, unbalanced brackets). A wrong label that looks clean still passes.
 - Hierarchy that neither indentation nor the name of a closing total reveals, and labels wrapped
   over more than two lines or, in equity-change matrices, short of the label column's edge.
+- Rows that carry the sum of a breakdown printed below them, and subtotals without 合計 in
+  their name. Their arithmetic is not checked, so such pages stay in review.
 - Account-form pages.
 - Multi-page statements are checked page by page: a continuation page inherits its statement's
   title, but totals whose members sit on another page are not verified.
