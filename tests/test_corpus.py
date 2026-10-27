@@ -89,6 +89,7 @@ def test_scoring_checks_units_duration_paths_and_column_dimensions(tmp_path: Pat
         (CORPUS, 592),
         (CORPUS.parent / "benchmark-expansion", 741),
         (CORPUS.parent / "benchmark-holdout", 618),
+        (CORPUS.parent / "benchmark-holdout-2", 814),
     ],
 )
 def test_frozen_annotations_load_and_missing_pages_score_zero(
